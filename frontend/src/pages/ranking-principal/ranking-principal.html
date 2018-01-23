@@ -1,0 +1,25 @@
+<ion-header>    
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+      <ion-title>Ranking Principal</ion-title>
+    </ion-navbar>  
+  </ion-header>
+  
+  <ion-content padding>
+    <ion-list>
+        <ion-item *ngFor="let itemRanking of listaRanking">
+            <ion-avatar item-start>
+                <img [src]="itemRanking.foto">
+            </ion-avatar>
+            
+            <h2>{{itemRanking.nome}}</h2>
+            <p>{{itemRanking.posicao}}º no ranking</p>
+            <div class="item-note" item-end>
+             {{itemRanking.pontuacao}} pts
+            </div>
+        </ion-item>    
+    </ion-list>
+  </ion-content>
+  
