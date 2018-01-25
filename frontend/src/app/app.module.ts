@@ -12,6 +12,8 @@ import { RankingPrincipalPage } from '../pages/ranking-principal/ranking-princip
 import { JogosPage } from '../pages/jogos/jogos';
 import { MensagensPage } from '../pages/mensagens/mensagens';
 import { BackendService } from '../service/backend-service';
+import { PopoverPage } from '../popovers/detalhe-apostador/detalhe-apostador';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { BackendService } from '../service/backend-service';
     ListPage,
     RankingPrincipalPage,
     JogosPage,
-    MensagensPage
+    MensagensPage,
+    PopoverPage
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,8 @@ import { BackendService } from '../service/backend-service';
     ListPage,
     RankingPrincipalPage,
     JogosPage,
-    MensagensPage
+    MensagensPage,
+    PopoverPage
   ],
   providers: [
     StatusBar,

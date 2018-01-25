@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController  } from 'ionic-angular';
+import { NavController, PopoverController, AlertController  } from 'ionic-angular';
 import { BackendService } from '../../service/backend-service';
+import { PopoverPage } from '../../popovers/detalhe-apostador/detalhe-apostador';
 
 @Component({
   selector: 'page-ranking-principal',
@@ -10,7 +11,7 @@ export class RankingPrincipalPage {
     listaRanking: Array<{posicao: number, nome: string, foto: string, pontuacao: number}>;
     listaRankingOriginal: any;
 
-  constructor(public navCtrl: NavController, backend: BackendService) {
+  constructor(public navCtrl: NavController, backend: BackendService, public popoverCtrl: PopoverController,public alertCtrl: AlertController) {
         
     this.listaRankingOriginal = backend.obterRanking();
     this.listaRanking = this.listaRankingOriginal;
@@ -41,6 +42,22 @@ export class RankingPrincipalPage {
     } else {
       this.listaRanking = this.listaRankingOriginal;
     }
+  }
+
+  presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(PopoverPage);
+    popover.present({
+      ev: myEvent
+    });
+  }
+
+  showAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'New Friend!',
+      subTitle: 'Your friend, Obi wan Kenobi, just accepted your friend request!',
+      buttons: ['OK']
+    });
+    alert.present();
   }
 
 }
