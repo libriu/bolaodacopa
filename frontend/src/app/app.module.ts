@@ -12,8 +12,8 @@ import { RankingPrincipalPage } from '../pages/ranking-principal/ranking-princip
 import { JogosPage } from '../pages/jogos/jogos';
 import { MensagensPage } from '../pages/mensagens/mensagens';
 import { BackendService } from '../service/backend-service';
-import { PopoverPage } from '../popovers/detalhe-apostador/detalhe-apostador';
-
+import { DetalheApostadorPopoverPage } from '../popovers/detalhe-apostador/detalhe-apostador';
+import { RegrasPage } from '../pages/regras/regras';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,8 @@ import { PopoverPage } from '../popovers/detalhe-apostador/detalhe-apostador';
     RankingPrincipalPage,
     JogosPage,
     MensagensPage,
-    PopoverPage
+    DetalheApostadorPopoverPage,
+    RegrasPage
   ],
   imports: [
     BrowserModule,
@@ -37,7 +38,8 @@ import { PopoverPage } from '../popovers/detalhe-apostador/detalhe-apostador';
     RankingPrincipalPage,
     JogosPage,
     MensagensPage,
-    PopoverPage
+    DetalheApostadorPopoverPage,
+    RegrasPage
   ],
   providers: [
     StatusBar,

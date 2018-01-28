@@ -5,7 +5,7 @@ import { ViewController } from 'ionic-angular';
   selector: 'popover-detalhe-apostador',
   templateUrl: 'detalhe-apostador.html'
 })
-export class PopoverPage {
+export class DetalheApostadorPopoverPage {
   constructor(public viewCtrl: ViewController) {}
 
   close() {

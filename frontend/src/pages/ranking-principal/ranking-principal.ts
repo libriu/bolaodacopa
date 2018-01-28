@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, PopoverController, AlertController  } from 'ionic-angular';
 import { BackendService } from '../../service/backend-service';
-import { PopoverPage } from '../../popovers/detalhe-apostador/detalhe-apostador';
+import { DetalheApostadorPopoverPage } from '../../popovers/detalhe-apostador/detalhe-apostador';
 
 @Component({
   selector: 'page-ranking-principal',
@@ -45,19 +45,10 @@ export class RankingPrincipalPage {
   }
 
   presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(PopoverPage);
+    let popover = this.popoverCtrl.create(DetalheApostadorPopoverPage);
     popover.present({
       ev: myEvent
     });
-  }
-
-  showAlert() {
-    let alert = this.alertCtrl.create({
-      title: 'New Friend!',
-      subTitle: 'Your friend, Obi wan Kenobi, just accepted your friend request!',
-      buttons: ['OK']
-    });
-    alert.present();
   }
 
 }
