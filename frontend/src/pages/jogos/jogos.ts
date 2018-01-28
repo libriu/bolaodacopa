@@ -7,6 +7,8 @@ import { NavController } from 'ionic-angular';
 })
 export class JogosPage {
 
+  jogos : string = "proximos";
+
   constructor(public navCtrl: NavController) {
 
   }

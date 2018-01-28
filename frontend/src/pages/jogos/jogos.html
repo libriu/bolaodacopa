@@ -10,6 +10,59 @@
   </ion-header>
   
   <ion-content padding>
-  
+    <ion-segment [(ngModel)]="jogos">
+      <ion-segment-button value="proximos">
+        Próximos
+      </ion-segment-button>
+      <ion-segment-button value="anteriores">
+        Anteriores
+      </ion-segment-button>
+    </ion-segment>
+
+    <div [ngSwitch]="jogos">
+        <ion-list *ngSwitchCase="'proximos'">
+          <ion-item>
+            <ion-card>
+              <ion-card-header text-center>14/06/18, 12:00</ion-card-header>
+              <ion-card-content text-center>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                      <img src="../../assets/imgs/bandeiras/russia.png"><br/>
+                    </ion-col>
+                    <ion-col></ion-col>
+                    <ion-col>
+                      <img src="../../assets/imgs/bandeiras/arabia saudita.png"><br/>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      Russia
+                    </ion-col>
+                    <ion-col>
+                      2 x 1
+                    </ion-col>
+                    <ion-col>
+                      Arábia Saudita
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card> 
+          </ion-item>
+        </ion-list>
+      
+        <ion-list *ngSwitchCase="'anteriores'">
+            <ion-item>
+                <ion-thumbnail>
+                  <img src="../../assets/imgs/bandeiras/argentina.png">
+                </ion-thumbnail>
+                <h2>Argentina X Camarões</h2>
+                <ion-thumbnail>
+                  <img src="../../assets/imgs/bandeiras/camaroes.png">
+                </ion-thumbnail>  
+              </ion-item>
+        </ion-list>
+      </div>    
   </ion-content>
   
