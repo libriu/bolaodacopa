@@ -4,6 +4,8 @@ export class BackendService {
 
     regras : Array<{titulo: string, conteudoHtml: string, dataHoraAtualizacao: string}>;
 
+    jogos : Array<{cod_jogo: number, data_jogo: string, grupo: string, hora_jogo: string, jaOcorreu: number, r_placar_A: number, r_placar_B: number, time1: string, time2: string, arq_time_1:string, arq_time_2:string}>;
+
     constructor (){}
 
     public obterRanking() : Array<any> {
@@ -30,6 +32,21 @@ export class BackendService {
         this.regras.push({titulo:"ATENÇÃO: PONTUAÇÃO PONDERADA PARA A SEGUNDA FASE EM DIANTE",conteudoHtml:"<table width=\"70%\" border=\"0\" cellspacing=\"2\" cellpadding=\"2\" align=\"center\">\r\n  <tr>\r\n\r\n    <td><div align=\"left\"> Multiplicada por 2 | Jogos 49 a 60 (OITAVAS E QUARTAS DE FINAIS)<\/div>\r\n\r\n    <\/td>\r\n\r\n  <\/tr>\r\n\r\n  <tr>\r\n\r\n    <td><div align=\"left\"> Multiplicada por 3 | Jogos 61 a 63 (SEMI-FINAIS e DISPUTA DE 3\u00BA LUGAR)<\/div>\r\n\r\n    <\/td>\r\n\r\n  <\/tr>\r\n\r\n  <tr>\r\n\r\n    <td><div align=\"left\"> Multiplicada por 4 | Jogo 64 (GRANDE FINAL DA COPA DO MUNDO 2014)<\/div>\r\n\r\n    <\/td>\r\n\r\n  <\/tr>\r\n\r\n<\/table>",dataHoraAtualizacao:"15/07/2014 19:29:30"});
         //
         return (this.regras);
+
+    }
+
+    public obterJogos() : Array<any> {
+
+        this.jogos = [];
+
+        //ToDo - buscar do backend
+        this.jogos.push({cod_jogo:1, data_jogo:"14/06/2018", grupo: "Fase de Grupos - A", hora_jogo:"12:00", jaOcorreu:1, r_placar_A:1,r_placar_B:0,time1:"Russia", time2:"Arábia Saudita", arq_time_1:"russia.png", arq_time_2:"arabia-saudita.png"});
+        this.jogos.push({cod_jogo:2, data_jogo:"15/06/2018", grupo: "Fase de Grupos - A", hora_jogo:"9:00", jaOcorreu:0, r_placar_A:0,r_placar_B:0,time1:"Egito", time2:"Uruguai", arq_time_1:"egito.png", arq_time_2:"uruguai.png"});
+        this.jogos.push({cod_jogo:3, data_jogo:"15/06/2018", grupo: "Fase de Grupos - B", hora_jogo:"12:00", jaOcorreu:0, r_placar_A:0,r_placar_B:0,time1:"Marrocos", time2:"Irã", arq_time_1:"marrocos.png", arq_time_2:"ira.png"});
+        //
+
+
+        return (this.jogos);
 
     }
 }

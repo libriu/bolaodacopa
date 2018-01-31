@@ -22,29 +22,27 @@
     <div [ngSwitch]="jogos">
         <ion-list *ngSwitchCase="'proximos'">
           <ion-item>
-            <ion-card>
-              <ion-card-header text-center>14/06/18, 12:00</ion-card-header>
+            <ion-card *ngFor="let itemJogo of listaJogosProximos">
+              <ion-card-header text-center>{{itemJogo.data_jogo}}, {{itemJogo.hora_jogo}} ({{itemJogo.grupo}})</ion-card-header>
               <ion-card-content text-center>
-                <ion-grid>
-                  <ion-row>
-                    <ion-col>
-                      <img src="../../assets/imgs/bandeiras/russia.png"><br/>
+                <ion-grid text-center>
+                  <ion-row justify-content-center>
+                    <ion-col col-4>
+                      <div class="bandeira-div">
+                        <img [src]="getPathImgBandeira(itemJogo.arq_time_1)"><br/>
+                      </div>
                     </ion-col>
-                    <ion-col></ion-col>
-                    <ion-col>
-                      <img src="../../assets/imgs/bandeiras/arabia saudita.png"><br/>
+                    <ion-col col-4></ion-col>
+                    <ion-col col-4>
+                      <div class="bandeira-div">
+                          <img [src]="getPathImgBandeira(itemJogo.arq_time_2)"><br/>
+                      </div>                      
                     </ion-col>
                   </ion-row>
-                  <ion-row>
-                    <ion-col>
-                      Russia
-                    </ion-col>
-                    <ion-col>
-                      2 x 1
-                    </ion-col>
-                    <ion-col>
-                      Arábia Saudita
-                    </ion-col>
+                  <ion-row justify-content-center>
+                    <ion-col col-4>{{itemJogo.time1}}</ion-col>
+                    <ion-col col-4>{{itemJogo.r_placar_A}} x {{itemJogo.r_placar_B}}</ion-col>
+                    <ion-col col-4>{{itemJogo.time2}}</ion-col>
                   </ion-row>
                 </ion-grid>
               </ion-card-content>
@@ -53,15 +51,33 @@
         </ion-list>
       
         <ion-list *ngSwitchCase="'anteriores'">
-            <ion-item>
-                <ion-thumbnail>
-                  <img src="../../assets/imgs/bandeiras/argentina.png">
-                </ion-thumbnail>
-                <h2>Argentina X Camarões</h2>
-                <ion-thumbnail>
-                  <img src="../../assets/imgs/bandeiras/camaroes.png">
-                </ion-thumbnail>  
-              </ion-item>
+          <ion-item>
+            <ion-card *ngFor="let itemJogo of listaJogosAnteriores">
+              <ion-card-header text-center>{{itemJogo.data_jogo}}, {{itemJogo.hora_jogo}} ({{itemJogo.grupo}})</ion-card-header>
+              <ion-card-content text-center>
+                <ion-grid text-center>
+                  <ion-row justify-content-center>
+                    <ion-col col-4>
+                      <div class="bandeira-div">
+                        <img [src]="getPathImgBandeira(itemJogo.arq_time_1)"><br/>
+                      </div>
+                    </ion-col>
+                    <ion-col col-4></ion-col>
+                    <ion-col col-4>
+                      <div class="bandeira-div">
+                          <img [src]="getPathImgBandeira(itemJogo.arq_time_2)"><br/>
+                      </div>                      
+                    </ion-col>
+                  </ion-row>
+                  <ion-row justify-content-center>
+                    <ion-col col-4>{{itemJogo.time1}}</ion-col>
+                    <ion-col col-4>{{itemJogo.r_placar_A}} x {{itemJogo.r_placar_B}}</ion-col>
+                    <ion-col col-4>{{itemJogo.time2}}</ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card> 
+          </ion-item>
         </ion-list>
       </div>    
   </ion-content>

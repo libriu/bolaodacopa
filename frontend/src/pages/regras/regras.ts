@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { BackendService } from '../../service/backend-service';
-import { CompileDirectiveMetadata } from '@angular/compiler';
 
 @Component({
   selector: 'page-regras',
