@@ -3,6 +3,9 @@
     "public": "www",
     "ignore": [
       "firebase.json",
+      "firebaseconfig.txt",
+      "**/*.json",
+      "src/**",
       "**/.*",
       "**/node_modules/**"
     ],

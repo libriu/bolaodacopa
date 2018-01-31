@@ -16,7 +16,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
   <!-- cordova.js required for cordova apps (remove if not needed) -->
-  <script src="cordova.js"></script>
+  <!-- <script src="cordova.js"></script> -->
 
   <!-- un-comment this code to enable service worker
   <script>
@@ -34,6 +34,20 @@
 
   <!-- Ionic's root component and where the app will load -->
   <ion-app></ion-app>
+
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyANFcmPtgGJDsyiFbt2MzJRwyEG3z54lqU",
+      authDomain: "bolaodacopa-3816c.firebaseapp.com",
+      databaseURL: "https://bolaodacopa-3816c.firebaseio.com",
+      projectId: "bolaodacopa-3816c",
+      storageBucket: "",
+      messagingSenderId: "932660390990"
+    };
+    firebase.initializeApp(config);
+  </script>
 
   <!-- The polyfills js is generated during the build process -->
   <script src="build/polyfills.js"></script>

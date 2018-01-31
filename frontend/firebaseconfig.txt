@@ -2,15 +2,15 @@ Adicionar o Firebase ao seu aplicativo da Web
 Copie e cole o snippet abaixo na parte inferior do seu HTML, antes de outras tags de script.
 
 <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyANFcmPtgGJDsyiFbt2MzJRwyEG3z54lqU",
-      authDomain: "bolaodacopa-3816c.firebaseapp.com",
-      databaseURL: "https://bolaodacopa-3816c.firebaseio.com",
-      projectId: "bolaodacopa-3816c",
-      storageBucket: "",
-      messagingSenderId: "932660390990"
-    };
-    firebase.initializeApp(config);
-  </script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyANFcmPtgGJDsyiFbt2MzJRwyEG3z54lqU",
+    authDomain: "bolaodacopa-3816c.firebaseapp.com",
+    databaseURL: "https://bolaodacopa-3816c.firebaseio.com",
+    projectId: "bolaodacopa-3816c",
+    storageBucket: "",
+    messagingSenderId: "932660390990"
+  };
+  firebase.initializeApp(config);
+</script>

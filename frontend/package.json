@@ -1,8 +1,8 @@
 {
   "name": "bolaodacopa",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "author": "Equipe do Bolão da Copa 2018",
+  "homepage": "https://bolaodacopa-3816c.firebaseapp.com/",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
