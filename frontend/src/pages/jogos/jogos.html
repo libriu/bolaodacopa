@@ -26,7 +26,7 @@
               <ion-card-header text-center>{{itemJogo.data_jogo}}, {{itemJogo.hora_jogo}} ({{itemJogo.grupo}})</ion-card-header>
               <ion-card-content text-center>
                 <ion-grid text-center>
-                  <ion-row justify-content-center>
+                  <ion-row>
                     <ion-col col-4>
                       <div class="bandeira-div">
                         <img [src]="getPathImgBandeira(itemJogo.arq_time_1)"><br/>
@@ -39,12 +39,26 @@
                       </div>                      
                     </ion-col>
                   </ion-row>
-                  <ion-row justify-content-center>
+                  <ion-row>
                     <ion-col col-4>{{itemJogo.time1}}</ion-col>
-                    <ion-col col-4>{{itemJogo.r_placar_A}} x {{itemJogo.r_placar_B}}</ion-col>
+                    <ion-col col-4>x</ion-col>
                     <ion-col col-4>{{itemJogo.time2}}</ion-col>
                   </ion-row>
                 </ion-grid>
+                <div *ngIf="existeApostaUsuario(itemJogo.cod_jogo)">
+                  Sua aposta: {{getApostaUsuario(itemJogo.cod_jogo)}}
+                  <br/>
+                  <button ion-button outline icon-right small>
+                    Alterar
+                    <ion-icon name="create"></ion-icon>                    
+                  </button>
+                </div>
+                <div *ngIf="!existeApostaUsuario(itemJogo.cod_jogo)">
+                  <button ion-button outline color="danger" icon-right small>
+                    Fazer aposta
+                    <ion-icon name="add"></ion-icon>                    
+                  </button>
+                </div>
               </ion-card-content>
             </ion-card> 
           </ion-item>
@@ -56,7 +70,7 @@
               <ion-card-header text-center>{{itemJogo.data_jogo}}, {{itemJogo.hora_jogo}} ({{itemJogo.grupo}})</ion-card-header>
               <ion-card-content text-center>
                 <ion-grid text-center>
-                  <ion-row justify-content-center>
+                  <ion-row>
                     <ion-col col-4>
                       <div class="bandeira-div">
                         <img [src]="getPathImgBandeira(itemJogo.arq_time_1)"><br/>
@@ -69,12 +83,13 @@
                       </div>                      
                     </ion-col>
                   </ion-row>
-                  <ion-row justify-content-center>
+                  <ion-row>
                     <ion-col col-4>{{itemJogo.time1}}</ion-col>
                     <ion-col col-4>{{itemJogo.r_placar_A}} x {{itemJogo.r_placar_B}}</ion-col>
                     <ion-col col-4>{{itemJogo.time2}}</ion-col>
                   </ion-row>
                 </ion-grid>
+                <div *ngIf="existeApostaUsuario(itemJogo.cod_jogo)">Você apostou: {{getApostaUsuario(itemJogo.cod_jogo)}} | Pontuação: {{getPontuacaoUsuario(itemJogo.cod_jogo)}}</div>
               </ion-card-content>
             </ion-card> 
           </ion-item>

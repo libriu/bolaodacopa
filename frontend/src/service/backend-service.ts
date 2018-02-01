@@ -6,6 +6,8 @@ export class BackendService {
 
     jogos : Array<{cod_jogo: number, data_jogo: string, grupo: string, hora_jogo: string, jaOcorreu: number, r_placar_A: number, r_placar_B: number, time1: string, time2: string, arq_time_1:string, arq_time_2:string}>;
 
+    apostasUsuario : Array<{cod_Aposta:number,cod_Jogo: number,placar_A:number,placar_B:number,Pontos:number}>;
+
     constructor (){}
 
     public obterRanking() : Array<any> {
@@ -48,5 +50,17 @@ export class BackendService {
 
         return (this.jogos);
 
+    }
+
+    public obterApostasUsuario(cod_Apostador:number) : Array<any> {
+
+        this.apostasUsuario = [];
+
+        //ToDo
+        this.apostasUsuario.push({cod_Aposta:cod_Apostador,cod_Jogo:1,placar_A:1,placar_B:0,Pontos:10});
+        this.apostasUsuario.push({cod_Aposta:cod_Apostador,cod_Jogo:2,placar_A:3,placar_B:2,Pontos:null});
+        //
+
+        return (this.apostasUsuario);
     }
 }

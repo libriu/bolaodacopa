@@ -12,6 +12,7 @@ import { RankingPrincipalPage } from '../pages/ranking-principal/ranking-princip
 import { JogosPage } from '../pages/jogos/jogos';
 import { MensagensPage } from '../pages/mensagens/mensagens';
 import { BackendService } from '../service/backend-service';
+import { LoginService } from '../service/login-service';
 import { DetalheApostadorPopoverPage } from '../popovers/detalhe-apostador/detalhe-apostador';
 import { RegrasPage } from '../pages/regras/regras';
 
@@ -45,6 +46,7 @@ import { RegrasPage } from '../pages/regras/regras';
     StatusBar,
     SplashScreen,
     BackendService,
+    LoginService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
