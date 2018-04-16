@@ -11,10 +11,15 @@ export class RankingPrincipalPage {
     listaRanking: Array<{posicao: number, nome: string, foto: string, pontuacao: number}>;
     listaRankingOriginal: any;
 
+    teste: String;
+
   constructor(public navCtrl: NavController, backend: BackendService, public popoverCtrl: PopoverController,public alertCtrl: AlertController) {
         
     this.listaRankingOriginal = backend.obterRanking();
     this.listaRanking = this.listaRankingOriginal;
+
+    backend.getTeste()
+      .subscribe(data => this.teste = data['data'][0]['dataAtual']);
 
   }
 
@@ -49,6 +54,10 @@ export class RankingPrincipalPage {
     popover.present({
       ev: myEvent
     });
+  }
+
+  public getTeste(){
+    return this.teste;
   }
 
 }

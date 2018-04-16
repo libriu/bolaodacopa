@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { BolaoDaCopa } from './app.component';
@@ -29,6 +30,7 @@ import { RegrasPage } from '../pages/regras/regras';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(BolaoDaCopa),
   ],
   bootstrap: [IonicApp],

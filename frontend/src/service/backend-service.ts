@@ -1,4 +1,10 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Injectable()
 export class BackendService {
+
+    testeUrl = 'http://bolaodacopa2018.online/api/testeBanco.asp';
 
     ranking : Array<{posicao: number, nome: string, foto: string, pontuacao: number}>;
 
@@ -8,7 +14,11 @@ export class BackendService {
 
     apostasUsuario : Array<{cod_Aposta:number,cod_Jogo: number,placar_A:number,placar_B:number,Pontos:number}>;
 
-    constructor (){}
+    constructor (private http: HttpClient){}
+
+    public getTeste() {
+        return this.http.get(this.testeUrl);
+    }
 
     public obterRanking() : Array<any> {
         
