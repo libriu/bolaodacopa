@@ -6,8 +6,7 @@ import { RankingInterface } from './interfaces';
 export class BackendService {
 
     urlBase = 'http://bolaodacopa2018.online/api/';
-    testeUrl = 'testeBanco.asp';
-
+    
     ranking : any;
     
     regras : Array<{titulo: string, conteudoHtml: string, dataHoraAtualizacao: string}>;
@@ -18,30 +17,11 @@ export class BackendService {
 
     constructor (private http: HttpClient){}
 
-    public getTeste() {
-        return this.http.get(this.testeUrl);
-    }
-
     public obterRanking() {        
 
         let rankingPrincipalUrl = this.urlBase + 'rankingPrincipal.asp';
-        console.log("1");
-        return this.http.get(rankingPrincipalUrl);
-        //console.log("2");
-
         
-        //console.log("5");
-
-        //return this.ranking;
-    
-        //ToDo - buscar do backend o ranking
-        //this.ranking.push({posicao:1,nome:"Andre", foto:"assets/imgs/andre.jpg", pontuacao:10});
-        //this.ranking.push({posicao:1,nome:"Helson", foto:"assets/imgs/helson.jpg", pontuacao:10});
-        //this.ranking.push({posicao:1,nome:"Luis Angelo", foto:"assets/imgs/luis.jpg", pontuacao:10});
-        //this.ranking.push({posicao:1,nome:"Piures", foto:"assets/imgs/piures.jpg", pontuacao:10});
-        //
-
-        //return(this.ranking);
+        return this.http.get(rankingPrincipalUrl);
     }
 
     public obterRegras() : Array<any> {
