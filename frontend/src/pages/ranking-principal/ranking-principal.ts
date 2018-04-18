@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, PopoverController, AlertController  } from 'ionic-angular';
 import { BackendService } from '../../service/backend-service';
+import { RankingInterface } from '../../service/interfaces';
 import { DetalheApostadorPopoverPage } from '../../popovers/detalhe-apostador/detalhe-apostador';
 
 @Component({
@@ -8,19 +9,22 @@ import { DetalheApostadorPopoverPage } from '../../popovers/detalhe-apostador/de
   templateUrl: 'ranking-principal.html'
 })
 export class RankingPrincipalPage {
-    listaRanking: Array<{posicao: number, nome: string, foto: string, pontuacao: number}>;
-    listaRankingOriginal: any;
+    listaRanking: Array<RankingInterface>;
+    listaRankingOriginal: Array<RankingInterface>;
 
     teste: String;
 
   constructor(public navCtrl: NavController, backend: BackendService, public popoverCtrl: PopoverController,public alertCtrl: AlertController) {
-        
-    this.listaRankingOriginal = backend.obterRanking();
+           
+    backend.obterRanking().subscribe(
+      data => this.setListaRanking(data["data"])
+    );
+    
+  }
+
+  setListaRanking(data : any){
+    this.listaRankingOriginal = data;
     this.listaRanking = this.listaRankingOriginal;
-
-    backend.getTeste()
-      .subscribe(data => this.teste = data['data'][0]['dataAtual']);
-
   }
 
   initializeListaRanking() {

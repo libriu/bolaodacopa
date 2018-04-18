@@ -1,0 +1,1 @@
+export interface RankingInterface {posicao: number, nome: string, pontuacao: number, codApostador: number}

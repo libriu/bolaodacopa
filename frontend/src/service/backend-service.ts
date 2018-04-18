@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { RankingInterface } from './interfaces';
 
 @Injectable()
 export class BackendService {
 
-    testeUrl = 'http://bolaodacopa2018.online/api/testeBanco.asp';
+    urlBase = 'http://bolaodacopa2018.online/api/';
+    testeUrl = 'testeBanco.asp';
 
-    ranking : Array<{posicao: number, nome: string, foto: string, pontuacao: number}>;
-
+    ranking : any;
+    
     regras : Array<{titulo: string, conteudoHtml: string, dataHoraAtualizacao: string}>;
 
     jogos : Array<{cod_jogo: number, data_jogo: string, grupo: string, hora_jogo: string, jaOcorreu: number, r_placar_A: number, r_placar_B: number, time1: string, time2: string, arq_time_1:string, arq_time_2:string}>;
@@ -20,18 +22,26 @@ export class BackendService {
         return this.http.get(this.testeUrl);
     }
 
-    public obterRanking() : Array<any> {
-        
-        this.ranking = [];
+    public obterRanking() {        
 
+        let rankingPrincipalUrl = this.urlBase + 'rankingPrincipal.asp';
+        console.log("1");
+        return this.http.get(rankingPrincipalUrl);
+        //console.log("2");
+
+        
+        //console.log("5");
+
+        //return this.ranking;
+    
         //ToDo - buscar do backend o ranking
-        this.ranking.push({posicao:1,nome:"Andre", foto:"assets/imgs/andre.jpg", pontuacao:10});
-        this.ranking.push({posicao:1,nome:"Helson", foto:"assets/imgs/helson.jpg", pontuacao:10});
-        this.ranking.push({posicao:1,nome:"Luis Angelo", foto:"assets/imgs/luis.jpg", pontuacao:10});
-        this.ranking.push({posicao:1,nome:"Piures", foto:"assets/imgs/piures.jpg", pontuacao:10});
+        //this.ranking.push({posicao:1,nome:"Andre", foto:"assets/imgs/andre.jpg", pontuacao:10});
+        //this.ranking.push({posicao:1,nome:"Helson", foto:"assets/imgs/helson.jpg", pontuacao:10});
+        //this.ranking.push({posicao:1,nome:"Luis Angelo", foto:"assets/imgs/luis.jpg", pontuacao:10});
+        //this.ranking.push({posicao:1,nome:"Piures", foto:"assets/imgs/piures.jpg", pontuacao:10});
         //
 
-        return(this.ranking);
+        //return(this.ranking);
     }
 
     public obterRegras() : Array<any> {
