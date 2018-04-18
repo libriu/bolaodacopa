@@ -14,7 +14,6 @@ import { JogosPage } from '../pages/jogos/jogos';
 import { MensagensPage } from '../pages/mensagens/mensagens';
 import { BackendService } from '../service/backend-service';
 import { LoginService } from '../service/login-service';
-import { RankingInterface } from '../service/interfaces';
 import { DetalheApostadorPopoverPage } from '../popovers/detalhe-apostador/detalhe-apostador';
 import { RegrasPage } from '../pages/regras/regras';
 

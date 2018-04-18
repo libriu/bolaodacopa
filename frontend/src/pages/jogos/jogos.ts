@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { JogosInterface } from '../../service/interfaces';
 import { BackendService } from '../../service/backend-service';
 import { LoginService } from '../../service/login-service';
 
@@ -10,18 +11,29 @@ import { LoginService } from '../../service/login-service';
 export class JogosPage {
 
   jogos : string = "proximos";
-  listaJogos : Array<{cod_jogo: number, data_jogo: string, grupo: string, hora_jogo: string, jaOcorreu: number, r_placar_A: number, r_placar_B: number, time1: string, time2: string, arq_time_1:string, arq_time_2:string}>;
+  listaJogos : Array<JogosInterface>;
   listaJogosProximos : any;
   listaJogosAnteriores : any;
-  imgBasePath : string = "../../assets/imgs/bandeiras/";
+  imgBasePath : string = "assets/imgs/bandeiras/";
   listaApostasUsuario : Array<{cod_Aposta:number,cod_Jogo: number,placar_A:number,placar_B:number,Pontos:number}>;
   codApostadorLogado : number;
 
   constructor(public navCtrl: NavController, backend: BackendService, login: LoginService) {
 
+    
+    backend.obterJogos().subscribe(
+      data => this.setListaJogos(data["data"])
+    );
+
+
     this.codApostadorLogado = login.getCodApostadorLogado();
 
-    this.listaJogos = backend.obterJogos();
+    this.listaApostasUsuario = backend.obterApostasUsuario(this.codApostadorLogado);
+
+  }
+
+  setListaJogos(data : any){
+    this.listaJogos = data;
 
     this.listaJogosProximos = this.listaJogos.filter((item) => {
       return (item.jaOcorreu == 0);
@@ -30,9 +42,6 @@ export class JogosPage {
     this.listaJogosAnteriores = this.listaJogos.filter((item) => {
       return (item.jaOcorreu == 1);
     });
-
-    this.listaApostasUsuario = backend.obterApostasUsuario(this.codApostadorLogado);
-
   }
 
   public getPathImgBandeira(arquivo : string) : string {
@@ -51,8 +60,7 @@ export class JogosPage {
   }
 
   public getApostaUsuario(cod_jogo : number) : string {
-    let result = "";
-
+   
     let laposta = this.listaApostasUsuario.filter((item) => {return (item.cod_Jogo==cod_jogo); });
 
     let aposta = laposta[0];
@@ -63,8 +71,7 @@ export class JogosPage {
   
 
   public getPontuacaoUsuario(cod_jogo : number) : number {
-    let result = "";
-
+    
     let laposta = this.listaApostasUsuario.filter((item) => {return (item.cod_Jogo==cod_jogo); });
 
     let aposta = laposta[0];

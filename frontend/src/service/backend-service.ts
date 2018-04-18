@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RankingInterface } from './interfaces';
 
 @Injectable()
 export class BackendService {
@@ -11,7 +10,7 @@ export class BackendService {
     
     regras : Array<{titulo: string, conteudoHtml: string, dataHoraAtualizacao: string}>;
 
-    jogos : Array<{cod_jogo: number, data_jogo: string, grupo: string, hora_jogo: string, jaOcorreu: number, r_placar_A: number, r_placar_B: number, time1: string, time2: string, arq_time_1:string, arq_time_2:string}>;
+    jogos : any;
 
     apostasUsuario : Array<{cod_Aposta:number,cod_Jogo: number,placar_A:number,placar_B:number,Pontos:number}>;
 
@@ -37,18 +36,11 @@ export class BackendService {
 
     }
 
-    public obterJogos() : Array<any> {
+    public obterJogos() {
 
-        this.jogos = [];
-
-        //ToDo - buscar do backend
-        this.jogos.push({cod_jogo:1, data_jogo:"14/06/2018", grupo: "Fase de Grupos - A", hora_jogo:"12:00", jaOcorreu:1, r_placar_A:1,r_placar_B:0,time1:"Russia", time2:"Arábia Saudita", arq_time_1:"russia.png", arq_time_2:"arabia-saudita.png"});
-        this.jogos.push({cod_jogo:2, data_jogo:"15/06/2018", grupo: "Fase de Grupos - A", hora_jogo:"9:00", jaOcorreu:0, r_placar_A:0,r_placar_B:0,time1:"Egito", time2:"Uruguai", arq_time_1:"egito.png", arq_time_2:"uruguai.png"});
-        this.jogos.push({cod_jogo:3, data_jogo:"15/06/2018", grupo: "Fase de Grupos - B", hora_jogo:"12:00", jaOcorreu:0, r_placar_A:0,r_placar_B:0,time1:"Marrocos", time2:"Irã", arq_time_1:"marrocos.png", arq_time_2:"ira.png"});
-        //
-
-
-        return (this.jogos);
+        let jogosUrl = this.urlBase + 'jogos.asp';
+        
+        return this.http.get(jogosUrl);
 
     }
 

@@ -23,7 +23,7 @@
         <ion-list *ngSwitchCase="'proximos'">
           <ion-item>
             <ion-card *ngFor="let itemJogo of listaJogosProximos">
-              <ion-card-header text-center>{{itemJogo.data_jogo}}, {{itemJogo.hora_jogo}} ({{itemJogo.grupo}})</ion-card-header>
+              <ion-card-header text-center>{{itemJogo.data_jogo}}, {{itemJogo.hora_jogo}} ({{itemJogo.Grupo}})</ion-card-header>
               <ion-card-content text-center>
                 <ion-grid text-center>
                   <ion-row>
@@ -67,7 +67,7 @@
         <ion-list *ngSwitchCase="'anteriores'">
           <ion-item>
             <ion-card *ngFor="let itemJogo of listaJogosAnteriores">
-              <ion-card-header text-center>{{itemJogo.data_jogo}}, {{itemJogo.hora_jogo}} ({{itemJogo.grupo}})</ion-card-header>
+              <ion-card-header text-center>{{itemJogo.data_jogo}}, {{itemJogo.hora_jogo}} ({{itemJogo.Grupo}})</ion-card-header>
               <ion-card-content text-center>
                 <ion-grid text-center>
                   <ion-row>
