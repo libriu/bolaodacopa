@@ -6,12 +6,11 @@ export class BackendService {
 
     urlBase = 'http://bolaodacopa2018.online/api/';
     
-    ranking : any;
+    //ranking : any;
+    //jogos : any;
+    //mensagens : any;
     
     regras : Array<{titulo: string, conteudoHtml: string, dataHoraAtualizacao: string}>;
-
-    jogos : any;
-
     apostasUsuario : Array<{cod_Aposta:number,cod_Jogo: number,placar_A:number,placar_B:number,Pontos:number}>;
 
     constructor (private http: HttpClient){}
@@ -21,6 +20,22 @@ export class BackendService {
         let rankingPrincipalUrl = this.urlBase + 'rankingPrincipal.asp';
         
         return this.http.get(rankingPrincipalUrl);
+    }
+
+    public obterJogos() {
+
+        let jogosUrl = this.urlBase + 'jogos.asp';
+        
+        return this.http.get(jogosUrl);
+
+    }
+
+    public obterMensagens(pagina : number) {
+
+        let mensagensUrl = this.urlBase + 'mensagens.asp?pagina=' + pagina;
+        
+        return this.http.get(mensagensUrl);
+
     }
 
     public obterRegras() : Array<any> {
@@ -34,15 +49,7 @@ export class BackendService {
         //
         return (this.regras);
 
-    }
-
-    public obterJogos() {
-
-        let jogosUrl = this.urlBase + 'jogos.asp';
-        
-        return this.http.get(jogosUrl);
-
-    }
+    }    
 
     public obterApostasUsuario(cod_Apostador:number) : Array<any> {
 

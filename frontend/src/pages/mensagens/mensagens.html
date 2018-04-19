@@ -1,21 +1,35 @@
 <ion-header>
     <ion-navbar>
-            <button ion-button menuToggle>
-                    <ion-icon name="menu"></ion-icon>
-                </button>        
+      <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+      </button>        
       <ion-title>
         Mensagens
       </ion-title>
+      <ion-buttons end>
+      <button ion-button icon-only clear (click)="refreshMensagens()">
+          <ion-icon name="refresh"></ion-icon>
+      </button>
+    </ion-buttons>
     </ion-navbar>
   </ion-header>
   
   <ion-content>
-    <ion-list>
-      <ion-list-header>Follow us on Twitter</ion-list-header>
+    <ion-card *ngFor="let mensagem of listaMensagens">
       <ion-item>
-        <ion-icon name="ionic" item-start></ion-icon>
-        @ionicframework
+        <ion-row>
+            <ion-col><div class="autor-mensagem">{{mensagem.nome}}</div></ion-col>
+            <ion-col ><p>{{mensagem.data_msg}} {{mensagem.hora_msg}}</p></ion-col>
+          </ion-row>
       </ion-item>
-    </ion-list>
+      <ion-card-content>
+          <p>{{mensagem.mensagem}}</p>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
   </ion-content>
   
