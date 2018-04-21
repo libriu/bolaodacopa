@@ -3,19 +3,29 @@ import { NavController, PopoverController, AlertController  } from 'ionic-angula
 import { BackendService } from '../../service/backend-service';
 import { RankingInterface } from '../../service/interfaces';
 import { DetalheApostadorPopoverPage } from '../../popovers/detalhe-apostador/detalhe-apostador';
+import { GenericPage } from '../generic-page';
+import { ModalController } from 'ionic-angular';
 
 @Component({
   selector: 'page-ranking-principal',
   templateUrl: 'ranking-principal.html'
 })
-export class RankingPrincipalPage {
+export class RankingPrincipalPage extends GenericPage {
     listaRanking: Array<RankingInterface>;
     listaRankingOriginal: Array<RankingInterface>;
 
     teste: String;
 
-  constructor(public navCtrl: NavController, backend: BackendService, public popoverCtrl: PopoverController,public alertCtrl: AlertController) {
-           
+  constructor(
+    public navCtrl: NavController, 
+    backend: BackendService, 
+    public popoverCtrl: PopoverController,
+    public alertCtrl: AlertController,
+    public modalCtrl: ModalController
+  ) {
+    
+    super(modalCtrl);
+
     backend.obterRanking().subscribe(
       data => this.setListaRanking(data["data"])
     );

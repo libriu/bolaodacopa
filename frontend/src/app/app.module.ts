@@ -16,6 +16,7 @@ import { BackendService } from '../service/backend-service';
 import { LoginService } from '../service/login-service';
 import { DetalheApostadorPopoverPage } from '../popovers/detalhe-apostador/detalhe-apostador';
 import { RegrasPage } from '../pages/regras/regras';
+import { LoginPage } from '../pages/login/login';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RegrasPage } from '../pages/regras/regras';
     JogosPage,
     MensagensPage,
     DetalheApostadorPopoverPage,
-    RegrasPage
+    RegrasPage,
+    LoginPage
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import { RegrasPage } from '../pages/regras/regras';
     JogosPage,
     MensagensPage,
     DetalheApostadorPopoverPage,
-    RegrasPage
+    RegrasPage,
+    LoginPage
   ],
   providers: [
     StatusBar,
