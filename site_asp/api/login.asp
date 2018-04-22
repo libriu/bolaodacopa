@@ -33,7 +33,7 @@
         jsonString = request("json")
     end if
 
-    Response.Write jsonString & "<br>"
+    ' Response.Write jsonString & "<br>"
 
     ' Fazendo parse da string json para objeto json
     set JSON = New JSONobject

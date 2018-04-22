@@ -5,6 +5,7 @@ import { RankingInterface } from '../../service/interfaces';
 import { DetalheApostadorPopoverPage } from '../../popovers/detalhe-apostador/detalhe-apostador';
 import { GenericPage } from '../generic-page';
 import { ModalController } from 'ionic-angular';
+import { LoginService } from '../../service/login-service';
 
 @Component({
   selector: 'page-ranking-principal',
@@ -21,10 +22,11 @@ export class RankingPrincipalPage extends GenericPage {
     backend: BackendService, 
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public loginService : LoginService
   ) {
     
-    super(modalCtrl);
+    super(modalCtrl,loginService);
 
     backend.obterRanking().subscribe(
       data => this.setListaRanking(data["data"])

@@ -1,16 +1,33 @@
+import { ApostadorInterface } from "./interfaces";
+
 export class LoginService {
 
-    codApostadorLogado : number;
+    apostadorLogado : ApostadorInterface = null;
+    isLogado : boolean = false;
 
     constructor (){
-
-        //obter cod_Apostador quando o usuário fizer login
-        this.codApostadorLogado=1;
-
     }
 
-    public getCodApostadorLogado() : number {
-        return this.codApostadorLogado;
+    public setApostadorLogado(apostadorLogado : ApostadorInterface){
+        this.apostadorLogado = apostadorLogado;
+        this.isLogado = true;
+    }    
+
+    public limpaApostadorLogado(){
+        this.apostadorLogado = null;
+        this.isLogado = false;
+    }
+
+    public getIsLogado() : boolean {
+        return this.isLogado;
+    }
+
+    public getCodApostadorLogado(){
+        if (this.isLogado) {
+            return this.apostadorLogado.cod_Apostador;
+        } else {
+            return 0;
+        }
     }
 
 }

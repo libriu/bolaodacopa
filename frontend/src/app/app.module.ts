@@ -51,7 +51,7 @@ import { LoginPage } from '../pages/login/login';
     StatusBar,
     SplashScreen,
     BackendService,
-    LoginService,
+    LoginService,    
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

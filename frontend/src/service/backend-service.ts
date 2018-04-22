@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DadosLoginInterface } from './interfaces';
 
+
+
 @Injectable()
 export class BackendService {
 
@@ -14,6 +16,7 @@ export class BackendService {
     regras : Array<{titulo: string, conteudoHtml: string, dataHoraAtualizacao: string}>;
     apostasUsuario : Array<{cod_Aposta:number,cod_Jogo: number,placar_A:number,placar_B:number,Pontos:number}>;
 
+    
     constructor (private http: HttpClient){}
 
     public obterRanking() {        
@@ -41,6 +44,10 @@ export class BackendService {
 
     public fazerLogin(dadosLogin:DadosLoginInterface){
 
+        let loginUrl = this.urlBase + 'login.asp';
+
+        return this.http.post(loginUrl,dadosLogin);
+        
     }
 
     public obterRegras() : Array<any> {
