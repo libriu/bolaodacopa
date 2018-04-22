@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { DadosLoginInterface } from './interfaces';
 
 @Injectable()
 export class BackendService {
@@ -35,6 +36,10 @@ export class BackendService {
         let mensagensUrl = this.urlBase + 'mensagens.asp?pagina=' + pagina;
         
         return this.http.get(mensagensUrl);
+
+    }
+
+    public fazerLogin(dadosLogin:DadosLoginInterface){
 
     }
 
