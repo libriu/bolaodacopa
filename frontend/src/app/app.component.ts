@@ -23,8 +23,7 @@ export class BolaoDaCopa {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Inicio', component: HomePage },
-      { title: 'Regras do Jogo', component: RegrasPage },
-      { title: 'Estatísticas', component: ListPage }
+      { title: 'Regras do Jogo', component: RegrasPage }
     ];
 
   }

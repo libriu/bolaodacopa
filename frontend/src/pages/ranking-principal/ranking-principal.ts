@@ -26,7 +26,7 @@ export class RankingPrincipalPage extends GenericPage {
     public loginService : LoginService
   ) {
     
-    super(modalCtrl,loginService);
+    super(modalCtrl,popoverCtrl,loginService);
 
     backend.obterRanking().subscribe(
       data => this.setListaRanking(data["data"])

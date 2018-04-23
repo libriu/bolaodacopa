@@ -5,7 +5,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { BolaoDaCopa } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -17,16 +16,17 @@ import { LoginService } from '../service/login-service';
 import { DetalheApostadorPopoverPage } from '../popovers/detalhe-apostador/detalhe-apostador';
 import { RegrasPage } from '../pages/regras/regras';
 import { LoginPage } from '../pages/login/login';
+import { DetalheUsuarioPopoverPage } from '../popovers/detalhe-usuario/detalhe-usuario';
 
 @NgModule({
   declarations: [
     BolaoDaCopa,
     HomePage,
-    ListPage,
     RankingPrincipalPage,
     JogosPage,
     MensagensPage,
     DetalheApostadorPopoverPage,
+    DetalheUsuarioPopoverPage,
     RegrasPage,
     LoginPage
   ],
@@ -39,11 +39,11 @@ import { LoginPage } from '../pages/login/login';
   entryComponents: [
     BolaoDaCopa,
     HomePage,
-    ListPage,
     RankingPrincipalPage,
     JogosPage,
     MensagensPage,
     DetalheApostadorPopoverPage,
+    DetalheUsuarioPopoverPage,
     RegrasPage,
     LoginPage
   ],

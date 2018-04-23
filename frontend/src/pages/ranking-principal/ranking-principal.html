@@ -5,15 +5,18 @@
         </button>
       <ion-title>Ranking Principal</ion-title>
       <ion-buttons end>
-        <button ion-button icon-right (click)="abreLogin()">
-          <ion-icon name="person" (isActive)="isLogado()"></ion-icon>
+        <button ion-button icon-right (click)="abreLogin()" *ngIf="!isLogado()">
+          <ion-icon name="person"></ion-icon>
+        </button>
+        <button ion-button icon-right (click)="popoverUsuario($event)" *ngIf="isLogado()">
+            <ion-icon name="happy"></ion-icon>
         </button>
       </ion-buttons>
     </ion-navbar>  
   </ion-header>
   
   <ion-content padding>
-    <ion-searchbar placeholder="Nome" (ionInput)="getListaRankingFiltrada($event)"></ion-searchbar>
+    <ion-searchbar placeholder="Filtrar Nome" (ionInput)="getListaRankingFiltrada($event)"></ion-searchbar>
     <ion-list>
         <ion-item *ngFor="let itemRanking of listaRanking">
             <!--<ion-avatar item-start>
@@ -32,10 +35,11 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            
+            <!--
             <button ion-button icon-only (click)="presentPopover($event)" clear item-end>
                 <ion-icon name="more"></ion-icon>
             </button>
+            -->
         </ion-item>    
     </ion-list>
   </ion-content>

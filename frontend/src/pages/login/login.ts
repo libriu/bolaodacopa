@@ -28,21 +28,24 @@ export class LoginPage {
     }
 
     public entrar(){
+        let secret=CryptoJS.SHA512(this.senha).toString();
         let dadosLogin : DadosLoginInterface = {
             arg0 :this.nome,
-            arg1:CryptoJS.SHA512(this.senha).toString()
+            arg1:secret
         };       
 
         this.backend.fazerLogin(dadosLogin).subscribe(
-            data => this.retornoLogin(data["data"])
+            data => this.retornoLogin(data["data"],secret),
+            error => this.retornoLogin({indSucesso:0,mensagem:error.message},secret)
+            //error => this.retornoLogin({"apostador":{"cod_Apostador":37,"nome":"Andre Muniz"},"indSucesso":1,"mensagem":"Login realizado com sucesso!"},secret)
         );
     }
 
-    retornoLogin(data){
+    retornoLogin(data,secret){
         let dadosRetorno : RetornoLoginInterface = data;
 
         if (dadosRetorno.indSucesso == 1) {
-            this.loginService.setApostadorLogado(dadosRetorno.apostador);
+            this.loginService.setApostadorLogado(dadosRetorno.apostador,secret);
             this.toastSucesso(dadosRetorno.mensagem);
             this.dismiss();
         } else {
@@ -69,6 +72,7 @@ export class LoginPage {
     toastErro(mensagem:string) {
         let toast = this.toastCtrl.create({
           message: mensagem,
+          duration: 3000,
           position: 'bottom',
           showCloseButton: true,
           closeButtonText:'OK'
