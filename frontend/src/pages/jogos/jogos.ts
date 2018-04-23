@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController,PopoverController,ModalController } from 'ionic-angular';
 import { JogosInterface } from '../../service/interfaces';
 import { BackendService } from '../../service/backend-service';
 import { LoginService } from '../../service/login-service';
+import { GenericPage } from '../generic-page';
 
 @Component({
   selector: 'page-jogos',
   templateUrl: 'jogos.html'
 })
-export class JogosPage {
+export class JogosPage extends GenericPage{
 
   jogos : string = "proximos";
   listaJogos : Array<JogosInterface>;
@@ -18,18 +19,25 @@ export class JogosPage {
   listaApostasUsuario : Array<{cod_Aposta:number,cod_Jogo: number,placar_A:number,placar_B:number,Pontos:number}>;
   codApostadorLogado : number;
 
-  constructor(public navCtrl: NavController, backend: BackendService, login: LoginService) {
+  constructor(
+    public navCtrl: NavController, 
+    public popoverCtrl: PopoverController,
+    public modalCtrl: ModalController,
+    backend: BackendService, 
+    login: LoginService
+  ) {
+
+    super(modalCtrl,popoverCtrl,login);
 
     
     backend.obterJogos().subscribe(
       data => this.setListaJogos(data["data"])
     );
 
-
-    this.codApostadorLogado = login.getCodApostadorLogado();
-
-    this.listaApostasUsuario = backend.obterApostasUsuario(this.codApostadorLogado);
-
+    if (login.getIsLogado()){
+      this.codApostadorLogado = login.getCodApostadorLogado();
+      this.listaApostasUsuario = backend.obterApostasUsuario(this.codApostadorLogado);
+    }
   }
 
   setListaJogos(data : any){
