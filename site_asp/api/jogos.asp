@@ -9,7 +9,7 @@
     Set conx = Server.CreateObject("ADODB.Connection")
     conx.Open ConnStrMySQL 
 
-    sql = "select r.*,p1.Arquivo arq_time_1, p2.Arquivo arq_time_2 from Resultados r, Pais p1, Pais p2 where r.time1 = p1.Pais and r.time2 = p2.Pais"
+    sql = "select r.*,COALESCE(p1.Arquivo,'a-definir.png') arq_time_1, COALESCE(p2.Arquivo,'a-definir.png') arq_time_2 from Resultados r left join ( Pais p1, Pais p2 ) on ( r.time1 = p1.Pais and r.time2 = p2.Pais)"
 
     set resultSet = Server.CreateObject("ADODB.Recordset")
     
