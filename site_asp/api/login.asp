@@ -52,7 +52,7 @@
     cmd.CommandType = &H0001
     cmd.Parameters.Append cmd.CreateParameter("nome", 200, &H0001, 50, nome)
     cmd.Parameters.Append cmd.CreateParameter("senha", 200, &H0001, 128, senha)
-    sql = "select a.cod_Apostador, a.nome from Apostadores a where a.nome= ? and SHA2(a.senha_apostador,512) = ?"
+    sql = "select a.cod_Apostador, a.nome, a.Ativo from Apostadores a where a.nome= ? and SHA2(a.senha_apostador,512) = ?"
     cmd.CommandText = sql
     set resultSet = cmd.Execute
     
@@ -63,15 +63,23 @@
         ' instantiate the class
         set JSONarr = New JSONarray
 
-        JSONarr.LoadRecordset resultSet 
+        JSONarr.LoadRecordset resultSet
+
+        ativo = 0
         
         for each item in JSONarr.items
 	        if isObject(item) and typeName(item) = "JSONobject" then
-                JSONdata.Add "apostador", item	        
+                JSONdata.Add "apostador", item
+                ativo = cint(item.Value("Ativo"))        
 	        end if        
         next
-        JSONdata.Add "indSucesso",1
-        JSONdata.Add "mensagem","Login realizado com sucesso!"
+        if ativo = 1 then
+            JSONdata.Add "indSucesso",1
+            JSONdata.Add "mensagem","Login realizado com sucesso!"
+        else
+            JSONdata.Add "indSucesso",0
+            JSONdata.Add "mensagem","Login inativo."
+        end if
     else
         JSONdata.Add "indSucesso",0
         JSONdata.Add "mensagem","Nome do Apostador ou Senha incorretos."
