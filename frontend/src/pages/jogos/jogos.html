@@ -23,7 +23,7 @@
         <ion-list *ngSwitchCase="'proximos'">
           <ion-item>
             <ion-card *ngFor="let itemJogo of listaJogosProximos">
-              <ion-card-header text-center>{{itemJogo.data_jogo}}, {{itemJogo.hora_jogo}} ({{itemJogo.Grupo}})</ion-card-header>
+              <ion-card-header text-center>{{itemJogo.cod_Jogo}}. {{itemJogo.data_jogo}} {{itemJogo.hora_jogo}}</ion-card-header>
               <ion-card-content text-center>
                 <ion-grid text-center>
                   <ion-row>
@@ -32,7 +32,7 @@
                         <img [src]="getPathImgBandeira(itemJogo.arq_time_1)"><br/>
                       </div>
                     </ion-col>
-                    <ion-col col-4></ion-col>
+                    <ion-col col-4>{{getDescJogo(itemJogo)}}</ion-col>
                     <ion-col col-4>
                       <div class="bandeira-div">
                           <img [src]="getPathImgBandeira(itemJogo.arq_time_2)"><br/>
@@ -45,7 +45,7 @@
                     <ion-col col-4>{{itemJogo.time2}}</ion-col>
                   </ion-row>
                 </ion-grid>
-                <div *ngIf="existeApostaUsuario(itemJogo.cod_jogo)">
+                <div *ngIf="isLogado() && existeApostaUsuario(itemJogo.cod_jogo)">
                   Sua aposta: {{getApostaUsuario(itemJogo.cod_jogo)}}
                   <br/>
                   <button ion-button outline icon-right small>
@@ -53,7 +53,7 @@
                     <ion-icon name="create"></ion-icon>                    
                   </button>
                 </div>
-                <div *ngIf="!existeApostaUsuario(itemJogo.cod_jogo)">
+                <div *ngIf="isLogado() && !existeApostaUsuario(itemJogo.cod_jogo)">
                   <button ion-button outline color="danger" icon-right small>
                     Fazer aposta
                     <ion-icon name="add"></ion-icon>                    

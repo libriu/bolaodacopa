@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DadosLoginInterface } from './interfaces';
+import { DadosLoginInterface, DadosApostaInterface } from './interfaces';
 
 
 
@@ -9,13 +9,7 @@ export class BackendService {
 
     urlBase = 'http://bolaodacopa2018.online/api/';
     
-    //ranking : any;
-    //jogos : any;
-    //mensagens : any;
-    
     regras : Array<{titulo: string, conteudoHtml: string, dataHoraAtualizacao: string}>;
-    apostasUsuario : Array<{cod_Aposta:number,cod_Jogo: number,placar_A:number,placar_B:number,Pontos:number}>;
-
     
     constructor (private http: HttpClient){}
 
@@ -63,15 +57,10 @@ export class BackendService {
 
     }    
 
-    public obterApostasUsuario(cod_Apostador:number) : Array<any> {
+    public obterApostasUsuario(dados:DadosApostaInterface) {
 
-        this.apostasUsuario = [];
+        let consultaApostasUrl = this.urlBase + 'consultaApostas.asp';
 
-        //ToDo
-        this.apostasUsuario.push({cod_Aposta:cod_Apostador,cod_Jogo:1,placar_A:1,placar_B:0,Pontos:10});
-        this.apostasUsuario.push({cod_Aposta:cod_Apostador,cod_Jogo:2,placar_A:3,placar_B:2,Pontos:null});
-        //
-
-        return (this.apostasUsuario);
+        return this.http.post(consultaApostasUrl,dados);
     }
 }

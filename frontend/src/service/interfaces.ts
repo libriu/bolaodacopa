@@ -4,3 +4,5 @@ export interface MensagensInterface {data_msg:string,hora_msg:string,nome:string
 export interface ApostadorInterface {cod_Apostador:number,nome:string}
 export interface DadosLoginInterface {arg0:string,arg1:string}
 export interface RetornoLoginInterface {indSucesso:number,mensagem:string,apostador:ApostadorInterface}
+export interface ApostasInterface {cod_Aposta:number,cod_jogo:number,placar_A:number,placar_B:number,Pontos:number}
+export interface DadosApostaInterface {arg0:number,arg1:string}

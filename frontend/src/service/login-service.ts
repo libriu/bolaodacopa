@@ -1,4 +1,4 @@
-import { ApostadorInterface } from "./interfaces";
+import { ApostadorInterface, DadosApostaInterface } from "./interfaces";
 
 export class LoginService {
 
@@ -39,6 +39,14 @@ export class LoginService {
         } else {
             return "Zé Ninguém";
         }
+    }
+
+    public getDadosAposta() : DadosApostaInterface {
+        let dados : DadosApostaInterface = {
+            arg0:this.apostadorLogado.cod_Apostador,
+            arg1:this.secret
+        }
+        return dados;
     }
 
 }
