@@ -7,6 +7,7 @@ import { BackendService } from '../../service/backend-service';
 import { DadosLoginInterface, RetornoLoginInterface } from '../../service/interfaces';
 import * as CryptoJS from 'crypto-js';
 import { LoginService } from '../../service/login-service';
+import { ApostasService } from '../../service/apostas-service';
 
 @Component({
   templateUrl: 'login.html'
@@ -22,7 +23,8 @@ export class LoginPage {
         public viewCtrl: ViewController,
         public backend: BackendService,
         public loginService:LoginService,
-        private toastCtrl: ToastController
+        private toastCtrl: ToastController,
+        public apostasService: ApostasService
     ) {
 
     }
@@ -46,6 +48,7 @@ export class LoginPage {
 
         if (dadosRetorno.indSucesso == 1) {
             this.loginService.setApostadorLogado(dadosRetorno.apostador,secret);
+            this.apostasService.recuperaApostasUsuario(this.loginService.getDadosAposta());
             this.toastSucesso(dadosRetorno.mensagem);
             this.dismiss();
         } else {

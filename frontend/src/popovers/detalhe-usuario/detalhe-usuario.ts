@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 import { LoginService } from '../../service/login-service';
+import { ApostasService } from '../../service/apostas-service';
 
 @Component({
   selector: 'popover-detalhe-usuario',
@@ -8,12 +9,17 @@ import { LoginService } from '../../service/login-service';
 })
 export class DetalheUsuarioPopoverPage {
     nomeUsuario : string;
-  constructor(public viewCtrl: ViewController, public loginService:LoginService) {
+  constructor(
+    public viewCtrl: ViewController, 
+    public loginService:LoginService,
+    public apostasService:ApostasService
+  ) {
       this.nomeUsuario=loginService.getNomeApostadorLogado();
   }
 
   logOut(){
     this.loginService.limpaApostadorLogado();
+    this.apostasService.limpaApostasUsuario();
     this.close();
   }
 

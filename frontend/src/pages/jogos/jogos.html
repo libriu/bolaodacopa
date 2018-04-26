@@ -6,6 +6,11 @@
       <ion-title>
         Jogos
       </ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only clear (click)="refreshJogos()">
+            <ion-icon name="refresh"></ion-icon>
+        </button>
+      </ion-buttons>
     </ion-navbar>
   </ion-header>
   
@@ -45,18 +50,12 @@
                     <ion-col col-4>{{itemJogo.time2}}</ion-col>
                   </ion-row>
                 </ion-grid>
-                <div *ngIf="isLogado() && existeApostaUsuario(itemJogo.cod_jogo)">
-                  Sua aposta: {{getApostaUsuario(itemJogo.cod_jogo)}}
+                <div *ngIf="isLogado()">
+                  {{getDescApostaUsuario(itemJogo.cod_Jogo)}}
                   <br/>
                   <button ion-button outline icon-right small>
-                    Alterar
+                    Atualizar aposta
                     <ion-icon name="create"></ion-icon>                    
-                  </button>
-                </div>
-                <div *ngIf="isLogado() && !existeApostaUsuario(itemJogo.cod_jogo)">
-                  <button ion-button outline color="danger" icon-right small>
-                    Fazer aposta
-                    <ion-icon name="add"></ion-icon>                    
                   </button>
                 </div>
               </ion-card-content>
@@ -67,7 +66,7 @@
         <ion-list *ngSwitchCase="'anteriores'">
           <ion-item>
             <ion-card *ngFor="let itemJogo of listaJogosAnteriores">
-              <ion-card-header text-center>{{itemJogo.data_jogo}}, {{itemJogo.hora_jogo}} ({{itemJogo.Grupo}})</ion-card-header>
+              <ion-card-header text-center>{{itemJogo.cod_Jogo}}. {{itemJogo.data_jogo}} {{itemJogo.hora_jogo}}</ion-card-header>
               <ion-card-content text-center>
                 <ion-grid text-center>
                   <ion-row>
@@ -76,7 +75,7 @@
                         <img [src]="getPathImgBandeira(itemJogo.arq_time_1)"><br/>
                       </div>
                     </ion-col>
-                    <ion-col col-4></ion-col>
+                    <ion-col col-4>{{getDescJogo(itemJogo)}}</ion-col>
                     <ion-col col-4>
                       <div class="bandeira-div">
                           <img [src]="getPathImgBandeira(itemJogo.arq_time_2)"><br/>
@@ -89,7 +88,9 @@
                     <ion-col col-4>{{itemJogo.time2}}</ion-col>
                   </ion-row>
                 </ion-grid>
-                <div *ngIf="existeApostaUsuario(itemJogo.cod_jogo)">Sua aposta: {{getApostaUsuario(itemJogo.cod_jogo)}} | Pontuação: {{getPontuacaoUsuario(itemJogo.cod_jogo)}}</div>
+                <div *ngIf="isLogado()">
+                  {{getDescApostaUsuario(itemJogo.cod_Jogo)}} | {{getPontuacaoUsuario(itemJogo.cod_Jogo)}}
+                </div>             
               </ion-card-content>
             </ion-card> 
           </ion-item>

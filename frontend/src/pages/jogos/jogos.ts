@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController,PopoverController,ModalController } from 'ionic-angular';
-import { JogosInterface, ApostasInterface } from '../../service/interfaces';
+import { JogosInterface } from '../../service/interfaces';
 import { BackendService } from '../../service/backend-service';
 import { LoginService } from '../../service/login-service';
 import { GenericPage } from '../generic-page';
+import { ApostasService } from '../../service/apostas-service';
 
 @Component({
   selector: 'page-jogos',
@@ -16,30 +17,33 @@ export class JogosPage extends GenericPage{
   listaJogosProximos : any;
   listaJogosAnteriores : any;
   imgBasePath : string = "assets/imgs/bandeiras/";
-  listaApostasUsuario : Array<ApostasInterface>;
   codApostadorLogado : number;
 
   constructor(
     public navCtrl: NavController, 
     public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
-    backend: BackendService, 
-    login: LoginService
+    public backend: BackendService, 
+    login: LoginService,
+    public apostas: ApostasService
   ) {
 
     super(modalCtrl,popoverCtrl,login);
-
     
-    backend.obterJogos().subscribe(
+    this.buscarJogos();
+  }
+
+  private buscarJogos(){
+    this.backend.obterJogos().subscribe(
       data => this.setListaJogos(data["data"])
     );
+  }
 
-    if (login.getIsLogado()){
-      backend.obterApostasUsuario(login.getDadosAposta()).subscribe(
-        data => this.setListaApostasUsuario(data["data"])
-      );
-    } else {
-      this.setListaApostasUsuario([]);
+  public refreshJogos(){
+    this.buscarJogos();
+    if (this.isLogado()){
+      this.apostas.limpaApostasUsuario();
+      this.apostas.recuperaApostasUsuario(this.loginService.getDadosAposta());
     }
   }
 
@@ -54,48 +58,11 @@ export class JogosPage extends GenericPage{
       return (item.jaOcorreu == 1);
     });
   }
-
-  setListaApostasUsuario(data:any){
-    this.listaApostasUsuario = data;
-  }
-
+  
   public getPathImgBandeira(arquivo : string) : string {
     return this.imgBasePath + arquivo;
   }
-
-  public existeApostaUsuario(cod_jogo : number) : boolean {
-
-    if (this.listaApostasUsuario.length == 0) {
-      return false;
-    } else {
-      let listaAposta = this.listaApostasUsuario.filter((item) => {return (item.cod_jogo==cod_jogo); });
-      return (listaAposta.length > 0);
-    }
-
-  }
-
-  public getApostaUsuario(cod_jogo : number) : string {
-   
-    let laposta = this.listaApostasUsuario.filter((item) => {return (item.cod_jogo==cod_jogo); });
-
-    let aposta = laposta[0];
-
-    console.log(aposta.placar_A + " x " + aposta.placar_B);
-
-    return (aposta.placar_A + " x " + aposta.placar_B);
-  }
-
   
-
-  public getPontuacaoUsuario(cod_jogo : number) : number {
-    
-    let laposta = this.listaApostasUsuario.filter((item) => {return (item.cod_jogo==cod_jogo); });
-
-    let aposta = laposta[0];
-
-    return (aposta.Pontos);
-  }
-
   public getDescJogo(jogo : JogosInterface){    
     if (jogo.cod_Jogo <= 48)
       return "GRUPO "+jogo.Grupo;
@@ -109,6 +76,14 @@ export class JogosPage extends GenericPage{
       return "3o LUGAR";
     else
       return "FINAL";
+  }
+
+  public getDescApostaUsuario(cod_jogo : number){
+    return this.apostas.getDescApostaUsuario(cod_jogo);
+  }
+
+  public getPontuacaoUsuario(cod_jogo : number) : string{
+    return this.apostas.getPontuacaoUsuario(cod_jogo);
   }
 
 }

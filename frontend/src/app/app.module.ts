@@ -17,6 +17,7 @@ import { DetalheApostadorPopoverPage } from '../popovers/detalhe-apostador/detal
 import { RegrasPage } from '../pages/regras/regras';
 import { LoginPage } from '../pages/login/login';
 import { DetalheUsuarioPopoverPage } from '../popovers/detalhe-usuario/detalhe-usuario';
+import { ApostasService } from '../service/apostas-service';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { DetalheUsuarioPopoverPage } from '../popovers/detalhe-usuario/detalhe-u
     SplashScreen,
     BackendService,
     LoginService,    
+    ApostasService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
