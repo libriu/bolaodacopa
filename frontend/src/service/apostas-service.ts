@@ -1,4 +1,4 @@
-import { ApostasInterface, DadosApostaInterface } from "./interfaces";
+import { ApostasInterface, DadosApostaInterface, JogosInterface } from "./interfaces";
 import { BackendService } from "./backend-service";
 
 export class ApostasService {
@@ -34,7 +34,19 @@ export class ApostasService {
 
     }
 
-    public getDescApostaUsuario(cod_jogo : number) : string {
+    public podeApostar(itemJogo : JogosInterface) : boolean {
+
+        //let minDiff = 51;//teste
+        let minDiff = 1;//só pode apostar até o dia anterior do jogo
+
+        if (itemJogo.diff < minDiff)
+            return false;
+        else 
+            return true;
+    }
+
+    public getDescApostaUsuario(itemJogo : JogosInterface) : string {
+        let cod_jogo=itemJogo.cod_Jogo;
 
         if (this.listaApostasUsuario){
 
@@ -43,8 +55,10 @@ export class ApostasService {
             if (laposta.length>0){
                 let aposta = laposta[0];    
                 return ("Sua aposta: "+aposta.placar_A + " x " + aposta.placar_B);
-            } else {
+            } else if (this.podeApostar(itemJogo)) {
                 return ("Aposte agora!");
+            } else {
+                return ("Perdeu prazo para aposta!");
             }
 
         } else {

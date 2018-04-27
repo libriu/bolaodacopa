@@ -51,9 +51,9 @@
                   </ion-row>
                 </ion-grid>
                 <div *ngIf="isLogado()">
-                  {{getDescApostaUsuario(itemJogo.cod_Jogo)}}
+                  {{getDescApostaUsuario(itemJogo)}}
                   <br/>
-                  <button ion-button outline icon-right small>
+                  <button ion-button outline icon-right small *ngIf="podeApostar(itemJogo)">
                     Atualizar aposta
                     <ion-icon name="create"></ion-icon>                    
                   </button>
@@ -89,7 +89,7 @@
                   </ion-row>
                 </ion-grid>
                 <div *ngIf="isLogado()">
-                  {{getDescApostaUsuario(itemJogo.cod_Jogo)}} | {{getPontuacaoUsuario(itemJogo.cod_Jogo)}}
+                  {{getDescApostaUsuario(itemJogo)}} | {{getPontuacaoUsuario(itemJogo.cod_Jogo)}}
                 </div>             
               </ion-card-content>
             </ion-card> 

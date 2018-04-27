@@ -78,8 +78,12 @@ export class JogosPage extends GenericPage{
       return "FINAL";
   }
 
-  public getDescApostaUsuario(cod_jogo : number){
-    return this.apostas.getDescApostaUsuario(cod_jogo);
+  public getDescApostaUsuario(itemJogo : JogosInterface) : string{
+    return this.apostas.getDescApostaUsuario(itemJogo);
+  }
+
+  public podeApostar(itemJogo : JogosInterface) : boolean{
+    return this.apostas.podeApostar(itemJogo);
   }
 
   public getPontuacaoUsuario(cod_jogo : number) : string{
