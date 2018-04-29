@@ -8,7 +8,7 @@ import { BackendService } from '../../service/backend-service';
 })
 export class RegrasPage {
 
-    regras : Array<{titulo: string, conteudoHtml: string, dataHoraAtualizacao: string}>;
+    regras : Array<{titulo: string, conteudoHtml: string}>;
 
   constructor(public navCtrl: NavController, backend: BackendService) {
 
