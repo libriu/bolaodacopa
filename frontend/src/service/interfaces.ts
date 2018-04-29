@@ -8,3 +8,5 @@ export interface ApostasInterface {cod_Aposta:number,cod_jogo:number,placar_A:nu
 export interface DadosApostaInterface {arg0:number,arg1:string}
 export interface DadosAtualizarApostaInterface{arg0:number,arg1:string,cod_jogo:number,placar_A:number,placar_B:number}
 export interface RetornoAtualizarApostaInterface {indSucesso:number,mensagem:string}
+export interface DadosEnviarMensagemInterface{arg0:number,arg1:string,mensagem:string}
+export interface RetornoEnviarMensagemInterface {indSucesso:number,mensagem:string}

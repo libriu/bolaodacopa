@@ -1,0 +1,28 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-title>
+        Enviar Mensagem
+      </ion-title>
+      <ion-buttons start>
+        <button ion-button (click)="close()">
+          <span ion-text color="primary">Cancela</span>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    
+    <ion-list>
+        <ion-list-header class="autor-mensagem">{{getNomeUsuario()}}</ion-list-header>
+        <ion-item>
+          <ion-textarea placeholder="Digite a mensagem" [(ngModel)]="mensagem" required id="msg" max="2000" ></ion-textarea>
+        </ion-item>
+  
+      </ion-list>
+  
+      <div padding>
+        <button ion-button color="secondary" block (click)="enviarMensagem()">Enviar</button>
+      </div>
+  
+  </ion-content>

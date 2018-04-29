@@ -2,18 +2,30 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { MensagensInterface } from '../../service/interfaces';
 import { BackendService } from '../../service/backend-service';
+import { GenericPage } from '../generic-page';
+import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
+import { ModalController } from 'ionic-angular/components/modal/modal-controller';
+import { LoginService } from '../../service/login-service';
+import { EnviaMensagemPage } from '../envia-mensagem/envia-mensagem';
 
 @Component({
   selector: 'page-mensagens',
   templateUrl: 'mensagens.html'
 })
-export class MensagensPage {
+export class MensagensPage extends GenericPage {
     
   listaMensagens : Array<MensagensInterface> = [];
   pagina : number = 0;
-  backend: BackendService;
+  
+  constructor(
+    public navCtrl: NavController, 
+    public popoverCtrl: PopoverController,
+    public modalCtrl: ModalController,
+    public backend: BackendService, 
+    public login: LoginService,
+  ) {
 
-  constructor(public navCtrl: NavController, backend: BackendService) {
+    super(modalCtrl,popoverCtrl,login);
 
     this.backend = backend;
 
@@ -56,5 +68,12 @@ export class MensagensPage {
     }, 500);
   }
 
+  public abreEnvioMensagem(){
+    let modal = this.modalCtrl.create(EnviaMensagemPage);
+    modal.onDidDismiss(data => {
+      this.refreshMensagens();
+    });
+    modal.present();
+  }
 
 }

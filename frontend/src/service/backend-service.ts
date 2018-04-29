@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DadosLoginInterface, DadosApostaInterface, DadosAtualizarApostaInterface } from './interfaces';
+import { DadosLoginInterface, DadosApostaInterface, DadosAtualizarApostaInterface, DadosEnviarMensagemInterface } from './interfaces';
 
 
 
@@ -68,5 +68,11 @@ export class BackendService {
         let atualizaApostaUrl = this.urlBase+'atualizaAposta.asp';
 
         return this.http.post(atualizaApostaUrl,dados);
+    }
+
+    public enviarMensagem(dados:DadosEnviarMensagemInterface){
+        let enviaMensagemUrl = this.urlBase+'enviaMensagem.asp';
+
+        return this.http.post(enviaMensagemUrl,dados);
     }
 }

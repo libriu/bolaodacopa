@@ -1,4 +1,4 @@
-import { ApostadorInterface, DadosApostaInterface } from "./interfaces";
+import { ApostadorInterface, DadosApostaInterface, DadosEnviarMensagemInterface } from "./interfaces";
 import { Injectable } from "@angular/core";
 
 @Injectable()
@@ -48,6 +48,16 @@ export class LoginService {
             arg0:this.apostadorLogado.cod_Apostador,
             arg1:this.secret
         }
+        return dados;
+    }
+
+    public getDadosEnviarMensagem(mensagem:string) : DadosEnviarMensagemInterface {
+        let dados : DadosEnviarMensagemInterface = {
+            arg0:this.apostadorLogado.cod_Apostador,
+            arg1:this.secret,
+            mensagem:mensagem
+        }
+
         return dados;
     }
 
