@@ -16,7 +16,7 @@
   </ion-header>
   
   <ion-content padding>
-    <ion-searchbar placeholder="Filtrar Nome" (ionInput)="getListaRankingFiltrada($event)"></ion-searchbar>
+    <ion-searchbar placeholder="Filtrar Nome" (ionInput)="getListaRankingFiltrada($event)" id="filtroApostador"></ion-searchbar>
     <ion-list>
         <ion-item *ngFor="let itemRanking of listaRanking">
             <!--<ion-avatar item-start>

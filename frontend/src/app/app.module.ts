@@ -18,6 +18,7 @@ import { RegrasPage } from '../pages/regras/regras';
 import { LoginPage } from '../pages/login/login';
 import { DetalheUsuarioPopoverPage } from '../popovers/detalhe-usuario/detalhe-usuario';
 import { ApostasService } from '../service/apostas-service';
+import { AtualizaApostaPage } from '../pages/atualiza-aposta/atualiza-aposta';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ApostasService } from '../service/apostas-service';
     DetalheApostadorPopoverPage,
     DetalheUsuarioPopoverPage,
     RegrasPage,
-    LoginPage
+    LoginPage,
+    AtualizaApostaPage
   ],
   imports: [
     BrowserModule,
@@ -46,7 +48,8 @@ import { ApostasService } from '../service/apostas-service';
     DetalheApostadorPopoverPage,
     DetalheUsuarioPopoverPage,
     RegrasPage,
-    LoginPage
+    LoginPage,
+    AtualizaApostaPage
   ],
   providers: [
     StatusBar,

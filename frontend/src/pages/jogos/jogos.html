@@ -53,8 +53,8 @@
                 <div *ngIf="isLogado()">
                   {{getDescApostaUsuario(itemJogo)}}
                   <br/>
-                  <button ion-button outline icon-right small *ngIf="podeApostar(itemJogo)">
-                    Atualizar aposta
+                  <button ion-button outline icon-right small (click)="abreJogoParaAtualizar(itemJogo)" *ngIf="podeApostar(itemJogo)">
+                    Atualizar Aposta
                     <ion-icon name="create"></ion-icon>                    
                   </button>
                 </div>

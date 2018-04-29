@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-title>
+        Atualizar Aposta
+      </ion-title>
+      <ion-buttons start>
+        <button ion-button (click)="close()">
+          <span ion-text color="primary">Cancela</span>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    
+    <ion-list>
+        <ion-list-header class="autor-mensagem">Jogo {{itemJogo.cod_Jogo}}. {{itemJogo.data_jogo}} {{itemJogo.hora_jogo}} {{getDescJogo()}}</ion-list-header>
+        <ion-item>
+          <ion-avatar item-start>
+            <img [src]="getPathImgBandeira(itemJogo.arq_time_1)"><br/>
+          </ion-avatar>
+          <ion-label floating>Placar {{itemJogo.time1}}</ion-label>
+          <ion-input type="number" value="" [(ngModel)]="placar1" required id="p1"></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-avatar item-start>
+            <img [src]="getPathImgBandeira(itemJogo.arq_time_2)"><br/>
+          </ion-avatar>
+          <ion-label floating>Placar {{itemJogo.time2}}</ion-label>
+          <ion-input type="number" value="" [(ngModel)]="placar2" required id="p2"></ion-input>
+        </ion-item>
+  
+      </ion-list>
+  
+      <div padding>
+        <button ion-button color="secondary" block (click)="gravarAposta()">Gravar</button>
+      </div>
+  
+  </ion-content>

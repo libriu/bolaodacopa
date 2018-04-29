@@ -5,8 +5,7 @@
       </ion-title>
       <ion-buttons start>
         <button ion-button (click)="dismiss()">
-          <span ion-text color="primary" showWhen="ios">Cancela</span>
-          <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+          <span ion-text color="primary">Cancela</span>
         </button>
       </ion-buttons>
     </ion-toolbar>
@@ -18,12 +17,12 @@
 
         <ion-item>
           <ion-label floating>Nome do Apostador</ion-label>
-          <ion-input type="text" value="" [(ngModel)]="nome" required></ion-input>
+          <ion-input type="text" value="" [(ngModel)]="nome" required id="username"></ion-input>
         </ion-item>
   
         <ion-item>
           <ion-label floating>Senha</ion-label>
-          <ion-input type="password" value="" [(ngModel)]="senha" required></ion-input>
+          <ion-input type="password" value="" [(ngModel)]="senha" required id="password"></ion-input>
         </ion-item>
   
       </ion-list>

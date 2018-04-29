@@ -3,6 +3,7 @@ import { BackendService } from "./backend-service";
 
 export class ApostasService {
     listaApostasUsuario : Array<ApostasInterface>;
+    jogoParaAtualizar : JogosInterface;
 
     constructor (
         public backend: BackendService
@@ -83,6 +84,14 @@ export class ApostasService {
         } else {
             return ("Seus pontos no jogo: 0");
         }
+    }
+
+    public setJogoParaAtualizar(itemJogo : JogosInterface){
+        this.jogoParaAtualizar = itemJogo;
+    }
+
+    public getJogoParaAtualizar() : JogosInterface{
+        return this.jogoParaAtualizar;
     }
     
   

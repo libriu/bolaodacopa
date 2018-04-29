@@ -5,6 +5,8 @@ import { BackendService } from '../../service/backend-service';
 import { LoginService } from '../../service/login-service';
 import { GenericPage } from '../generic-page';
 import { ApostasService } from '../../service/apostas-service';
+import { AtualizaApostaPage } from '../atualiza-aposta/atualiza-aposta';
+
 
 @Component({
   selector: 'page-jogos',
@@ -88,6 +90,13 @@ export class JogosPage extends GenericPage{
 
   public getPontuacaoUsuario(cod_jogo : number) : string{
     return this.apostas.getPontuacaoUsuario(cod_jogo);
+  }
+
+  public abreJogoParaAtualizar(itemJogo : JogosInterface){
+    this.apostas.setJogoParaAtualizar(itemJogo);
+  
+    let modal = this.modalCtrl.create(AtualizaApostaPage);
+    modal.present();
   }
 
 }
