@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="online.bolaodacopa" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Bolão da Copa 2018</name>
+    <description>App do Bolão da Copa dos Amigos</description>
+    <author email="bolaodacopa2018.online@gmail.com" href="http://bolaodacopa2018.online/">Time do Bolão da Copa</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <preference name="ScrollEnabled" value="false" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="BackupWebStorage" value="none" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="FadeSplashScreenDuration" value="300" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <preference name="SplashScreen" value="assets/imgs/splash.png" />
+    <preference name="SplashScreenDelay" value="1500" />
+    <platform name="browser">
+        <preference name="SplashScreen" value="assets/imgs/splash.png" />
+    </platform>
+    <plugin name="cordova-plugin-whitelist" spec="1.3.3" />
+    <plugin name="cordova-plugin-device" spec="2.0.2" />
+    <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
+    <plugin name="cordova-plugin-ionic-webview" spec="1.1.19" />
+    <plugin name="cordova-plugin-ionic-keyboard" spec="2.0.5" />
+    <engine name="browser" spec="5.0.3" />
+</widget>

@@ -19,6 +19,7 @@ import { LoginPage } from '../pages/login/login';
 import { DetalheUsuarioPopoverPage } from '../popovers/detalhe-usuario/detalhe-usuario';
 import { ApostasService } from '../service/apostas-service';
 import { AtualizaApostaPage } from '../pages/atualiza-aposta/atualiza-aposta';
+import { EnviaMensagemPage } from '../pages/envia-mensagem/envia-mensagem';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AtualizaApostaPage } from '../pages/atualiza-aposta/atualiza-aposta';
     DetalheUsuarioPopoverPage,
     RegrasPage,
     LoginPage,
-    AtualizaApostaPage
+    AtualizaApostaPage,
+    EnviaMensagemPage
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,8 @@ import { AtualizaApostaPage } from '../pages/atualiza-aposta/atualiza-aposta';
     DetalheUsuarioPopoverPage,
     RegrasPage,
     LoginPage,
-    AtualizaApostaPage
+    AtualizaApostaPage,
+    EnviaMensagemPage
   ],
   providers: [
     StatusBar,
