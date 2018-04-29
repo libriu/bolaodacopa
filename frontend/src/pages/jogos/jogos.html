@@ -1,14 +1,20 @@
 <ion-header>
     <ion-navbar>
-            <button ion-button menuToggle>
-                    <ion-icon name="menu"></ion-icon>
-                </button>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
       <ion-title>
         Jogos
       </ion-title>
       <ion-buttons end>
+        <button ion-button icon-right (click)="abreLogin()" *ngIf="!isLogado()">
+          <ion-icon name="person"></ion-icon>
+        </button>
+        <button ion-button icon-right (click)="popoverUsuario($event)" *ngIf="isLogado()">
+          <ion-icon name="happy"></ion-icon>
+        </button>
         <button ion-button icon-only clear (click)="refreshJogos()">
-            <ion-icon name="refresh"></ion-icon>
+          <ion-icon name="refresh"></ion-icon>
         </button>
       </ion-buttons>
     </ion-navbar>

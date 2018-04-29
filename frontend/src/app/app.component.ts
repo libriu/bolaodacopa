@@ -41,4 +41,8 @@ export class BolaoDaCopa {
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
+
+  public abrirSiteCompleto(){
+    document.location.assign('http://bolaodacopa2018.online/');
+  }
 }
