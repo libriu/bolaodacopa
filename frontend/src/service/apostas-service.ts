@@ -1,6 +1,8 @@
 import { ApostasInterface, DadosApostaInterface, JogosInterface } from "./interfaces";
 import { BackendService } from "./backend-service";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class ApostasService {
     listaApostasUsuario : Array<ApostasInterface>;
     jogoParaAtualizar : JogosInterface;

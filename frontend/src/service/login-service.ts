@@ -1,5 +1,7 @@
 import { ApostadorInterface, DadosApostaInterface } from "./interfaces";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class LoginService {
 
     apostadorLogado : ApostadorInterface = null;
