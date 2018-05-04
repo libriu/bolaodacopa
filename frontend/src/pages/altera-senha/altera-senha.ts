@@ -8,16 +8,16 @@ import { DadosLoginInterface, RetornoLoginInterface } from '../../service/interf
 import * as CryptoJS from 'crypto-js';
 import { LoginService } from '../../service/login-service';
 import { ApostasService } from '../../service/apostas-service';
-import { ModalController } from 'ionic-angular/components/modal/modal-controller';
-import { AlteraSenhaPage } from '../altera-senha/altera-senha';
 
 @Component({
-  templateUrl: 'login.html'
+  templateUrl: 'altera-senha.html'
 })
-export class LoginPage {
+export class AlteraSenhaPage {
 
     public nome : string;
-    public senha: string;
+    public senhaAtual: string;
+    public novaSenha: string;
+    public confirmeNovaSenha: string;
     
     constructor(
         public platform: Platform,
@@ -26,13 +26,25 @@ export class LoginPage {
         public backend: BackendService,
         public loginService:LoginService,
         private toastCtrl: ToastController,
-        public apostasService: ApostasService,
-        public modalCtrl: ModalController
+        public apostasService: ApostasService
     ) {
 
     }
 
-    public entrar(){
+    public alterarSenha(){
+
+        if (this.nome == null || this.nome == "" ||
+            this.senhaAtual == null || this.senhaAtual == "" ||
+            this.novaSenha == null || this.novaSenha == "" ||
+            this.confirmeNovaSenha == null || this.confirmeNovaSenha == ""){
+            this.toastErro("Favor preencher todos os campos!");
+        } else if (this.novaSenha != this.confirmeNovaSenha) {
+            this.toastErro("Confirmação de senha não confere!");
+        } else {
+            this.toastSucesso("ok!");
+        }
+
+        /*
         let secret=CryptoJS.SHA512(this.senha).toString();
         let dadosLogin : DadosLoginInterface = {
             arg0 :this.nome,
@@ -42,9 +54,9 @@ export class LoginPage {
         this.backend.fazerLogin(dadosLogin).subscribe(
             data => this.retornoLogin(data["data"],secret),
             //error => this.retornoLogin({indSucesso:0,mensagem:error.message},secret)
-            //error => this.retornoLogin({"apostador":{"cod_Apostador":37,"nome":"Andre Muniz"},"indSucesso":1,"mensagem":"Login realizado com sucesso!"},secret)
-            error => this.retornoLogin({"indSucesso":2,"mensagem":"Favor alterar sua senha!"},secret)
+            error => this.retornoLogin({"apostador":{"cod_Apostador":37,"nome":"Andre Muniz"},"indSucesso":1,"mensagem":"Login realizado com sucesso!"},secret)
         );
+        */
     }
 
     retornoLogin(data,secret){
@@ -54,11 +66,6 @@ export class LoginPage {
             this.loginService.setApostadorLogado(dadosRetorno.apostador,secret);
             this.apostasService.recuperaApostasUsuario(this.loginService.getDadosAposta());
             this.toastSucesso(dadosRetorno.mensagem);
-            this.dismiss();
-        } else if (dadosRetorno.indSucesso == 2) {            
-            this.toastErro(dadosRetorno.mensagem);
-            let modal = this.modalCtrl.create(AlteraSenhaPage);
-            modal.present();
             this.dismiss();
         } else {
             this.loginService.limpaApostadorLogado();

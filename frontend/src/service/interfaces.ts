@@ -10,3 +10,4 @@ export interface DadosAtualizarApostaInterface{arg0:number,arg1:string,cod_jogo:
 export interface RetornoAtualizarApostaInterface {indSucesso:number,mensagem:string}
 export interface DadosEnviarMensagemInterface{arg0:number,arg1:string,mensagem:string}
 export interface RetornoEnviarMensagemInterface {indSucesso:number,mensagem:string}
+export interface DadosAlterarSenhaInterface {arg0:string,arg1:string,arg2:string}

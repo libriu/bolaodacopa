@@ -20,6 +20,7 @@ import { DetalheUsuarioPopoverPage } from '../popovers/detalhe-usuario/detalhe-u
 import { ApostasService } from '../service/apostas-service';
 import { AtualizaApostaPage } from '../pages/atualiza-aposta/atualiza-aposta';
 import { EnviaMensagemPage } from '../pages/envia-mensagem/envia-mensagem';
+import { AlteraSenhaPage } from '../pages/altera-senha/altera-senha';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { EnviaMensagemPage } from '../pages/envia-mensagem/envia-mensagem';
     RegrasPage,
     LoginPage,
     AtualizaApostaPage,
-    EnviaMensagemPage
+    EnviaMensagemPage,
+    AlteraSenhaPage
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,8 @@ import { EnviaMensagemPage } from '../pages/envia-mensagem/envia-mensagem';
     RegrasPage,
     LoginPage,
     AtualizaApostaPage,
-    EnviaMensagemPage
+    EnviaMensagemPage,
+    AlteraSenhaPage
   ],
   providers: [
     StatusBar,
