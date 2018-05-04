@@ -14,15 +14,16 @@ export class BolaoDaCopa {
 
   rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any, tipo: string}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Inicio', component: HomePage },
-      { title: 'Regras do Jogo', component: RegrasPage }
+      { title: 'Inicio', component: HomePage, tipo : "page" },
+      { title: 'Regras do Jogo', component: RegrasPage, tipo : "page" },
+      { title: 'Site Completo', component: "http://bolaodacopa2018.online/", tipo : "link" }
     ];
 
   }
@@ -39,7 +40,10 @@ export class BolaoDaCopa {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    if (page.tipo == "page")
+      this.nav.setRoot(page.component);
+    else if (page.tipo=="link")
+      document.location.assign(page.component);
   }
 
   public abrirSiteCompleto(){
