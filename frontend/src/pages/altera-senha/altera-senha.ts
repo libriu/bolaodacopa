@@ -4,7 +4,7 @@ import { ToastController } from 'ionic-angular';
 
 import { Platform, NavParams, ViewController } from 'ionic-angular';
 import { BackendService } from '../../service/backend-service';
-import { DadosLoginInterface, RetornoLoginInterface } from '../../service/interfaces';
+import { RetornoLoginInterface, DadosAlterarSenhaInterface } from '../../service/interfaces';
 import * as CryptoJS from 'crypto-js';
 import { LoginService } from '../../service/login-service';
 import { ApostasService } from '../../service/apostas-service';
@@ -41,22 +41,19 @@ export class AlteraSenhaPage {
         } else if (this.novaSenha != this.confirmeNovaSenha) {
             this.toastErro("Confirmação de senha não confere!");
         } else {
-            this.toastSucesso("ok!");
+            let secret=CryptoJS.SHA512(this.senhaAtual).toString();
+            let dadosAlteraSenha : DadosAlterarSenhaInterface = {
+                arg0 :this.nome,
+                arg1:secret,
+                arg2:this.novaSenha
+            };       
+
+            this.backend.alterarSenha(dadosAlteraSenha).subscribe(
+                data => this.retornoLogin(data["data"],secret),
+                error => this.retornoLogin({indSucesso:0,mensagem:error.message},secret)
+                //error => this.retornoLogin({"apostador":{"cod_Apostador":37,"nome":"Andre Muniz"},"indSucesso":1,"mensagem":"Login realizado com sucesso!"},secret)
+            );
         }
-
-        /*
-        let secret=CryptoJS.SHA512(this.senha).toString();
-        let dadosLogin : DadosLoginInterface = {
-            arg0 :this.nome,
-            arg1:secret
-        };       
-
-        this.backend.fazerLogin(dadosLogin).subscribe(
-            data => this.retornoLogin(data["data"],secret),
-            //error => this.retornoLogin({indSucesso:0,mensagem:error.message},secret)
-            error => this.retornoLogin({"apostador":{"cod_Apostador":37,"nome":"Andre Muniz"},"indSucesso":1,"mensagem":"Login realizado com sucesso!"},secret)
-        );
-        */
     }
 
     retornoLogin(data,secret){
@@ -97,9 +94,7 @@ export class AlteraSenhaPage {
           closeButtonText:'OK'
         });
        
-        toast.present();
-      
+        toast.present();      
     }
-
 
 }

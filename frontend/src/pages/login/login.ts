@@ -41,9 +41,9 @@ export class LoginPage {
 
         this.backend.fazerLogin(dadosLogin).subscribe(
             data => this.retornoLogin(data["data"],secret),
-            //error => this.retornoLogin({indSucesso:0,mensagem:error.message},secret)
+            error => this.retornoLogin({indSucesso:0,mensagem:error.message},secret)
             //error => this.retornoLogin({"apostador":{"cod_Apostador":37,"nome":"Andre Muniz"},"indSucesso":1,"mensagem":"Login realizado com sucesso!"},secret)
-            error => this.retornoLogin({"indSucesso":2,"mensagem":"Favor alterar sua senha!"},secret)
+            //error => this.retornoLogin({"indSucesso":2,"mensagem":"Favor alterar sua senha!"},secret)
         );
     }
 
