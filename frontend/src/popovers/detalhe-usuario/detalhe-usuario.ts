@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 import { LoginService } from '../../service/login-service';
 import { ApostasService } from '../../service/apostas-service';
+import { AlteraSenhaPage } from '../../pages/altera-senha/altera-senha';
+import { ModalController } from 'ionic-angular/components/modal/modal-controller';
 
 @Component({
   selector: 'popover-detalhe-usuario',
@@ -12,7 +14,8 @@ export class DetalheUsuarioPopoverPage {
   constructor(
     public viewCtrl: ViewController, 
     public loginService:LoginService,
-    public apostasService:ApostasService
+    public apostasService:ApostasService,
+    public modalCtrl:ModalController
   ) {
       this.nomeUsuario=loginService.getNomeApostadorLogado();
   }
@@ -25,6 +28,12 @@ export class DetalheUsuarioPopoverPage {
 
   close() {
     this.viewCtrl.dismiss();
+  }
+
+  abreAlteraSenha(){
+    let modal = this.modalCtrl.create(AlteraSenhaPage);
+    modal.present();
+    this.close();
   }
 
 
