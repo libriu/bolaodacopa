@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, PopoverController, AlertController  } from 'ionic-angular';
+import { NavController, PopoverController, AlertController,LoadingController  } from 'ionic-angular';
 import { BackendService } from '../../service/backend-service';
 import { RankingInterface } from '../../service/interfaces';
 import { DetalheApostadorPopoverPage } from '../../popovers/detalhe-apostador/detalhe-apostador';
@@ -23,14 +23,22 @@ export class RankingPrincipalPage extends GenericPage {
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
+    public loadingCtrl: LoadingController, 
     public loginService : LoginService
   ) {
     
     super(modalCtrl,popoverCtrl,loginService);
 
+    let loading = this.loadingCtrl.create({
+      content: 'Carregando...'
+    });
+    loading.present();
+
     backend.obterRanking().subscribe(
       data => this.setListaRanking(data["data"])
     );
+
+    loading.dismiss();
     
   }
 
