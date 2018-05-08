@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController,PopoverController,ModalController } from 'ionic-angular';
+import { NavController,PopoverController,ModalController,LoadingController } from 'ionic-angular';
 import { JogosInterface } from '../../service/interfaces';
 import { BackendService } from '../../service/backend-service';
 import { LoginService } from '../../service/login-service';
@@ -25,6 +25,7 @@ export class JogosPage extends GenericPage{
     public navCtrl: NavController, 
     public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
+    public loadingCtrl: LoadingController, 
     public backend: BackendService, 
     login: LoginService,
     public apostas: ApostasService
@@ -32,7 +33,14 @@ export class JogosPage extends GenericPage{
 
     super(modalCtrl,popoverCtrl,login);
     
+    let loading = this.loadingCtrl.create({
+      content: 'Carregando...'
+    });
+    loading.present();
+
     this.buscarJogos();
+
+    loading.dismiss();
   }
 
   private buscarJogos(){
