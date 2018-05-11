@@ -16,6 +16,7 @@ export class RankingPrincipalPage extends GenericPage {
     listaRankingOriginal: Array<RankingInterface>;
 
     teste: String;
+    loading: ModalController;
 
   constructor(
     public navCtrl: NavController, 
