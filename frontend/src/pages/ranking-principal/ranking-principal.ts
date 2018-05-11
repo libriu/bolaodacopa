@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, PopoverController, AlertController,LoadingController  } from 'ionic-angular';
+import { NavController, PopoverController, AlertController,LoadingController, Loading  } from 'ionic-angular';
 import { BackendService } from '../../service/backend-service';
 import { RankingInterface } from '../../service/interfaces';
 import { DetalheApostadorPopoverPage } from '../../popovers/detalhe-apostador/detalhe-apostador';
@@ -15,8 +15,8 @@ export class RankingPrincipalPage extends GenericPage {
     listaRanking: Array<RankingInterface>;
     listaRankingOriginal: Array<RankingInterface>;
 
-    teste: String;
-    loading: ModalController;
+    public teste: String;
+    public loading: Loading;
 
   constructor(
     public navCtrl: NavController, 
@@ -30,17 +30,15 @@ export class RankingPrincipalPage extends GenericPage {
     
     super(modalCtrl,popoverCtrl,loginService);
 
-    let loading = this.loadingCtrl.create({
-      content: 'Carregando...'
-    });
-    loading.present();
+
+    this.showLoading();
 
     backend.obterRanking().subscribe(
       data => this.setListaRanking(data["data"])
     );
 
-    loading.dismiss();
-    
+    this.hideLoading();
+   
   }
 
   setListaRanking(data : any){
@@ -83,6 +81,22 @@ export class RankingPrincipalPage extends GenericPage {
 
   public getTeste(){
     return this.teste;
+  }
+
+  public showLoading() {
+
+    this.loading = this.loadingCtrl.create({
+      content: 'Carregando...'
+    });
+    this.loading.present();
+    
+  }
+
+
+  public hideLoading() {
+
+    this.loading.dismiss();
+
   }
 
 }
