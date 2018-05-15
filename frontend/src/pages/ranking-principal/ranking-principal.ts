@@ -10,7 +10,7 @@ import { LoginService } from '../../service/login-service';
 @Component({
   selector: 'page-ranking-principal',
   templateUrl: 'ranking-principal.html'
-})
+  })
 export class RankingPrincipalPage extends GenericPage {
     listaRanking: Array<RankingInterface>;
     listaRankingOriginal: Array<RankingInterface>;
@@ -37,7 +37,7 @@ export class RankingPrincipalPage extends GenericPage {
       data => this.setListaRanking(data["data"])
     );
 
-    this.hideLoading();
+//    this.hideLoading();
    
   }
 
@@ -89,13 +89,18 @@ export class RankingPrincipalPage extends GenericPage {
       content: 'Carregando...'
     });
     this.loading.present();
-    
-  }
 
+  }
 
   public hideLoading() {
 
     this.loading.dismiss();
+
+  }
+
+  ionViewDidLoad() {
+
+    this.hideLoading();
 
   }
 
