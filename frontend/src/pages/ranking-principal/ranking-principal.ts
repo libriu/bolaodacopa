@@ -98,10 +98,4 @@ export class RankingPrincipalPage extends GenericPage {
 
   }
 
-  ionViewDidLoad() {
-
-    this.hideLoading();
-
-  }
-
 }
