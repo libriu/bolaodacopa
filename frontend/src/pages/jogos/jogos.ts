@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController,PopoverController,ModalController,LoadingController } from 'ionic-angular';
+import { NavController,PopoverController,ModalController,LoadingController,Loading } from 'ionic-angular';
 import { JogosInterface } from '../../service/interfaces';
 import { BackendService } from '../../service/backend-service';
 import { LoginService } from '../../service/login-service';
@@ -20,6 +20,7 @@ export class JogosPage extends GenericPage{
   listaJogosAnteriores : any;
   imgBasePath : string = "assets/imgs/bandeiras/";
   codApostadorLogado : number;
+  public loading: Loading;
 
   constructor(
     public navCtrl: NavController, 
@@ -33,14 +34,10 @@ export class JogosPage extends GenericPage{
 
     super(modalCtrl,popoverCtrl,login);
     
-    let loading = this.loadingCtrl.create({
-      content: 'Carregando...'
-    });
-    loading.present();
+    this.showLoading();
 
     this.buscarJogos();
 
-    loading.dismiss();
   }
 
   private buscarJogos(){
@@ -106,5 +103,23 @@ export class JogosPage extends GenericPage{
     let modal = this.modalCtrl.create(AtualizaApostaPage);
     modal.present();
   }
+
+  public showLoading() {
+
+    this.loading = this.loadingCtrl.create({
+      content: 'Carregando...',
+      duration: 3000
+    });
+    this.loading.present();
+
+  }
+
+  public hideLoading() {
+
+    this.loading.dismiss();
+
+  }
+
+
 
 }

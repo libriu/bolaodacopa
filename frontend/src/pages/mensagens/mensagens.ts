@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController,LoadingController, Loading } from 'ionic-angular';
 import { MensagensInterface } from '../../service/interfaces';
 import { BackendService } from '../../service/backend-service';
 import { GenericPage } from '../generic-page';
@@ -16,16 +16,20 @@ export class MensagensPage extends GenericPage {
     
   listaMensagens : Array<MensagensInterface> = [];
   pagina : number = 0;
+  public loading: Loading;
   
   constructor(
     public navCtrl: NavController, 
     public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
+    public loadingCtrl: LoadingController, 
     public backend: BackendService, 
-    public login: LoginService,
+    public login: LoginService
   ) {
 
     super(modalCtrl,popoverCtrl,login);
+
+    this.showLoading();
 
     this.backend = backend;
 
@@ -66,6 +70,8 @@ export class MensagensPage extends GenericPage {
       console.log('Async operation has ended');
       infiniteScroll.complete();
     }, 500);
+    this.showLoading();
+
   }
 
   public abreEnvioMensagem(){
@@ -75,5 +81,23 @@ export class MensagensPage extends GenericPage {
     });
     modal.present();
   }
+
+  public showLoading() {
+
+    this.loading = this.loadingCtrl.create({
+      content: 'Carregando...',
+      duration: 1000
+    });
+    this.loading.present();
+
+  }
+
+  public hideLoading() {
+
+    this.loading.dismiss();
+
+  }
+
+
 
 }
