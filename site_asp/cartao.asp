@@ -31,15 +31,39 @@
 </head>
 
 
+<body bgcolor="#FFFFFF" text="#000000">
+
 <table width="80%" align="center">
 <tr> 
-<td width="20%" aling="lef"><center><img src="Imagens/logo_copa.jpg" width="80" height="80"></center></td>
-<td width="60%" aling="center"><center><img src="Imagens/logo.jpg" width="328" height="80"></center></td>
-<td width="20%" aling="right"><center>&nbsp;<a href="cadastro"><img src="Imagens/aposta.gif"></a></center><br>
-<center>&nbsp;<a href="regras.asp"><img src="Imagens/regras.jpg"></a></center></td>
+<%
+     if DateAdd("h", FusoHorario, now) >= DateAdd("d",-1,DataInicioCopaFormatado) then
+
+%>
+
+<td width="15%" aling="lef"><center><a href="/app"><img src="Imagens/app.jpg"></a></center></td>
+
+<%   else %>
+
+
+<td width="15%" aling="lef"><center>&nbsp;<a href="cadastro/precadastro.asp"><img src="Imagens/preinscricao.gif" width="100" height="45"></a><br></center>
+<center>&nbsp;<a href="http://bolaodacopa2018.online/app"><img src="Imagens/app.jpg"></a></center>
+</td>
+
+
+<% end if %>
+
+<td width="15%" aling="lef"><center><img src="Imagens/logo_copa.jpg" width="80" height="80"></center></td>
+<td width="40%" aling="center"><center><img src="Imagens/logo.jpg" width="328" height="80"></center></td>
+<td width="15%" aling="right"><center>&nbsp;<a href="index.asp"><img src="Imagens/Ranking_Principal_link.jpg"></a><br></center>
+<center>&nbsp;<a href="rankingacertos.asp"><img src="Imagens/Ranking_Acertos_link.jpg"></a><br></center>
+<center>&nbsp;<a href="rankingGrupos.asp"><img src="Imagens/Ranking_Grupos_link.jpg"></a></center></td>
+<td width="15%" aling="right"><center>&nbsp;<a href="cadastro"><img src="Imagens/aposta.gif"></a><br></center>
+<center>&nbsp;<a href="regras.asp"><img src="Imagens/regras.jpg"></a><br></center>
+<center>&nbsp;<a href="estatistica.asp"><img src="Imagens/estatisticas.jpg"></a></center></td>
 </tr>
 </table>
-<body bgcolor="#FFFFFF" text="#000000">
+
+
 <table class="Bolao" width="80%" border="0" cellspacing="2" cellpadding="2" align="center">
   <tr>
     <th colspan="9" height="24">CART&Atilde;O DE APOSTAS - <%= request("nome") %> | <%= day(DateAdd("h", FusoHorario, now)) & "/" & month(DateAdd("h",  FusoHorario, now)) & "/" & year(DateAdd("h",  FusoHorario, now)) & " - " & hour(DateAdd("h",  FusoHorario, now)) & ":" & minute(DateAdd("h",  FusoHorario, now)) & ":" & second(DateAdd("h",  FusoHorario, now)) %></th>

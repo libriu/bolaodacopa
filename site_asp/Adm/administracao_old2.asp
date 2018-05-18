@@ -26,9 +26,13 @@
          ConnStrMySQL  = "Driver={MySQL ODBC 3.51 Driver};Server=50.62.209.75;Database=bolaodacopa2018;uid=bolaodacopa;pwd=Brasil2018;option=3"
 
 
+
+  if DateAdd("h", FusoHorario, now) >= cdate(DataInicioCopaFormatado) then
+    response.write ("Período ativiação de cadastrado já ultrapassado!!!<br>")
+    response.write ("<A href=""../index.asp"">Clique aqui para retornar</a>")
+  else
+
 %>
-
-
 
 
 <%
@@ -243,129 +247,291 @@ End Function
 %>
 
 
-
-
-
-
-
-<%
-
-  dim mensagem
-  mensagem = ""
-  if request("btnLogin") <> empty then
-
-         Set conx = Server.CreateObject("ADODB.Connection")
-         conx.Open ConnStrMySQL 
-
-	
-	sql = "SELECT * FROM Apostadores WHERE nome = '" & request("login") & "' and Apostadores.Ativo"	
-
-	set rs = Server.CreateObject("ADODB.Recordset")
-	rs.Open sql, conx     
-	
-    if rs.eof then
-      mensagem = "Nome do Apostador inválido."
-    else
-      if rs("email") = "."  or rs("email") = "" then
-        mensagem = "Apostador sem e-mail cadastrado. Entre em contato com o administrador."
-      else
-
-       Dim strResultado
-       strResultado = EnviaEmail("Bolao da Copa do Mundo 2018", "bolaodacopa2018.online@gmail.com", request("login"), rs("email"), "", "", "TEXTO", "Bolao da Copa do Mundo 2018 - Senha", request("login") & ", sua senha é " & rs("senha_apostador"))
-
-
-'        Dim msg
-'        Set msg = Server.CreateObject("CDONTS.NewMail")
-'        msg.From = "piures@uol.com.br"
-'        msg.To = rs("email")
-'        msg.Subject = "Senha - Bolão Copa do Mundo no Brasil 2014"
-'        msg.Body = request("login") & ", sua senha é " & rs("senha_apostador")
-'        msg.Send
-'        Set msg = Nothing
-
-         if strResultado =  "OK" then   
-            mensagem = "Senha enviada com sucesso para " & rs("email")
-        else
-            mensagem = "O envio da senha não deu certo. Favor enviar esta mensagem ao administrador " & strResultado
-        end if
-      end if
-    end if
-    rs.close
-    set rs = nothing
-    conx.close
-	Set conx = Nothing
-'  else
- '   session.abandon
-  end if %>
+
+
+
+
 <script language="JavaScript">
 <!--
 function retornar() {
- window.location="index.asp"
+ window.location="../index.asp"
  }
 //-->
 </script>
+
+<%
+
+ if Session("manut") = empty then
+    response.write ("Usuário não autorizado!!!<br>")
+    response.write ("<A href=""../index.asp"">Clique aqui para retornar</a>")
+ else 
+
+    Set conx = Server.CreateObject("ADODB.Connection")
+    conx.Open ConnStrMySQL 
+
+	
+    sql = "Select * from Apostadores where nome = '" & session("usuario") & "'"
+
+    set rs_usuario = Server.CreateObject("ADODB.Recordset")
+
+    rs_usuario.Open sql, conx 
+
+
+    if request("btnIncluir") <> empty then
+ 
+       todo_check = split(request("check"),",")
+
+       qtde = 0
+
+       if rs_usuario("acesso_gestao_total") = 0 then
+
+          usuario_responsavel = rs_usuario("nome")
+
+       else
+
+
+          sql = "Select * from Apostadores where cod_Apostador = " & request("cmbAtualizar")
+
+          set rs2 = Server.CreateObject("ADODB.Recordset")
+
+          rs2.Open sql, conx 
+
+          usuario_responsavel = rs2("nome")
+
+          rs2.Close 
+          Set rs2 = Nothing
+
+
+       end if
+
+       strResultado = ""
+       erroemail = 0
+
+       set rs3 = Server.CreateObject("ADODB.Recordset")
+
+
+       for contador = lbound(todo_check) to ubound(todo_check)
+
+'
+          sql = "UPDATE Apostadores set Ativo = 1, Pago = 1, controle_inclusao = '" & usuario_responsavel & "' WHERE cod_Apostador = " & todo_check(contador)
+          conx.execute(sql)
+
+         qtde = qtde + 1
+
+         sql = "Select * from Apostadores where cod_Apostador = " & todo_check(contador)
+
+         rs3.Open sql, conx 
+
+         strResultado = EnviaEmail("Bolao da Copa do Mundo 2018", "bolaodacopa2018.online@gmail.com", rs3("nome"), rs3("email"), "", "", "TEXTO", "Bolao da Copa do Mundo 2018 - Ativação de Usuário", "Usuário do bolão ativado. Usuario: " & rs3("nome") & " - Senha: " & rs3("senha_apostador") & " - www.bolaodacopa2018.online")
+
+         if strResultado = "OK" then   
+           strResultado = ""
+         else
+           erroemail = 1
+         end if
+
+         rs3.Close 
+ 
+       next 
+
+         Set rs3 = Nothing
+
+       Mensagem = qtde & " apostador(es) ativado(s) com sucesso sob a responsabilidade de " & usuario_responsavel 
+
+       if erroemail = 1 then
+         Mensagem = Mensagem & " - Não foi possível enviar algum(ns) email(s) de confirmação"
+       end if
+
+    end if
+
+
+%>
+
+
 <html>
 <head>
-<title><%=TituloPagina%> - Solicitação de Senha</title>
 <META HTTP-EQUIV="Expires" CONTENT="0">
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<title><%=TituloPagina%> - Inclusão de Apostadores</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" href="../Comuns/styles.css" type="text/css">
 </head>
 <body bgcolor="#FFFFFF" text="#000000">
 
-<table width="80%" align="center">
-<tr> 
-<%
-     if DateAdd("h", FusoHorario, now) >= DateAdd("d",-1,DataInicioCopaFormatado) then
+
+<div class="mensagem">
+  <% response.write Mensagem & "<BR>" %>
+</div>
+<BR>
+
+<form name="formInclusao" method="post" action="administracao.asp">
+  <table class="Bolao" width="70%" border="0" cellspacing="2" cellpadding="2" align="center">
+    <tr>
+      <th colspan="7" height="24">ATIVACAO DE APOSTADORES | <%= day(DateAdd("h", FusoHorario, now)) & "/" & month(DateAdd("h",  FusoHorario, now)) & "/" & year(DateAdd("h",  FusoHorario, now)) & " - " & hour(DateAdd("h",  FusoHorario, now)) & ":" & minute(DateAdd("h",  FusoHorario, now)) & ":" & second(DateAdd("h",  FusoHorario, now)) %>
+      </th>
+    </tr>
+    <tr>
+      <th colspan="2" >USUÁRIO LOGADO :
+      </th>
+      <th colspan="5" align="left"><%=rs_usuario("nome")%>
+      </th>
+    </tr>
+    <tr>
+      <th colspan="2" >USUÁRIO RESPONSÁVEL PELO FINANCEIRO:
+      </th>
+
+      <th colspan="5" align="left">
+
+
+<% 
+  
+  if rs_usuario("acesso_gestao_total") = 0 then
 
 %>
 
-<td width="15%" aling="lef"><center><a href="/app"><img src="../Imagens/app.jpg"></a></center></td>
+    <%=rs_usuario("nome")%>
 
-<%   else %>
+<%
+
+  else 
+
+%>
+
+    <select name="cmbAtualizar">
+
+
+<%
+
+  sql = "Select * from Apostadores where acesso_ativacao = 1 order by nome"
+
+  set rs1 = Server.CreateObject("ADODB.Recordset")
+
+  rs1.Open sql, conx 
+
+  While not rs1.EOF
+
+ %>
+     <option value="<%= rs1("cod_Apostador")%>" 
+
+<%
+     if rs_usuario("nome") = rs1("nome") then
+       response.write " selected>"
+     else
+       response.write ">"
+     end if
+     response.write (rs1("nome") & "</option>")
+
+
+     rs1.MoveNext
 
 
-<td width="15%" aling="lef"><center>&nbsp;<a href="precadastro.asp"><img src="../Imagens/preinscricao.gif" width="100" height="45"></a><br></center>
-<center>&nbsp;<a href="http://bolaodacopa2018.online/app"><img src="../Imagens/app.jpg"></a></center>
-</td>
+
+  wend
+ 
+
+  rs1.Close 
+  Set rs1 = Nothing
+
+%> 
+
+  </select>
 
 
-<% end if %>
+<%
 
-<td width="15%" aling="lef"><center><img src="../Imagens/logo_copa.jpg" width="80" height="80"></center></td>
-<td width="40%" aling="center"><center><img src="../Imagens/logo.jpg" width="328" height="80"></center></td>
-<td width="15%" aling="right"><center>&nbsp;<a href="../index.asp"><img src="../Imagens/Ranking_Principal_link.jpg"></a><br></center>
-<center>&nbsp;<a href="../rankingacertos.asp"><img src="../Imagens/Ranking_Acertos_link.jpg"></a><br></center>
-<center>&nbsp;<a href="../rankingGrupos.asp"><img src="../Imagens/Ranking_Grupos_link.jpg"></a></center></td>
-<td width="15%" aling="right"><center>&nbsp;<a href="../cadastro"><img src="../Imagens/aposta.gif"></a><br></center>
-<center>&nbsp;<a href="../regras.asp"><img src="../Imagens/regras.jpg"></a><br></center>
-<center>&nbsp;<a href="../estatistica.asp"><img src="../Imagens/estatisticas.jpg"></a></center></td>
-</tr>
-</table>
+  end if
+
+%>
+
+
+      </th>
+
+    </tr>
+
+
+  </table>
 
 <br>
-<div class="mensagem"><%=mensagem%>
-</div>
 <br>
-<form name="formCadastro" method="post" action="solicita_senha.asp">
-<table class="Bolao" width="70%" border="0" cellspacing="2" cellpadding="2" align="center">
+
+
+
+
+<table width="50%" border="0" cellspacing="2" cellpadding="2" align="center" class="Bolao">
   <tr>
-    <th colspan="2" height="24">SOLICITAÇÃO DE SENHA | <%= day(DateAdd("h", FusoHorario, now)) & "/" & month(DateAdd("h",  FusoHorario, now)) & "/" & year(DateAdd("h",  FusoHorario, now)) & " - " & hour(DateAdd("h",  FusoHorario, now)) & ":" & minute(DateAdd("h",  FusoHorario, now)) & ":" & second(DateAdd("h",  FusoHorario, now)) %></th>
+    <th colspan="70">APOSTADORES PRE-CADASTRADOS - SELECIONE OS QUE DEVEM SER ATIVADOS SOB RESPONSABILIDADE DO USUÁRIO ACIMA</th>
   </tr>
   <tr>
-    <td><div align="left">&nbsp;Nome do Apostador</div></td>
-    <td><div align="left">&nbsp;<input type="text" name="login" size="50"></div></td>
-  </tr>
+    <td class="Titulo" width="10%">Selecione</td>
+    <td class="Titulo" width="20%">Nome</td>
+    <td class="Titulo" width="20%">Contato</td>
+   </tr>
+  <%
+     intLinha = 0
+
+     sql =		 "   SELECT * FROM Apostadores"
+	 sql = sql & "	  WHERE Apostadores.Ativo = 0"
+	 sql = sql & " ORDER BY Apostadores.nome"
+
+
+     set rs = Server.CreateObject("ADODB.Recordset")
+
+     rs.Open sql, conx 
+
+     while not rs.eof
+		
+                intLinha = intLinha + 1  
+                
+	if intLinha mod 2 = 0 then
+%>			<tr class="LinhaPar">
+<%	else %>
+			<tr class="LinhaImpar">
+<%	end if %>
+
+		<td width="10%"> <input type="checkbox" name="check" value="<%=rs("cod_Apostador")%>"> </td>
+
+       <td  width="20%"><%= rs("nome") %></td>
+       <td  width="20%"><%= rs("Contato") %></td>
+<%
+       rs.MoveNext
+    wend
+%>
 </table>
+
+
+<%
+  
+  ' Fechar os objetos Recordsets 
+  rs.Close
+  rs_usuario.Close
+   
+  ' Eliminar os objetos Recordsets 
+  Set rs = Nothing 
+  Set rs_usuario = Nothing 
+  ' Fechar o objeto da conexÃ£o 
+  conx.Close 
+ 
+ ' Eliminar o objeto da conexÃ£o 
+  Set conx = Nothing 
+
+%>
+
 <br>
-<div align="center">
-  <input type="submit" name="btnLogin" value="Solicitar" class="botao">&nbsp;&nbsp;&nbsp;&nbsp;
-  <input type="submit" name="btnVoltar" value="Retornar" class="botao" onClick="retornar();return false;">
-</div>
-</form>
+  <div align="center">
+    <input type="submit" name="btnIncluir" value="Atualizar" class="botao">&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="submit" name="btnVoltar" value="Retornar" class="botao" onClick="retornar();return false;">
+  </div>
 <p>&nbsp;</p>
-<div align="center" class="texto">Se você esqueceu a sua senha, solicite por meio desta página que ela será enviada para o e-mail cadastrado.</div>
+
+
+</form>
+
 </body>
 </html>
+<%
+	
+end if
+
+%>
+<% end if %>

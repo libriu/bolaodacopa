@@ -3,9 +3,9 @@
 <%
     Response.LCID = 1046 ' Brazilian LCID (use your locale code here).
 
-    On Error Resume Next
+'    On Error Resume Next
 
-    ' função para converter array de bytes em string
+    ' funï¿½ï¿½o para converter array de bytes em string
     Function BytesToStr(bytes)
         Dim Stream
         Set Stream = Server.CreateObject("Adodb.Stream")
@@ -22,7 +22,7 @@
         Set Stream = Nothing
     End Function
 
-    ' realizando leitura do body da requisição post
+    ' realizando leitura do body da requisiï¿½ï¿½o post
     lngBytesCount = 0
     jsonString = ""
 
@@ -101,7 +101,7 @@
                 JSONdata.Add "mensagem","Senha alterada com sucesso!"
             else
                 JSONdata.Add "indSucesso",0
-                JSONdata.Add "mensagem","Não foi possível alterar a senha."
+                JSONdata.Add "mensagem","Nï¿½o foi possï¿½vel alterar a senha."
             End If
 
         else
@@ -123,7 +123,7 @@
     ' resultSet.Close
     Set resultSet = Nothing 
   
-    ' Fechar e eliminar o objeto da conexão
+    ' Fechar e eliminar o objeto da conexï¿½o
     Set cmd = Nothing
     conx.Close
     Set conx = Nothing
@@ -137,6 +137,6 @@
         JSON.Write()
         Response.End 
     End If
-    On Error GoTo 0
+'    On Error GoTo 0
 
 %>

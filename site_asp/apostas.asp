@@ -40,7 +40,6 @@
 
 <body bgcolor="#FFFFFF" text="#000000">
 
-
 <table width="80%" align="center">
 <tr> 
 <%
@@ -48,17 +47,19 @@
 
 %>
 
-<td width="30%" aling="lef"><center><img src="Imagens/logo_copa.jpg" width="80" height="80"></center></td>
+<td width="15%" aling="lef"><center><a href="/app"><img src="Imagens/app.jpg"></a></center></td>
 
 <%   else %>
 
 
-<td width="15%" aling="lef"><center><a href="cadastro/precadastro.asp"><img src="Imagens/preinscricao.gif" width="80" height="50"></a></center></td>
-<td width="15%" aling="lef"><center><img src="Imagens/logo_copa.jpg" width="80" height="80"></center></td>
+<td width="15%" aling="lef"><center>&nbsp;<a href="cadastro/precadastro.asp"><img src="Imagens/preinscricao.gif" width="100" height="45"></a><br></center>
+<center>&nbsp;<a href="http://bolaodacopa2018.online/app"><img src="Imagens/app.jpg"></a></center>
+</td>
+
 
 <% end if %>
 
-
+<td width="15%" aling="lef"><center><img src="Imagens/logo_copa.jpg" width="80" height="80"></center></td>
 <td width="40%" aling="center"><center><img src="Imagens/logo.jpg" width="328" height="80"></center></td>
 <td width="15%" aling="right"><center>&nbsp;<a href="index.asp"><img src="Imagens/Ranking_Principal_link.jpg"></a><br></center>
 <center>&nbsp;<a href="rankingacertos.asp"><img src="Imagens/Ranking_Acertos_link.jpg"></a><br></center>
