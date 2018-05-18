@@ -1,46 +1,4 @@
-<%
-
-
-   FusoHorario = 4
-   FormatoData = "Americano"
-   TituloPagina = "Bol?o da Copa do Mundo 2018"
-   DataInicioCopa = "14/06/2018"
-
-
-   if FormatoData = "Americano" then
-     DataInicioCopaFormatado = Mid(DataInicioCopa,4,2) & "/" & left(DataInicioCopa,2) & "/" & mid(DataInicioCopa,7,4)
-   else
-     DataInicioCopaFormatado = DataInicioCopa
-   end if
-
-
-
-    'Abrindo Conexão mySQL - Forma usada em 2010
-
-'         ConnStrMySQL  = "Driver={MySQL ODBC 3.51 Driver};Server=localhost;Database=bolaodacopa2013;uid=bolaodacopa;pwd=Brasil;option=3"
-
-
-
-
-
-    'Abrindo Conexão mySQL - Forma usada em 2013
-
-'         ConnStrMySQL  = "Driver={MySQL ODBC 3.51 Driver};Server=mysql.bolaodacopa.unositehospedagem.com.br;Database=bolaodacopa;uid=bolaodacopa;pwd=vasco97;option=3"
-
-
-
-    'Abrindo Conexão mySQL - Forma usada em 2018
-
-         ConnStrMySQL  = "Driver={MySQL ODBC 3.51 Driver};Server=50.62.209.75;Database=bolaodacopa2018;uid=bolaodacopa;pwd=Brasil2018;option=3"
-
-
-
-%>
-
-
-
-
-
+<!--#include virtual="/comuns/configuracoes.asp"--> 
 <%
 
   dim mensagem
@@ -53,7 +11,7 @@
 
     if request("login") = "" then 
 
-      mensagem = "Nome do apostador n?o foi informado!"
+      mensagem = "Nome do apostador não foi informado!"
       preencher = 1
 
     else
@@ -73,7 +31,7 @@
           else
             if request("senha_nova") <> request("senha_nova2")  then
 
-              mensagem = "A nova senha tem que ser igual a confirma??o da senha nova!"   
+              mensagem = "A nova senha tem que ser igual a confirmação da senha nova!"   
               preencher = 1
   
             else
@@ -90,7 +48,7 @@
   
 	  			    if rs.eof then
 
-                mensagem = "Nome do Apostador inv?lido."
+                mensagem = "Nome do Apostador inváido."
                 preencher = 1
 
               else
@@ -158,68 +116,9 @@ function retornar() {
 
 <head>
 
-<title><%=TituloPagina%> - Altera??o de Senha</title>
+<title><%=TituloPagina%> - Alteração de Senha</title>
 
-<META HTTP-EQUIV="Expires" CONTENT="0">
-
-<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
-
-<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-
-<link rel="stylesheet" href="../Comuns/styles.css" type="text/css">
-
-</head>
-
-<body bgcolor="#FFFFFF" text="#000000">
-
-
-<table width="80%" align="center">
-
-<tr> 
-
-<%
-     if DateAdd("h", FusoHorario, now) >= DateAdd("d",-1,DataInicioCopaFormatado) then
-
-%>
-
-<td width="15%" aling="lef"><center><a href="/app"><img src="../Imagens/app.jpg"></a></center></td>
-
-
-<%   else %>
-
-
-<td width="15%" aling="lef"><center>&nbsp;<a href="precadastro.asp"><img src="../Imagens/preinscricao.gif" width="100" height="45"></a><br></center>
-<center>&nbsp;<a href="http://bolaodacopa2018.online/app"><img src="../Imagens/app.jpg"></a></center>
-
-</td>
-
-
-
-<% end if %>
-
-<td width="15%" aling="lef"><center><img src="../Imagens/logo_copa.jpg" width="80" height="80"></center></td>
-
-<td width="40%" aling="center"><center><img src="../Imagens/logo.jpg" width="328" height="80"></center></td>
-
-<td width="15%" aling="right"><center>&nbsp;<a href="../index.asp"><img src="../Imagens/Ranking_Principal_link.jpg"></a><br></center>
-
-<center>&nbsp;<a href="../rankingacertos.asp"><img src="../Imagens/Ranking_Acertos_link.jpg"></a><br></center>
-
-<center>&nbsp;<a href="../rankingGrupos.asp"><img src="../Imagens/Ranking_Grupos_link.jpg"></a></center></td>
-
-<td width="15%" aling="right"><center>&nbsp;<a href="../cadastro"><img src="../Imagens/aposta.gif"></a><br></center>
-
-<center>&nbsp;<a href="../regras.asp"><img src="../Imagens/regras.jpg"></a><br></center>
-
-<center>&nbsp;<a href="../estatistica.asp"><img src="../Imagens/estatisticas.jpg"></a></center></td>
-
-</tr>
-
-</table>
-
-
+<!--#include virtual="/comuns/menu.asp"--> 
 
 <br>
 
@@ -235,7 +134,7 @@ function retornar() {
 
   <tr>
 
-    <th colspan="2" height="24">ALTERA??O DE SENHA | <%= day(DateAdd("h", FusoHorario, now)) & "/" & month(DateAdd("h",  FusoHorario, now)) & "/" & year(DateAdd("h",  FusoHorario, now)) & " - " & hour(DateAdd("h",  FusoHorario, now)) & ":" & minute(DateAdd("h",  FusoHorario, now)) & ":" & second(DateAdd("h",  FusoHorario, now)) %></th>
+    <th colspan="2" height="24">ALTERAÇÃO DE SENHA | <%= day(DateAdd("h", FusoHorario, now)) & "/" & month(DateAdd("h",  FusoHorario, now)) & "/" & year(DateAdd("h",  FusoHorario, now)) & " - " & hour(DateAdd("h",  FusoHorario, now)) & ":" & minute(DateAdd("h",  FusoHorario, now)) & ":" & second(DateAdd("h",  FusoHorario, now)) %></th>
 
   </tr>
 
@@ -269,7 +168,7 @@ function retornar() {
 
   <tr>
 
-    <td><div align="left">&nbsp;Confirma??o da Nova Senha</div></td>
+    <td><div align="left">&nbsp;Confirmação da Nova Senha</div></td>
 
     <td><div align="left">&nbsp;<input type="password" name="senha_nova2" size="20" value="<%=request("senha_nova2")%>"></div></td>
 
@@ -303,7 +202,7 @@ function retornar() {
 
 <tr>
 
-  <td><div align="left">&nbsp;Confirma??o da Nova Senha</div></td>
+  <td><div align="left">&nbsp;Confirmação da Nova Senha</div></td>
 
   <td><div align="left">&nbsp;<input type="password" name="senha_nova2" size="20"> </div></td>
 
@@ -342,11 +241,11 @@ function retornar() {
 
 
 
-<div align="center" class="texto">Formul?rio para altera??o de senha</div>
+<div align="center" class="texto">Formulário para alteração de senha</div>
 
 <div align="center" class="texto">  </div>
 
-<div align="center" class="mensagem">No primeiro acesso voc? precisa alterar sua senha</div>
+<div align="center" class="mensagem">No primeiro acesso você precisa alterar sua senha</div>
 
 
 
