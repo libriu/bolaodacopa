@@ -3,7 +3,7 @@
 <%
     Response.LCID = 1046 ' Brazilian LCID (use your locale code here).
 
-'    On Error Resume Next
+    On Error Resume Next
 
     ' fun��o para converter array de bytes em string
     Function BytesToStr(bytes)
@@ -137,6 +137,6 @@
         JSON.Write()
         Response.End 
     End If
-'    On Error GoTo 0
+    On Error GoTo 0
 
 %>
