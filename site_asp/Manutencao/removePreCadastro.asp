@@ -309,11 +309,15 @@ function retornar() {
 
        set rs3 = Server.CreateObject("ADODB.Recordset")
 
-
        for contador = lbound(todo_check) to ubound(todo_check)
 
-'
-          sql = "UPDATE Apostadores set Ativo = 1, Pago = 1, controle_inclusao = '" & usuario_responsavel & "' WHERE cod_Apostador = " & todo_check(contador)
+
+          if request("contato_" & trim(todo_check(contador))) = "" then
+            sql = "UPDATE Apostadores set Ativo = 1, Pago = 1, controle_inclusao = '" & usuario_responsavel & "' WHERE cod_Apostador = " & todo_check(contador)
+          else
+            sql = "UPDATE Apostadores set Ativo = 1, Pago = 1, controle_inclusao = '" & usuario_responsavel & "', contato = '" & request("contato_" & trim(todo_check(contador))) & "' WHERE cod_Apostador = " & todo_check(contador)
+          end if
+
           conx.execute(sql)
 
          qtde = qtde + 1
@@ -492,7 +496,10 @@ function retornar() {
 		<td width="10%"> <input type="checkbox" name="check" value="<%=rs("cod_Apostador")%>"> </td>
 
        <td  width="20%"><%= rs("nome") %></td>
-       <td  width="20%"><%= rs("Contato") %></td>
+       <td  width="20%">
+           <input type="text" name="contato_<%=rs("cod_Apostador")%>" maxlength="50" size="50" value="<%=rs("contato")%>">&nbsp;&nbsp;&nbsp; 
+       </td>
+
 <%
        rs.MoveNext
     wend

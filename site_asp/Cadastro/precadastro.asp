@@ -1,41 +1,4 @@
-<%
-
-
-   FusoHorario = 4
-   FormatoData = "Americano"
-   TituloPagina = "Bolão da Copa do Mundo 2018"
-   DataInicioCopa = "14/06/2018"
-
-
-   if FormatoData = "Americano" then
-     DataInicioCopaFormatado = Mid(DataInicioCopa,4,2) & "/" & left(DataInicioCopa,2) & "/" & mid(DataInicioCopa,7,4)
-   else
-     DataInicioCopaFormatado = DataInicioCopa
-   end if
-
-
-
-    'Abrindo Conexï¿½o mySQL - Forma usada em 2010
-
-'         ConnStrMySQL  = "Driver={MySQL ODBC 3.51 Driver};Server=localhost;Database=bolaodacopa2013;uid=bolaodacopa;pwd=Brasil;option=3"
-
-
-
-
-
-    'Abrindo Conexï¿½o mySQL - Forma usada em 2013
-
-'         ConnStrMySQL  = "Driver={MySQL ODBC 3.51 Driver};Server=mysql.bolaodacopa.unositehospedagem.com.br;Database=bolaodacopa;uid=bolaodacopa;pwd=vasco97;option=3"
-
-
-
-    'Abrindo Conexï¿½o mySQL - Forma usada em 2018
-
-         ConnStrMySQL  = "Driver={MySQL ODBC 3.51 Driver};Server=50.62.209.75;Database=bolaodacopa2018;uid=bolaodacopa;pwd=Brasil2018;option=3"
-
-
-
-%>
+<!--#include virtual="/comuns/configuracoes.asp"--> 
 
   <script language="JavaScript">
 
@@ -54,7 +17,7 @@
 
 <%
   if DateAdd("h", FusoHorario, now) >= DateAdd("d",-1,DataInicioCopaFormatado) then
-    response.write ("Período de Pré-cadastrado já ultrapassado!!!<br>")
+    response.write ("Per&iacute;odo de Pr&eacute;-cadastrado j&aacute; ultrapassado!!!<br>")
 
     response.write ("<A href=""../index.asp"">Clique aqui para retornar</a>")
 
@@ -70,67 +33,9 @@
 
 <head>
 
-<META HTTP-EQUIV="Expires" CONTENT="0">
-
-<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
-
-<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-
-<title><%=TituloPagina%> - Pré-Cadastro</title>
-
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-
-<link rel="stylesheet" href="../Comuns/styles.css" type="text/css">
-
-</head>
-
-<body bgcolor="#FFFFFF" text="#000000">
-
-
-<table width="80%" align="center">
-
-<tr> 
-
-<%
-     if DateAdd("h", FusoHorario, now) >= DateAdd("d",-1,DataInicioCopaFormatado) then
-
-%>
-
-<td width="15%" aling="lef"><center><a href="/app"><img src="../Imagens/app.jpg"></a></center></td>
-
-
-<%   else %>
-
-
-<td width="15%" aling="lef"><center>&nbsp;<a href="precadastro.asp"><img src="../Imagens/preinscricao.gif" width="100" height="45"></a><br></center>
-<center>&nbsp;<a href="http://bolaodacopa2018.online/app"><img src="../Imagens/app.jpg"></a></center>
-
-</td>
-
-
-
-<% end if %>
-
-<td width="15%" aling="lef"><center><img src="../Imagens/logo_copa.jpg" width="80" height="80"></center></td>
-
-<td width="40%" aling="center"><center><img src="../Imagens/logo.jpg" width="328" height="80"></center></td>
-
-<td width="15%" aling="right"><center>&nbsp;<a href="../index.asp"><img src="../Imagens/Ranking_Principal_link.jpg"></a><br></center>
-
-<center>&nbsp;<a href="../rankingacertos.asp"><img src="../Imagens/Ranking_Acertos_link.jpg"></a><br></center>
-
-<center>&nbsp;<a href="../rankingGrupos.asp"><img src="../Imagens/Ranking_Grupos_link.jpg"></a></center></td>
-
-<td width="15%" aling="right"><center>&nbsp;<a href="../cadastro"><img src="../Imagens/aposta.gif"></a><br></center>
-
-<center>&nbsp;<a href="../regras.asp"><img src="../Imagens/regras.jpg"></a><br></center>
-
-<center>&nbsp;<a href="../estatistica.asp"><img src="../Imagens/estatisticas.jpg"></a></center></td>
-
-</tr>
-
-</table>
-
+<title><%=TituloPagina%> - Pr&eacute;-Cadastro</title>
+  
+<!--#include virtual="/comuns/menu.asp"--> 
 
 
 <%
@@ -153,14 +58,14 @@
 
     if not rs.eof then
 
-		  Mensagem = "Apostador já existente. Utilize outro nome!"
+		  Mensagem = "Apostador j&aacute; existente. Utilize outro nome!"
       preencher = 1
     
     else
 
       if request("nome") = "" or request("senha") = "" or request("senha2") = "" or request("contato") = "" or request("email") = "" or request("cidade") = "" then
 
-        Mensagem = "Os campos Nome, Senha, Contato, E-mail e Cidade são obrigatórios para inclusão!"
+        Mensagem = "Os campos Nome, Senha, Contato, E-mail e Cidade s&atilde;o obrigat&oacute;rios para inclus&atilde;o!"
 
         preencher = 1
 
@@ -197,7 +102,7 @@
 
 	        conx.execute(sql)
 
-  	      Mensagem = "Apostador incluído com sucesso! Agora envie o comprovante de pagamento para que seu cadastro seja ativado."
+  	      Mensagem = "Apostador inclu&iacute;do com sucesso! Agora envie o comprovante de pagamento para que seu cadastro seja ativado."
  
         end if
         
@@ -226,7 +131,7 @@
 
     <tr>
 
-      <th colspan="8" height="24">PRÉ-CADASTRO DE APOSTADORES
+      <th colspan="8" height="24">PR&Eacute;-CADASTRO DE APOSTADORES
 
       </th>
 
@@ -234,7 +139,7 @@
 
     <tr>
 
-      <th colspan="3" >NOME DO USUÁRIO (NOME QUE APARECERÁ NO RANKING):
+      <th colspan="3" >NOME DO USU&Aacute;RIO (NOME QUE APARECER&Aacute; NO RANKING):
 
       </th>
 
@@ -272,7 +177,7 @@
 
     <tr>
 
-      <th colspan="3" >CONFIRMAÇÃO DE SENHA:
+      <th colspan="3" >CONFIRMA&Ccedil;&Atilde;O DE SENHA:
 
       </th>
 
@@ -383,7 +288,7 @@
 
   <tr>
 
-    <th colspan="7" height="24">INFOMAÇÕES SOBRE O PRÉ-CADASTRO</th>
+    <th colspan="7" height="24">INFOMA&Ccedil;&Otilde;ES SOBRE O PR&Eacute;-CADASTRO</th>
 
   </tr>
 
@@ -393,10 +298,10 @@
 
       <div align="left">
 
-        <p>O pré-cadastro é fase essencial para que se efetive o cadastro no Bolão On-line 2018. </p>
+        <p>O pr&eacute;-cadastro &eacute; fase essencial para que se efetive o cadastro no Bol&atilde;o On-line 2018. </p>
 
-        <p>Após realizar o seu pré-cadastro, faça a transfência para uma das contas disponíveis (<a href="../imagens/ContasCorrentes.jpg">clique aqui para visualizar</a>) e envie o comprovante de transferência por email (bolaodacopa2018.online@gmail.com), por whats app para os coordenadores (André Muniz, Helson, Luis Angelo ou Piures) ou para o colaborador que o indicou.</p>
-        <p>Após a confirmação do pagamento, o usuário será liberado, você sendo comunicado por email preferencialmente. Por esta razão, o cadastro de email (assim como do celular) é fundamental.</p>
+        <p>Ap&oacute;s realizar o seu pr&eacute;-cadastro, fa&ccedil;a a transf&ecirc;ncia para uma das contas dispon&iacute;veis (<a href="../imagens/ContasCorrentes.jpg">clique aqui para visualizar</a>) e envie o comprovante de transfer&ecirc;ncia por email (bolaodacopa2018.online@gmail.com), por whats app para os coordenadores (Andr&eacute; Muniz, Helson, Luis Angelo ou Piures) ou para o colaborador que o indicou.</p>
+        <p>Ap&oacute;s a confirma&ccedil;&atilde;o do pagamento, o usu&aacute;rio ser&aacute; liberado, voc&ecirc; sendo comunicado por email preferencialmente. Por esta raz&atilde;o, o cadastro de email (assim como do celular) &eacute; fundamental.</p>
 
       </div>
 

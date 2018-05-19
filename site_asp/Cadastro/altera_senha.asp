@@ -11,7 +11,7 @@
 
     if request("login") = "" then 
 
-      mensagem = "Nome do apostador não foi informado!"
+      mensagem = "Nome do apostador n&atilde;o foi informado!"
       preencher = 1
 
     else
@@ -31,7 +31,7 @@
           else
             if request("senha_nova") <> request("senha_nova2")  then
 
-              mensagem = "A nova senha tem que ser igual a confirmação da senha nova!"   
+              mensagem = "A nova senha tem que ser igual a confirma&ccedil;&atilde;o da senha nova!"   
               preencher = 1
   
             else
@@ -48,7 +48,7 @@
   
 	  			    if rs.eof then
 
-                mensagem = "Nome do Apostador inváido."
+                mensagem = "Nome do Apostador inv&aacute;lido."
                 preencher = 1
 
               else
@@ -61,7 +61,7 @@
 
                 if rs1.eof then
 
-                  mensagem = "Senha atual digitada não confere!"
+                  mensagem = "Senha atual digitada n&atilde;o confere!"
                   preencher = 1
 
                 else  
@@ -116,7 +116,7 @@ function retornar() {
 
 <head>
 
-<title><%=TituloPagina%> - Alteração de Senha</title>
+<title><%=TituloPagina%> - Altera&ccedil;&atilde;o de Senha</title>
 
 <!--#include virtual="/comuns/menu.asp"--> 
 
@@ -134,7 +134,7 @@ function retornar() {
 
   <tr>
 
-    <th colspan="2" height="24">ALTERAÇÃO DE SENHA | <%= day(DateAdd("h", FusoHorario, now)) & "/" & month(DateAdd("h",  FusoHorario, now)) & "/" & year(DateAdd("h",  FusoHorario, now)) & " - " & hour(DateAdd("h",  FusoHorario, now)) & ":" & minute(DateAdd("h",  FusoHorario, now)) & ":" & second(DateAdd("h",  FusoHorario, now)) %></th>
+    <th colspan="2" height="24">ALTERA&Ccedil;&Atilde;O DE SENHA | <%= day(DateAdd("h", FusoHorario, now)) & "/" & month(DateAdd("h",  FusoHorario, now)) & "/" & year(DateAdd("h",  FusoHorario, now)) & " - " & hour(DateAdd("h",  FusoHorario, now)) & ":" & minute(DateAdd("h",  FusoHorario, now)) & ":" & second(DateAdd("h",  FusoHorario, now)) %></th>
 
   </tr>
 
@@ -168,7 +168,7 @@ function retornar() {
 
   <tr>
 
-    <td><div align="left">&nbsp;Confirmação da Nova Senha</div></td>
+    <td><div align="left">&nbsp;Confirma&ccedil;&atilde;o da Nova Senha</div></td>
 
     <td><div align="left">&nbsp;<input type="password" name="senha_nova2" size="20" value="<%=request("senha_nova2")%>"></div></td>
 
@@ -202,7 +202,7 @@ function retornar() {
 
 <tr>
 
-  <td><div align="left">&nbsp;Confirmação da Nova Senha</div></td>
+  <td><div align="left">&nbsp;Confirma&ccedil;&atilde;o da Nova Senha</div></td>
 
   <td><div align="left">&nbsp;<input type="password" name="senha_nova2" size="20"> </div></td>
 
@@ -233,25 +233,6 @@ function retornar() {
 </form>
 
 <p>&nbsp;</p>
-
-
-
-
-<%      if preencher = 1 then %>
-
-
-
-<div align="center" class="texto">Formulário para alteração de senha</div>
-
-<div align="center" class="texto">  </div>
-
-<div align="center" class="mensagem">No primeiro acesso você precisa alterar sua senha</div>
-
-
-
-<% end if %>
-
-
 
 </body>
 
