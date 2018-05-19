@@ -71,7 +71,7 @@
 
 		  sql =      "INSERT INTO Apostadores (cod_Apostador, nome, contato, Pago, email, senha_apostador,controle_inclusao,Ativo,Celular,cidade)"
 
-		  sql = sql & " 		    VALUES (" & codApostador & ", '" & request("nome") & "','" & request("contato") & "', 0, '" & request("email") & "','" & request("senha") & "','" & request("controle_inclusao") & "',1,'" & request("celular") & "','" & request("cidade") & "')"
+		  sql = sql & " 		    VALUES (" & codApostador & ", '" & TirarAcento(request("nome")) & "','" & TirarAcento(request("contato")) & "', 0, '" & TirarAcento(request("email")) & "','" & TirarAcento(request("senha")) & "','" & TirarAcento(request("controle_inclusao")) & "',1,'" & request("celular") & "','" & TirarAcento(request("cidade")) & "')"
 
 		  conx.execute(sql)
 
@@ -165,7 +165,7 @@
 
              if  not rs.eof then
 
-			     sql =	 "UPDATE Resultados SET time1 = '" & request("Time_A") & "', time2 = '" & request("Time_B") & "' WHERE cod_Jogo = " & request("cmbJogos")
+			     sql =	 "UPDATE Resultados SET time1 = '" & TirarAcento(request("Time_A")) & "', time2 = '" & TirarAcento(request("Time_B")) & "' WHERE cod_Jogo = " & request("cmbJogos")
 
 			     conx.execute(sql)
 

@@ -87,9 +87,15 @@
 
           rs2.Close
 
+          nomeStr = TirarAcento(request("nome"))
+          contatoStr = TirarAcento(request("contato"))
+          emailStr = TirarAcento(request("email"))
+          senhaStr = TirarAcento(request("senha"))
+          cidadeStr = TirarAcento(request("cidade"))
+
 	        sql =      "INSERT INTO Apostadores (cod_Apostador, nome, contato, Pago, email, Celular, senha_apostador, controle_inclusao, ativo, cidade)"
 
-  	      sql = sql & " 		    VALUES (" & codApostador & ", '" & request("nome") & "','" & request("contato") & "', 0, '" & request("email") & "','" & request("Celular") & "','" & request("nome") & "','" & request("senha") & "',0,'" & request("cidade") & "')"
+  	      sql = sql & " 		    VALUES (" & codApostador & ", '" & nomeStr & "','" & contatoStr & "', 0, '" & emailStr & "','" & request("Celular") & "','" & nomeStr & "','" & senhaStr & "',0,'" & cidadeStr & "')"
 
 	        conx.execute(sql)
 

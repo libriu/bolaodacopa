@@ -66,7 +66,7 @@
 
                 else  
 
-                  sql = "UPDATE Apostadores SET Senha_apostador = '" & request("senha_nova") & "' WHERE nome = '" & request("login") & "'"
+                  sql = "UPDATE Apostadores SET Senha_apostador = '" & TirarAcento(request("senha_nova")) & "' WHERE nome = '" & request("login") & "'"
 
                   conx.execute(sql)
 

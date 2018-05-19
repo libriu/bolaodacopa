@@ -106,7 +106,7 @@
 
 	      sql = sql & " VALUES (" & codInsercao & ", " & codMensagem & ",'" &  day(DateAdd("h", FusoHorario, now)) & "/" & month(DateAdd("h",  FusoHorario, now)) & "/" & year(DateAdd("h",  FusoHorario, now)) & "', '" & hour(DateAdd("h",  FusoHorario, now)) & ":" & minute(DateAdd("h",  FusoHorario, now)) & ":" & second(DateAdd("h",  FusoHorario, now))
 
-                           sql = sql & "', '" & request("mensagem") & "')"
+                           sql = sql & "', '" & TirarAcento(request("mensagem")) & "')"
 
 
 

@@ -109,7 +109,7 @@
 
 
 
-	   sql = sql & " VALUES (" & codGrupo & ", '" & request("nome_novo_grupo") & "'," & rs_usuario("cod_Apostador") & ")"
+	   sql = sql & " VALUES (" & codGrupo & ", '" & TirarAcento(request("nome_novo_grupo")) & "'," & rs_usuario("cod_Apostador") & ")"
 
 
 
