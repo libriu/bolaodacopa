@@ -1,14 +1,8 @@
 <!-- #include file ="jsonObject.class.asp" -->
+<!--#include virtual="/comuns/configuracoes.asp"--> 
 
 <%
-    FusoHorario = 4
-    FormatoData = "Americano"
-    TituloPagina = "Bolão da Copa do Mundo 2018"
     Response.LCID = 1046 ' Brazilian LCID (use your locale code here).
-
-    'Abrindo Conexão mySQL - Forma usada em 2018
-
-    ConnStrMySQL  = "Driver={MySQL ODBC 3.51 Driver};Server=50.62.209.75;Database=bolaodacopa2018;uid=bolaodacopa;pwd=Brasil2018;option=3"
 
     Set conx = Server.CreateObject("ADODB.Connection")
     conx.Open ConnStrMySQL 

@@ -1,4 +1,5 @@
 <!-- #include file ="jsonObject.class.asp" -->
+<!--#include virtual="/comuns/configuracoes.asp"--> 
 
 <%
     Response.LCID = 1046 ' Brazilian LCID (use your locale code here).
@@ -39,12 +40,11 @@
     set JSON = New JSONobject
     set dadosAlteraSenhaObj = JSON.Parse(jsonString)
 
-    nome = dadosAlteraSenhaObj.Value("arg0")
+    nome = TirarAcento(dadosAlteraSenhaObj.Value("arg0"))
     senhaAtual = dadosAlteraSenhaObj.Value("arg1")
-    novaSenha = dadosAlteraSenhaObj.Value("arg2")
+    novaSenha = TirarAcento(dadosAlteraSenhaObj.Value("arg2"))
 
     ' realiza consulta ao banco de dados
-    ConnStrMySQL  = "Driver={MySQL ODBC 3.51 Driver};Server=50.62.209.75;Database=bolaodacopa2018;uid=bolaodacopa;pwd=Brasil2018;option=3"
 
     Set conx = Server.CreateObject("ADODB.Connection")
     conx.Open ConnStrMySQL
@@ -101,7 +101,7 @@
                 JSONdata.Add "mensagem","Senha alterada com sucesso!"
             else
                 JSONdata.Add "indSucesso",0
-                JSONdata.Add "mensagem","N�o foi poss�vel alterar a senha."
+                JSONdata.Add "mensagem","Nao foi possivel alterar a senha."
             End If
 
         else

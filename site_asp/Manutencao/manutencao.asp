@@ -8,7 +8,7 @@
 
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 
-<title>Bolao da Copa do Mundo  - Inclusao de Apostadores</title>
+<title>Bolao da Copa do Mundo</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
@@ -28,12 +28,19 @@
 
 %>
 
-
 <!--#include virtual="/comuns/configuracoes.asp"--> 
 
 
-
 <%
+
+
+         Set conx = Server.CreateObject("ADODB.Connection")
+
+         conx.Open ConnStrMySQL 
+
+
+
+
 
          set rs = Server.CreateObject("ADODB.Recordset")
 
@@ -147,7 +154,7 @@
 
                          else
 
-		             Mensagem = "Jogo nao existe ou resultado ja incluído anteriormente!"
+		             Mensagem = "Jogo nao existe ou resultado ja incluido anteriormente!"
 
 			 end if
 
@@ -213,7 +220,7 @@
 
 				
 
-				acertouPlacar = false ' Incluído em 2014 para controlar o ranking de maior acertador de placares corretos.
+				acertouPlacar = false ' Incluido em 2014 para controlar o ranking de maior acertador de placares corretos.
 
 
 
@@ -287,7 +294,7 @@
 
                               
 
-                            'Atribuindo peso ponderado aos jogos das OITAVAS EM DIANTE | Incluído para a versão de 2013 e 2014
+                            'Atribuindo peso ponderado aos jogos das OITAVAS EM DIANTE | Inclusdo para a versao de 2013 e 2014
 
 
 
@@ -361,7 +368,7 @@
 
 <head>
 
-<title>Bolao da Copa do Mundo - Administracao</title>
+<title>Bolao da Copa do Mundo</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
@@ -724,5 +731,3 @@
 %>
 
  </html>
-
-		

@@ -32,7 +32,7 @@
 
 
 Function TirarAcento(Palavra)
-  CAcento = "?בג?ה?י?כ?םמ??ףפ?צ?ת?ü?ÁÂ?Ä?É?Ë?ÍÎ?ÓÔ?Ö?Ú?ÜחÇ??"
+  CAcento = "אבגדהטיךכלםמןעףפץצשתûüÀÁÂÃÄÈÉÊËÌÍÎÒÓÔÕÖÙÚÛÜחÇסÑ"
   SAcento = "aaaaaeeeeiiiiooooouuuuAAAAAEEEEIIIOOOOOUUUUcCnN"
   Texto = ""
   If Palavra <> "" then

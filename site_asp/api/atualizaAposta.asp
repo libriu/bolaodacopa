@@ -1,4 +1,5 @@
 <!-- #include file ="jsonObject.class.asp" -->
+<!--#include virtual="/comuns/configuracoes.asp"--> 
 
 <%
     Response.LCID = 1046 ' Brazilian LCID (use your locale code here).
@@ -46,7 +47,6 @@
     placar_B = dadosAtualizaObj.Value("placar_B")
 
     ' realiza consulta ao banco de dados
-    ConnStrMySQL  = "Driver={MySQL ODBC 3.51 Driver};Server=50.62.209.75;Database=bolaodacopa2018;uid=bolaodacopa;pwd=Brasil2018;option=3"
 
     Set conx = Server.CreateObject("ADODB.Connection")
     conx.Open ConnStrMySQL
@@ -112,7 +112,7 @@
                     JSONdata.Add "mensagem","Aposta realizada com sucesso!"
                 else
                     JSONdata.Add "indSucesso",0
-                    JSONdata.Add "mensagem","Não foi possível atualizar aposta."
+                    JSONdata.Add "mensagem","Nao foi possivel atualizar aposta."
                 End If                
 
             end if            
