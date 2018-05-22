@@ -10,6 +10,8 @@ import { LoginService } from '../../service/login-service';
 import { ApostasService } from '../../service/apostas-service';
 import { ModalController } from 'ionic-angular/components/modal/modal-controller';
 import { AlteraSenhaPage } from '../altera-senha/altera-senha';
+import { RecuperaSenhaPage } from '../recupera-senha/recupera-senha';
+
 
 @Component({
   templateUrl: 'login.html'
@@ -94,5 +96,10 @@ export class LoginPage {
       
     }
 
+    abreRecuperaSenha(){
+        let modal = this.modalCtrl.create(RecuperaSenhaPage);
+        modal.present();
+      }
+        
 
 }

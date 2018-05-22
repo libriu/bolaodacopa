@@ -219,7 +219,7 @@ End Function
         jsonString = request("json")
     end if
 
-     Response.Write jsonString & "<br>"
+''     Response.Write jsonString & "<br>"
 
     ' Fazendo parse da string json para objeto json
     set JSON = New JSONobject
@@ -251,7 +251,7 @@ End Function
         
         for each item in JSONarr.items
 	        if isObject(item) and typeName(item) = "JSONobject" then
-                JSONdata.Add "apostador", item
+''                JSONdata.Add "apostador", item
                 ativoInt = cint(item.Value("Ativo"))
                 senhaStr = cstr(item.Value("senha_apostador"))        
                 emailStr = cstr(item.Value("email"))        
@@ -290,7 +290,7 @@ End Function
 
     else
         JSONdata.Add "indSucesso",0
-        JSONdata.Add "mensagem","Nome do Apostador incorretos."
+        JSONdata.Add "mensagem","Nome do Apostador incorreto."
     end if
 
     JSON.Add "data", JSONdata   

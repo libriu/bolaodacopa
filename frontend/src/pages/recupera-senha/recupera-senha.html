@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
       <ion-title>
-        Login
+        Recuperar Senha
       </ion-title>
       <ion-buttons start>
         <button ion-button (click)="dismiss()">
@@ -20,20 +20,10 @@
           <ion-input type="text" value="" [(ngModel)]="nome" required id="username"></ion-input>
         </ion-item>
   
-        <ion-item>
-          <ion-label floating>Senha</ion-label>
-          <ion-input type="password" value="" [(ngModel)]="senha" required id="password"></ion-input>
-        </ion-item>
-  
-      </ion-list>
+    </ion-list>
   
       <div padding>
-        <button ion-button color="primary" block (click)="entrar()">Entrar</button>
+        <button ion-button color="primary" block (click)="recuperarSenha()">Recuperar Senha</button>
       </div>
-
-      <div padding>
-        <button ion-button color="primary" block (click)="abreRecuperaSenha()">Recuperar Senha</button>
-      </div>
-    
- 
+  
   </ion-content>

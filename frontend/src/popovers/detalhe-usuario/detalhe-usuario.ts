@@ -3,6 +3,7 @@ import { ViewController } from 'ionic-angular';
 import { LoginService } from '../../service/login-service';
 import { ApostasService } from '../../service/apostas-service';
 import { AlteraSenhaPage } from '../../pages/altera-senha/altera-senha';
+import { RecuperaSenhaPage } from '../../pages/recupera-senha/recupera-senha';
 import { ModalController } from 'ionic-angular/components/modal/modal-controller';
 
 @Component({
@@ -32,6 +33,12 @@ export class DetalheUsuarioPopoverPage {
 
   abreAlteraSenha(){
     let modal = this.modalCtrl.create(AlteraSenhaPage);
+    modal.present();
+    this.close();
+  }
+
+  abreRecuperaSenha(){
+    let modal = this.modalCtrl.create(RecuperaSenhaPage);
     modal.present();
     this.close();
   }

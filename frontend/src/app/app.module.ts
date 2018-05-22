@@ -21,6 +21,7 @@ import { ApostasService } from '../service/apostas-service';
 import { AtualizaApostaPage } from '../pages/atualiza-aposta/atualiza-aposta';
 import { EnviaMensagemPage } from '../pages/envia-mensagem/envia-mensagem';
 import { AlteraSenhaPage } from '../pages/altera-senha/altera-senha';
+import { RecuperaSenhaPage } from '../pages/recupera-senha/recupera-senha';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { AlteraSenhaPage } from '../pages/altera-senha/altera-senha';
     LoginPage,
     AtualizaApostaPage,
     EnviaMensagemPage,
-    AlteraSenhaPage
+    AlteraSenhaPage,
+    RecuperaSenhaPage
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,8 @@ import { AlteraSenhaPage } from '../pages/altera-senha/altera-senha';
     LoginPage,
     AtualizaApostaPage,
     EnviaMensagemPage,
-    AlteraSenhaPage
+    AlteraSenhaPage,
+    RecuperaSenhaPage
   ],
   providers: [
     StatusBar,

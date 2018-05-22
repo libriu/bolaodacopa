@@ -11,3 +11,5 @@ export interface RetornoAtualizarApostaInterface {indSucesso:number,mensagem:str
 export interface DadosEnviarMensagemInterface{arg0:number,arg1:string,mensagem:string}
 export interface RetornoEnviarMensagemInterface {indSucesso:number,mensagem:string}
 export interface DadosAlterarSenhaInterface {arg0:string,arg1:string,arg2:string}
+export interface DadosRecuperarSenhaInterface {arg0:string}
+export interface RetornoRecuperarSenhaInterface {indSucesso:number,mensagem:string}
