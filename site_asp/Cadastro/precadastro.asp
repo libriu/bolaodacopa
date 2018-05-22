@@ -95,7 +95,7 @@
 
 	        sql =      "INSERT INTO Apostadores (cod_Apostador, nome, contato, Pago, email, Celular, senha_apostador, controle_inclusao, ativo, cidade)"
 
-  	      sql = sql & " 		    VALUES (" & codApostador & ", '" & nomeStr & "','" & contatoStr & "', 0, '" & emailStr & "','" & request("Celular") & "','" & nomeStr & "','" & senhaStr & "',0,'" & cidadeStr & "')"
+  	      sql = sql & " 		    VALUES (" & codApostador & ", '" & nomeStr & "','" & contatoStr & "', 0, '" & emailStr & "','" & request("Celular") & "','" & senhaStr & "',' ',0,'" & cidadeStr & "')"
 
 	        conx.execute(sql)
 

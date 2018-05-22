@@ -33,23 +33,37 @@
 <%
 
 
-  Set conx = Server.CreateObject("ADODB.Connection")
+         Set conx = Server.CreateObject("ADODB.Connection")
 
-  conx.Open ConnStrMySQL 
+         conx.Open ConnStrMySQL 
 
-  set rs = Server.CreateObject("ADODB.Recordset")
 
-	sql = "Select distinct email from Apostadores where email <> '.' and email <> '' and ativo"	 
+
+
+
+   set rs = Server.CreateObject("ADODB.Recordset")
+
+		 
+
+	sql = "Select * from Apostadores"
 
    rs.Open sql, conx
 
    while not RS.eof
 
-     if rs("email") <> "" and rs("email") <> "." then
+     cod_apostador = rs("cod_Apostador")
+     nome = TirarAcento(rs("nome"))
+     contato = TirarAcento(rs("contato"))
+     email = TirarAcento(rs("email"))
+     senha_apostador = TirarAcento(rs("senha_apostador"))
+     cidade = TirarAcento(rs("cidade"))
 
-       response.write (rs("email") + ";<br>")
+     sql = "UPDATE Apostadores set nome = '" & nome & "', contato = '" & contato & "', email = '" & email & "', senha_apostador = '" & senha_apostador & "', cidade = '" & cidade & "' where cod_apostador = " & cod_apostador
 
-     end if
+     conx.execute(sql)
+
+
+     response.write (rs("nome") & " = " & nome & " - " & sql & "<br>")
 
      rs.movenext
 
