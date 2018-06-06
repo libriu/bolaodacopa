@@ -87,7 +87,7 @@ export class RankingPrincipalPage extends GenericPage {
 
     this.loading = this.loadingCtrl.create({
       content: 'Carregando...',
-      duration: 5000
+      duration: 7000
     });
     this.loading.present();
 
