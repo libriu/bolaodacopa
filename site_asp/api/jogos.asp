@@ -9,7 +9,7 @@
     Set conx = Server.CreateObject("ADODB.Connection")
     conx.Open ConnStrMySQL 
 
-    sql = "select r.*,COALESCE(p1.Arquivo,'a-definir.png') arq_time_1, COALESCE(p2.Arquivo,'a-definir.png') arq_time_2, datediff(STR_TO_DATE(data_jogo, '%d/%m/%Y'),date_add(CURRENT_TIMESTAMP(),INTERVAL 4 hour)) diff from Resultados r left join ( Pais p1, Pais p2 ) on ( r.time1 = p1.Pais and r.time2 = p2.Pais)"
+    sql = "select r.*,COALESCE(p1.Arquivo,'a-definir.png') arq_time_1, COALESCE(p2.Arquivo,'a-definir.png') arq_time_2, datediff(STR_TO_DATE(data_jogo, '%d/%m/%Y'),date_add(CURRENT_TIMESTAMP(),INTERVAL 4 hour)) diff from Resultados r left join ( Pais p1, Pais p2 ) on ( r.time1 = p1.Pais and r.time2 = p2.Pais) order by r.cod_Jogo"
 
     set resultSet = Server.CreateObject("ADODB.Recordset")
     
