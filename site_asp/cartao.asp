@@ -47,7 +47,7 @@
 
 	 sql = sql & "	    AND Apostas.cod_Aposta = Jogos.cod_Aposta"
 
-	 sql = sql & "	    AND Apostas.cod_Aposta = " & request("cod")
+	 sql = sql & "	    AND Apostas.cod_Aposta = " & SafeSQL(request("cod"))
 
 	 sql = sql & "	    AND Jogos.cod_Jogo = Resultados.cod_Jogo"
 

@@ -48,7 +48,7 @@
           
 
 
-		  sql = "SELECT * FROM Apostadores WHERE nome = '" & request("login") & "';"
+		  sql = "SELECT * FROM Apostadores WHERE nome = '" & SafeSQL(request("login")) & "';"
 
 
           

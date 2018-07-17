@@ -473,7 +473,7 @@ function retornar() {
 
 	
 
-    sql = "Select * from Apostadores where nome = '" & session("usuario") & "'"
+    sql = "Select * from Apostadores where nome = '" & SafeSQL(session("usuario")) & "'"
 
 
 
@@ -502,7 +502,7 @@ function retornar() {
        else
 
 
-          sql = "Select * from Apostadores where cod_Apostador = " & request("cmbAtualizar")
+          sql = "Select * from Apostadores where cod_Apostador = " & SafeSQL(request("cmbAtualizar"))
 
 
           set rs2 = Server.CreateObject("ADODB.Recordset")
@@ -534,9 +534,9 @@ function retornar() {
 
 
           if request("contato_" & trim(todo_check(contador))) = "" then
-            sql = "UPDATE Apostadores set Ativo = 1, Pago = 1, controle_inclusao = '" & usuario_responsavel & "' WHERE cod_Apostador = " & todo_check(contador)
+            sql = "UPDATE Apostadores set Ativo = 1, Pago = 1, controle_inclusao = '" & SafeSQL(usuario_responsavel) & "' WHERE cod_Apostador = " & SafeSQL(todo_check(contador))
           else
-            sql = "UPDATE Apostadores set Ativo = 1, Pago = 1, controle_inclusao = '" & usuario_responsavel & "', contato = '" & request("contato_" & trim(todo_check(contador))) & "' WHERE cod_Apostador = " & todo_check(contador)
+            sql = "UPDATE Apostadores set Ativo = 1, Pago = 1, controle_inclusao = '" & SafeSQL(usuario_responsavel) & "', contato = '" & SafeSQL(request("contato_" & trim(todo_check(contador)))) & "' WHERE cod_Apostador = " & SafeSQL(todo_check(contador))
           end if
 
           conx.execute(sql)
@@ -544,7 +544,7 @@ function retornar() {
 
          qtde = qtde + 1
 
-         sql = "Select * from Apostadores where cod_Apostador = " & todo_check(contador)
+         sql = "Select * from Apostadores where cod_Apostador = " & SafeSQL(todo_check(contador))
 
          rs3.Open sql, conx 
 

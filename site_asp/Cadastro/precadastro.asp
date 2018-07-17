@@ -52,7 +52,7 @@
 
 	if request("btnIncluir") <> empty then
 
-		sql = "SELECT cod_Apostador FROM Apostadores WHERE nome = '" & request("nome") & "'"
+		sql = "SELECT cod_Apostador FROM Apostadores WHERE nome = '" & SafeSQL(request("nome")) & "'"
 
 		rs.Open sql, conx 
 
@@ -95,7 +95,7 @@
 
 	        sql =      "INSERT INTO Apostadores (cod_Apostador, nome, contato, Pago, email, Celular, senha_apostador, controle_inclusao, ativo, cidade)"
 
-  	      sql = sql & " 		    VALUES (" & codApostador & ", '" & nomeStr & "','" & contatoStr & "', 0, '" & emailStr & "','" & request("Celular") & "','" & senhaStr & "',' ',0,'" & cidadeStr & "')"
+  	      sql = sql & " 		    VALUES (" & SafeSQL(codApostador) & ", '" & SafeSQL(nomeStr) & "','" & SafeSQL(contatoStr) & "', 0, '" & SafeSQL(emailStr) & "','" & SafeSQL(request("Celular")) & "','" & SafeSQLSENHA(senhaStr) & "',' ',0,'" & SafeSQL(cidadeStr) & "')"
 
 	        conx.execute(sql)
 
@@ -104,7 +104,7 @@
 
 	        sql = 	 "INSERT INTO Apostas (cod_Aposta, cod_Apostador,Total_Pontos, Total_Acertos)"
 
-	        sql = sql & " 	  VALUES (" & codApostador & ", " & codApostador & ",0,0)"
+	        sql = sql & " 	  VALUES (" & SafeSQL(codApostador) & ", " & SafeSQL(codApostador) & ",0,0)"
 
 	        conx.execute(sql)
 

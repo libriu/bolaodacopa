@@ -32,7 +32,7 @@
 	
 
 
-    sql = "Select * from Apostadores where nome = '" & session("usuario") & "'"
+    sql = "Select * from Apostadores where nome = '" & SafeSQL(session("usuario")) & "'"
 
 
 
@@ -104,9 +104,9 @@
 	      sql = 	  "INSERT INTO Mensagens (cod_Apostador, cod_Mensagem, data_msg, hora_msg, mensagem)"
 
 
-	      sql = sql & " VALUES (" & codInsercao & ", " & codMensagem & ",'" &  day(DateAdd("h", FusoHorario, now)) & "/" & month(DateAdd("h",  FusoHorario, now)) & "/" & year(DateAdd("h",  FusoHorario, now)) & "', '" & hour(DateAdd("h",  FusoHorario, now)) & ":" & minute(DateAdd("h",  FusoHorario, now)) & ":" & second(DateAdd("h",  FusoHorario, now))
+	      sql = sql & " VALUES (" & SafeSQL(codInsercao) & ", " & SafeSQL(codMensagem) & ",'" &  day(DateAdd("h", FusoHorario, now)) & "/" & month(DateAdd("h",  FusoHorario, now)) & "/" & year(DateAdd("h",  FusoHorario, now)) & "', '" & hour(DateAdd("h",  FusoHorario, now)) & ":" & minute(DateAdd("h",  FusoHorario, now)) & ":" & second(DateAdd("h",  FusoHorario, now))
 
-                           sql = sql & "', '" & TirarAcento(request("mensagem")) & "')"
+                           sql = sql & "', '" & SafeSQL(TirarAcento(request("mensagem"))) & "')"
 
 
 

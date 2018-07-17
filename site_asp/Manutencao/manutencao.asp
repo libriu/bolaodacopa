@@ -58,7 +58,7 @@
 
 	if request("btnIncluir") <> empty then
 
-		sql = "SELECT cod_Apostador FROM Apostadores WHERE nome = '" & request("nome") & "'"
+		sql = "SELECT cod_Apostador FROM Apostadores WHERE nome = '" & SafeSQL(request("nome")) & "'"
 
 		rs.Open sql, conx 
 
@@ -78,7 +78,7 @@
 
 		  sql =      "INSERT INTO Apostadores (cod_Apostador, nome, contato, Pago, email, senha_apostador,controle_inclusao,Ativo,Celular,cidade)"
 
-		  sql = sql & " 		    VALUES (" & codApostador & ", '" & TirarAcento(request("nome")) & "','" & TirarAcento(request("contato")) & "', 0, '" & TirarAcento(request("email")) & "','" & TirarAcento(request("senha")) & "','" & TirarAcento(request("controle_inclusao")) & "',1,'" & request("celular") & "','" & TirarAcento(request("cidade")) & "')"
+		  sql = sql & " 		    VALUES (" & codApostador & ", '" & SafeSQL(TirarAcento(request("nome"))) & "','" & SafeSQL(TirarAcento(request("contato"))) & "', 0, '" & SafeSQL(TirarAcento(request("email"))) & "','" & SafeSQL(TirarAcento(request("senha"))) & "','" & SafeSQL(TirarAcento(request("controle_inclusao"))) & "',1,'" & SafeSQL(request("celular")) & "','" & SafeSQL(TirarAcento(request("cidade"))) & "')"
 
 		  conx.execute(sql)
 
@@ -106,7 +106,7 @@
 
 		    'Incluindo um novo resultado
 
-			 sql = "SELECT cod_Jogo FROM Resultados WHERE cod_Jogo = " & request("cmbJogos") & " and Resultados.jaOcorreu = false"
+			 sql = "SELECT cod_Jogo FROM Resultados WHERE cod_Jogo = " & SafeSQL(request("cmbJogos")) & " and Resultados.jaOcorreu = false"
 
 
 
@@ -124,7 +124,7 @@
 
 
 
-			     sql = "UPDATE Resultados SET r_Placar_A = " & request("resultA") & ", r_Placar_B = " & request("resultB") & ", jaOcorreu = 1 WHERE cod_Jogo = " & request("cmbJogos")
+			     sql = "UPDATE Resultados SET r_Placar_A = " & SafeSQL(request("resultA")) & ", r_Placar_B = " & SafeSQL(request("resultB")) & ", jaOcorreu = 1 WHERE cod_Jogo = " & SafeSQL(request("cmbJogos"))
 
 				 conx.execute(sql)
 
@@ -166,13 +166,13 @@
 
 		    'Definindo os jogos do Mata-mata
 
-			 sql = "SELECT cod_Jogo FROM Resultados WHERE cod_Jogo = " & request("cmbJogos")
+			 sql = "SELECT cod_Jogo FROM Resultados WHERE cod_Jogo = " & SafeSQL(request("cmbJogos"))
 
 			 rs.Open sql, conx
 
              if  not rs.eof then
 
-			     sql =	 "UPDATE Resultados SET time1 = '" & TirarAcento(request("Time_A")) & "', time2 = '" & TirarAcento(request("Time_B")) & "' WHERE cod_Jogo = " & request("cmbJogos")
+			     sql =	 "UPDATE Resultados SET time1 = '" & SafeSQL(TirarAcento(request("Time_A"))) & "', time2 = '" & SafeSQL(TirarAcento(request("Time_B"))) & "' WHERE cod_Jogo = " & SafeSQL(request("cmbJogos"))
 
 			     conx.execute(sql)
 
@@ -208,7 +208,7 @@
 
 			sql = sql & "		FROM Apostas, Jogos, Resultados"
 
-			sql = sql & "	       WHERE Resultados.cod_Jogo = Jogos.cod_Jogo and Jogos.cod_Jogo = " & codJogo
+			sql = sql & "	       WHERE Resultados.cod_Jogo = Jogos.cod_Jogo and Jogos.cod_Jogo = " & SafeSQL(codJogo)
 
 
 

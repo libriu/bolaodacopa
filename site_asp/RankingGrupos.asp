@@ -490,7 +490,7 @@ codGrupo = request("btnAtualizar")
 
   sql = sql & " where Grupos.cod_responsavel = Apostadores.cod_apostador and"
 
-  sql = sql & "       Grupos.cod_grupo = " & request("cmbAtualizar")
+  sql = sql & "       Grupos.cod_grupo = " & SafeSQL(request("cmbAtualizar"))
 
 
 
@@ -732,7 +732,7 @@ codGrupo = request("btnAtualizar")
 
  	 sql = sql & "	    and Apostadores.cod_Apostador = Det_Grupos.cod_Apostador"
 
- 	 sql = sql & "	    and Det_Grupos.cod_Grupo = " & intGrupo
+ 	 sql = sql & "	    and Det_Grupos.cod_Grupo = " & SafeSQL(intGrupo)
 
 	 sql = sql & " ORDER BY Apostas.Total_Pontos DESC, Apostadores.nome, Apostas.cod_Aposta "
 

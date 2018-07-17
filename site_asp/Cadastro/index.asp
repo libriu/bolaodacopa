@@ -23,7 +23,7 @@
 
 
 
-    sql = "SELECT * FROM Apostadores WHERE nome = '" & request("login") & "' and senha_apostador = '" & Request("senha") & "' and Apostadores.Ativo"
+    sql = "SELECT * FROM Apostadores WHERE nome = '" & SafeSQL(request("login")) & "' and senha_apostador = '" & SafeSQLSENHA(Request("senha")) & "' and Apostadores.Ativo"
 
    
 
@@ -127,7 +127,7 @@
 
 
 
-     sql = "SELECT * FROM Apostadores WHERE nome = '" & request("login") & "' and senha_apostador = '" & Request("senha") & "' and Apostadores.Ativo"
+     sql = "SELECT * FROM Apostadores WHERE nome = '" & SafeSQL(request("login")) & "' and senha_apostador = '" & SafeSQLSENHA(Request("senha")) & "' and Apostadores.Ativo"
 
 
 
@@ -239,7 +239,7 @@
 
 
 
-     sql = "SELECT * FROM Apostadores WHERE nome = '" & request("login") & "' and senha_apostador = '" & Request("senha") & "' and Apostadores.Ativo"
+     sql = "SELECT * FROM Apostadores WHERE nome = '" & SafeSQL(request("login")) & "' and senha_apostador = '" & SafeSQLSENHA(Request("senha")) & "' and Apostadores.Ativo"
 
 
 

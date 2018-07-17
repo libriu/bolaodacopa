@@ -21,7 +21,7 @@
 
 	
 
-    sql = "Select * from Apostadores where nome = '" & session("usuario") & "'"
+    sql = "Select * from Apostadores where nome = '" & SafeSQL(session("usuario")) & "'"
 
 
 
@@ -49,7 +49,7 @@
 
 
 
-        sql = "SELECT cod_grupo FROM Grupos WHERE nome_grupo = '" & request("nome_novo_grupo") & "'"
+        sql = "SELECT cod_grupo FROM Grupos WHERE nome_grupo = '" & SafeSQL(request("nome_novo_grupo")) & "'"
 
 
 
@@ -109,7 +109,7 @@
 
 
 
-	   sql = sql & " VALUES (" & codGrupo & ", '" & TirarAcento(request("nome_novo_grupo")) & "'," & rs_usuario("cod_Apostador") & ")"
+	   sql = sql & " VALUES (" & SafeSQL(codGrupo) & ", '" & SafeSQL(TirarAcento(request("nome_novo_grupo"))) & "'," & rs_usuario("cod_Apostador") & ")"
 
 
 
@@ -217,7 +217,7 @@
 
   	      sql =      "DELETE FROM Det_Grupos"
 
-              sql = sql & "	  WHERE cod_grupo = " & request("cmbExcluir") 
+              sql = sql & "	  WHERE cod_grupo = " & SafeSQL(request("cmbExcluir")) 
 
 	      conx.execute(sql)
 
@@ -225,7 +225,7 @@
 
   	      sql =      "DELETE FROM Grupos"
 
-              sql = sql & "	  WHERE cod_grupo = " & request("cmbExcluir") 
+              sql = sql & "	  WHERE cod_grupo = " & SafeSQL(request("cmbExcluir")) 
 
 	      conx.execute(sql)
 

@@ -40,7 +40,7 @@
 
               conx.Open ConnStrMySQL 
 	
-       		  	sql = "SELECT * FROM Apostadores WHERE nome = '" & request("login") & "' and Apostadores.Ativo"  
+       		  	sql = "SELECT * FROM Apostadores WHERE nome = '" & SafeSQL(request("login")) & "' and Apostadores.Ativo"  
   
         			set rs = Server.CreateObject("ADODB.Recordset")
 
@@ -53,7 +53,7 @@
 
               else
 
-                sql = "SELECT * FROM Apostadores WHERE nome = '" & request("login") & "' and senha_apostador = '" & request("senha_atual") & "';"
+                sql = "SELECT * FROM Apostadores WHERE nome = '" & SafeSQL(request("login")) & "' and senha_apostador = '" & SafeSQLsenha(request("senha_atual")) & "';"
 
 		            set rs1 = Server.CreateObject("ADODB.Recordset")
 
@@ -66,7 +66,7 @@
 
                 else  
 
-                  sql = "UPDATE Apostadores SET Senha_apostador = '" & TirarAcento(request("senha_nova")) & "' WHERE nome = '" & request("login") & "'"
+                  sql = "UPDATE Apostadores SET Senha_apostador = '" & SafeSQLsenha(TirarAcento(request("senha_nova"))) & "' WHERE nome = '" & SafeSQL(request("login")) & "'"
 
                   conx.execute(sql)
 

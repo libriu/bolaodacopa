@@ -21,7 +21,7 @@
 
 	
 
-	sql = "Select * from Apostadores where nome = '" & session("usuario") & "'"
+	sql = "Select * from Apostadores where nome = '" & SafeSQL(session("usuario")) & "'"
 
 
 
@@ -65,13 +65,13 @@
 
 			  sql = 	  "INSERT INTO Jogos (cod_Aposta, cod_Jogo, placar_A, placar_B,Pontos)"
 
-			  sql = sql & " 	  VALUES (" & codInsercao & ", " & i & ", " & request("placar_A_" & i) & ", " & request("placar_B_" & i) & ",0)"
+			  sql = sql & " 	  VALUES (" & SafeSQL(codInsercao) & ", " & SafeSQL(i) & ", " & SafeSQL(request("placar_A_" & i)) & ", " & SafeSQL(request("placar_B_" & i)) & ",0)"
 
 			  conx.execute(sql)
 
             else
 
-			  sql = 	  "UPDATE Jogos SET placar_A = " & request("placar_A_" & i) & " , placar_B = " & request("placar_B_" & i) & " WHERE cod_Aposta = " & codInsercao & " and cod_Jogo = " & i
+			  sql = 	  "UPDATE Jogos SET placar_A = " & SafeSQL(request("placar_A_" & i)) & " , placar_B = " & SafeSQL((request("placar_B_" & i))) & " WHERE cod_Aposta = " & SafeSQL(codInsercao) & " and cod_Jogo = " & SafeSQL(i)
 
 			  conx.execute(sql)
 

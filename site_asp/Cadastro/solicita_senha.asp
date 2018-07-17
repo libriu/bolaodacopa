@@ -443,7 +443,7 @@ End Function
 
 	
 
-	sql = "SELECT * FROM Apostadores WHERE nome = '" & request("login") & "' and Apostadores.Ativo"	
+	sql = "SELECT * FROM Apostadores WHERE nome = '" & SafeSQL(request("login")) & "' and Apostadores.Ativo"	
 
 
 

@@ -20,7 +20,7 @@
 
 	
 
-    sql = "Select * from Apostadores where nome = '" & session("usuario") & "'"
+    sql = "Select * from Apostadores where nome = '" & SafeSQL(session("usuario")) & "'"
 
 
 
@@ -32,7 +32,7 @@
 
 
 
-    sql = "Select * from Grupos where cod_grupo = " & session("grupo") 
+    sql = "Select * from Grupos where cod_grupo = " & SafeSQL(session("grupo")) 
 
 
 
@@ -254,7 +254,7 @@ function retornar() {
 
        sql = "   SELECT * FROM Det_Grupos"
 
-       sql = sql & "	  WHERE cod_grupo = " & session("grupo") 
+       sql = sql & "	  WHERE cod_grupo = " & SafeSQL(session("grupo")) 
 
        sql = sql & "          AND cod_apostador = " & rs("cod_Apostador")
 
@@ -294,7 +294,7 @@ function retornar() {
 
   	      sql =      "INSERT INTO Det_Grupos (cod_grupo, cod_apostador)"
 
-	      sql = sql & " VALUES (" & session("grupo") & ", " & rs("cod_Apostador") & ")"
+	      sql = sql & " VALUES (" & SafeSQL(session("grupo")) & ", " & rs("cod_Apostador") & ")"
 
 
 
@@ -314,7 +314,7 @@ function retornar() {
 
   	      sql =      "DELETE FROM Det_Grupos"
 
-              sql = sql & "	  WHERE cod_grupo = " & session("grupo") 
+              sql = sql & "	  WHERE cod_grupo = " & SafeSQL(session("grupo")) 
 
               sql = sql & "          AND cod_apostador = " & rs("cod_Apostador")
 
@@ -342,7 +342,7 @@ function retornar() {
 
      sql = "   SELECT * FROM Det_Grupos"
 
-     sql = sql & "	  WHERE cod_grupo = " & session("grupo") 
+     sql = sql & "	  WHERE cod_grupo = " & SafeSQL(session("grupo")) 
 
      sql = sql & "          AND cod_apostador = " & rs("cod_Apostador")
 

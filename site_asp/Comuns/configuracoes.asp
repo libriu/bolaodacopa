@@ -27,7 +27,7 @@
 
     'Abrindo Conexão mySQL - Forma usada em 2018
 
-         ConnStrMySQL  = "Driver={MySQL ODBC 3.51 Driver};Server=50.62.209.75;Database=bolaodacopa2018;uid=bolaodacopa;pwd=Brasil2018;option=3"
+         ConnStrMySQL  = "Driver={MySQL ODBC 3.51 Driver};Server=50.62.209.75;Database=bolaodacopa2018;uid=bolaodacopa2018;pwd=Th*e20@%214bo##AX;option=3"
 
 
 
@@ -45,6 +45,24 @@ Function TirarAcento(Palavra)
     TirarAcento = Texto
   End If
 End Function  
+
+Function SafeSQL(sInput)
+  TempString = sInput
+  sBadChars=array("select", "drop", ";", "--", "insert", "delete", "xp_", "#", "%", "&", "'", "(", ")", ":", ";", "<", ">", "=", "[", "]", "?", "`", "|") 
+  For iCounter = 0 to uBound(sBadChars)
+    TempString = replace(TempString,sBadChars(iCounter),"")
+  Next
+  SafeSQL = TempString
+End function
+
+Function SafeSQLSenha(sInput)
+  TempString = sInput
+  sBadChars=array("select", "drop", "--", "insert", "delete", "xp_", "'") 
+  For iCounter = 0 to uBound(sBadChars)
+    TempString = replace(TempString,sBadChars(iCounter),"")
+  Next
+  SafeSQLSenha = TempString
+End function
 
 
 %>

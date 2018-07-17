@@ -31,8 +31,10 @@
 
          sql = sql & "	  AND   Jogos.cod_Jogo = Resultados.cod_Jogo" 
 
-         sql = sql & "	  AND Jogos.Cod_Jogo = " & request("cod")
+         sql = sql & "	  AND Jogos.Cod_Jogo = " & SafeSQL(request("cod"))
 
+         sql = sql & "	  AND Apostadores.Ativo = 1"
+         
 	 sql = sql & " ORDER BY Apostas.Total_Pontos DESC, Apostadores.nome"
 
 
