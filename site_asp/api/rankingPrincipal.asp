@@ -42,9 +42,9 @@
 
                 intPosicao = intLinha
 
-                item.Change "posicao", intPosicao
-
             end if
+
+            item.Change "posicao", intPosicao
 
             intTotalPontosJogadorAcima = intPontuacao
 
