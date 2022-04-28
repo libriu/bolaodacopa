@@ -1,4 +1,5 @@
-﻿using BolaoInfra.Models;
+﻿using BolaoInfra.Exception;
+using BolaoInfra.Models;
 using BolaoInfra.Repository;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -11,7 +12,7 @@ namespace BolaoInfra.BLL
 {
     public class ApostadorBLL : IDisposable
     {
-        UnitOfWork _uow;
+        readonly UnitOfWork _uow;
         public ApostadorBLL(UnitOfWork uow)
         {
             _uow = uow;
@@ -20,40 +21,46 @@ namespace BolaoInfra.BLL
         {
             _uow = new UnitOfWork();
         }
-        public IEnumerable<Apostador> ListarApostadores()
+        public IEnumerable<Apostador> GetAll()
         {
             return _uow.ApostadorRepository.GetAll();
         }
-        public void Adicionar(Apostador apostador)
+        public void Insert(Apostador apostador)
         {
             apostador.Senha = new PasswordHasher<object?>().HashPassword(null, apostador.Senha);
             _uow.ApostadorRepository.Add(apostador);
             _uow.Commit();
         }
-        public void Excluir(Apostador apostador)
+        public void Delete(Apostador apostador)
         {
             _uow.ApostadorRepository.Delete(apostador);
             _uow.Commit();
         }
-        public void Alterar(Apostador apostador)
+        public void Update(Apostador apostador)
         {
             _uow.ApostadorRepository.Update(apostador);
             _uow.Commit();
         }
-        public Apostador GetApostadorPorId(int codigo)
+        public Apostador GetById(int codigo)
         {
             return _uow.ApostadorRepository.GetById(c => c.CodApostador == codigo);
         }
-        public Apostador Autenticar(string login, string password)
+        public Apostador Authenticate(string login, string senha)
         {
             var apostador = _uow.ApostadorRepository.Get(c => c.Login == login).FirstOrDefault();
-            if (apostador == null) throw new ApplicationException("1");
-            if (apostador.Ativo == 0) throw new ApplicationException("2");
-            if (VerificarSenha(apostador.Senha, password)) return apostador;
-            return null;
+            if (apostador == null) throw new BolaoException(1, "Login inválido");
+            if (apostador.Ativo == 0) throw new BolaoException(2, "Usuário inativo");
+            if (VerifyPassword(apostador.Senha, senha))
+            {
+                return apostador;
+            }
+            else
+            {
+                throw new BolaoException(3, "Senha incorreta");
+            }
         }
 
-        private bool VerificarSenha(string hashedPassword, string password)
+        private static bool VerifyPassword(string hashedPassword, string password)
         {
             var passwordVerificationResult = new PasswordHasher<object?>().VerifyHashedPassword(null, hashedPassword, password);
             switch (passwordVerificationResult)
@@ -71,12 +78,13 @@ namespace BolaoInfra.BLL
                     return true;
 
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(hashedPassword));
             }
         }
         public void Dispose()
         {
             _uow.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

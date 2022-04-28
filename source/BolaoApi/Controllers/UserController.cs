@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using BolaoApi.Helpers;
+using BolaoApi.Controllers;
 using BolaoApi.Models;
 using BolaoInfra.BLL;
 using BolaoInfra.Models;
@@ -8,52 +8,42 @@ using System;
 using System.Threading;
 using System.Security.Claims;
 using System.Linq;
+using BolaoInfra.Exception;
+using BolaoApi.Helpers;
 
 namespace BolaoApi.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : BolaoController
     {
 
-        public UserController() 
+        public UserController()
         {
-            
-            
+                        
         }
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Autenticar([FromBody] AutentacacaoModel model)
+        public IActionResult Authenticate([FromBody] AutentacacaoModel model)
         {
             var bll = new ApostadorBLL();
-            Apostador user = null;
+            Apostador user;
             try
             {
-                user = bll.Autenticar(model.Login, model.Senha);
-
-                if (user == null)
-                    return BadRequest(new { message = "Senha incorreta" });
+                user = bll.Authenticate(model.Login, model.Senha);
             }
-            catch(ApplicationException ex)
+            catch(BolaoException ex)
             {
-                if (ex.Message == "1")
-                {
-                    return BadRequest(new { message = "Login inválido" });
-                }
-                if (ex.Message == "2")
-                {
-                    return BadRequest(new { message = "Usuário inativo" });
-                }
-                else throw ex;
+                return BadRequest(new { message = ex.Mensagem });
             }
-            return Ok(user);
+            return Ok(user.WithoutPassword());
         }
 
         [AllowAnonymous]
         [HttpPost("create")]
-        public IActionResult Criar([FromBody] Apostador model)
+        public IActionResult Create([FromBody] Apostador model)
         {
             var bll = new ApostadorBLL();
 
@@ -62,26 +52,22 @@ namespace BolaoApi.Controllers
             model.Ativo = 0;
             model.CodApostAtivador = null;
 
-            bll.Adicionar(model);
+            bll.Insert(model);
 
             return Ok();
         }
 
         [HttpPost("activate")]
-        public IActionResult Ativar([FromBody] Apostador model)
+        public IActionResult Activate([FromBody] Apostador model)
         {
-            ClaimsPrincipal currentPrincipal = User as ClaimsPrincipal;
-
-            if (currentPrincipal.IsInRole("AcessoGestaoTotal") || currentPrincipal.IsInRole("AcessoAtivacao"))
+            if (UsuarioAutenticado.IsAcessoGestaoTotalOuAtivacao)
             {
-                var claims = currentPrincipal.Claims;
-
                 var bll = new ApostadorBLL();
-                model = bll.GetApostadorPorId(model.CodApostador);
+                model = bll.GetById(model.CodApostador);
                 model.Ativo = 1;
-                model.CodApostAtivador = int.Parse(claims.Where(c => c.Type == "CodApostador").FirstOrDefault().Value);
+                model.CodApostAtivador = UsuarioAutenticado.CodApostador;
 
-                bll.Alterar(model);
+                bll.Update(model);
 
                 return Ok();
             }
@@ -90,12 +76,19 @@ namespace BolaoApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetApostadores()
+        public IActionResult GetAll()
         {
-            var bll = new ApostadorBLL();
-            var apostadores = bll.ListarApostadores();
+            if (UsuarioAutenticado.IsAcessoGestaoTotal)
+            {
+                var bll = new ApostadorBLL();
+                var apostadores = bll.GetAll();
 
-            return Ok(apostadores.WithoutPasswords());
+                return Ok(apostadores.WithoutPasswords());
+            }
+            else
+            {
+                return BadRequest(new { message = "Acesso negado" });
+            }
         }
 
     }

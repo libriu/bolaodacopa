@@ -40,7 +40,7 @@ namespace BolaoApi.Helpers
             if (!Request.Headers.ContainsKey("Authorization"))
                 return AuthenticateResult.Fail("Missing Authorization Header");
 
-            Apostador user = null;
+            Apostador user;
             try
             {
                 var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
@@ -49,7 +49,7 @@ namespace BolaoApi.Helpers
                 var username = credentials[0];
                 var password = credentials[1];
                 var bll = new ApostadorBLL();
-                user = bll.Autenticar(username, password);
+                user = bll.Authenticate(username, password);
 
             }
             catch

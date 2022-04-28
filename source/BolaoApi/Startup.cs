@@ -1,3 +1,4 @@
+using BolaoApi.Controllers;
 using BolaoApi.Helpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -26,12 +27,6 @@ namespace BolaoApi
             // configure basic authentication 
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
-
-            //var cnn = Configuration.GetConnectionString("Bolao2022Connection");
-            //services.AddDbContext<BolaoContext>(options =>
-            //{
-            //    options.UseSqlServer(cnn);
-            //});
 
             // configure DI for application services
             //services.AddScoped<IUserService, UserService>();
