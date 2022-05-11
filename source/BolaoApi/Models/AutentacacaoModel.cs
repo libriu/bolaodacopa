@@ -5,9 +5,9 @@ namespace BolaoApi.Models
     public class AutentacacaoModel
     {
         [Required]
-        public string Login { get; set; }
+        public string login { get; set; }
 
         [Required]
-        public string Senha { get; set; }
+        public string senha { get; set; }
     }
 }

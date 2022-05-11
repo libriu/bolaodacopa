@@ -41,9 +41,23 @@ namespace BolaoInfra.BLL
             _uow.ApostadorRepository.Update(apostador);
             _uow.Commit();
         }
+
+        public void Update(List<Apostador> apostadores)
+        {
+            foreach (var apostador in apostadores)
+            {
+                _uow.ApostadorRepository.Update(apostador);
+            }
+            
+            _uow.Commit();
+        }
         public Apostador GetById(int codigo)
         {
             return _uow.ApostadorRepository.GetById(c => c.CodApostador == codigo);
+        }
+        public IEnumerable<Apostador> GetInactive()
+        {
+            return _uow.ApostadorRepository.Get(c => c.Ativo == 0);
         }
         public Apostador Authenticate(string login, string senha)
         {
@@ -78,7 +92,7 @@ namespace BolaoInfra.BLL
                     return true;
 
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(hashedPassword));
+                    throw new BolaoException(4, "Erro ao verificar hash de senha");
             }
         }
         public void Dispose()

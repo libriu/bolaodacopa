@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Linq;
 using BolaoInfra.Exception;
 using BolaoApi.Helpers;
+using System.Collections.Generic;
 
 namespace BolaoApi.Controllers
 {
@@ -32,7 +33,7 @@ namespace BolaoApi.Controllers
             Apostador user;
             try
             {
-                user = bll.Authenticate(model.Login, model.Senha);
+                user = bll.Authenticate(model.login, model.senha);
             }
             catch(BolaoException ex)
             {
@@ -58,17 +59,20 @@ namespace BolaoApi.Controllers
         }
 
         [HttpPost("activate")]
-        public IActionResult Activate([FromBody] Apostador model)
+        public IActionResult Activate(List<Apostador> apostadores)
         {
+            List<Apostador> lista = new();
+            var bll = new ApostadorBLL();
             if (UsuarioAutenticado.IsAcessoGestaoTotalOuAtivacao)
             {
-                var bll = new ApostadorBLL();
-                model = bll.GetById(model.CodApostador);
-                model.Ativo = 1;
-                model.CodApostAtivador = UsuarioAutenticado.CodApostador;
-
-                bll.Update(model);
-
+                foreach (Apostador a in apostadores)
+                {
+                    var model = bll.GetById(a.CodApostador);
+                    model.Ativo = 1;
+                    model.CodApostAtivador = UsuarioAutenticado.CodApostador;
+                    lista.Add(model);
+                }
+                bll.Update(lista);
                 return Ok();
             }
 
@@ -82,6 +86,22 @@ namespace BolaoApi.Controllers
             {
                 var bll = new ApostadorBLL();
                 var apostadores = bll.GetAll();
+
+                return Ok(apostadores.WithoutPasswords());
+            }
+            else
+            {
+                return BadRequest(new { message = "Acesso negado" });
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetInactive()
+        {
+            if (UsuarioAutenticado.IsAcessoGestaoTotal)
+            {
+                var bll = new ApostadorBLL();
+                var apostadores = bll.GetInactive();
 
                 return Ok(apostadores.WithoutPasswords());
             }
