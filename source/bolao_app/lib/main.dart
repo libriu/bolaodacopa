@@ -4,7 +4,6 @@ import 'package:bolao_app/home.dart';
 import 'package:bolao_app/values/preference_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'auth.dart';
 import 'models/apostador.dart';
@@ -28,11 +27,11 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   Apostador? usuarioLogado;
-  Widget _body = const SizedBox(
+  Widget _body = const Center(child:SizedBox(
     child: CircularProgressIndicator(),
-    height: 100.0,
-    width: 100.0,
-  );
+    height: 40.0,
+    width: 40.0,
+  ));
 
   void getUserLocal() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -45,6 +44,7 @@ class MyAppState extends State<MyApp> {
           if (resp.statusCode == 200) {
             mapUser = json.decode(resp.body);
             usuarioLogado = Apostador.fromJson(mapUser);
+            usuarioLogado?.senha = user.senha;
           }
           getNewBody();
         });

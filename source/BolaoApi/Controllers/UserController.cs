@@ -95,7 +95,7 @@ namespace BolaoApi.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("toactivate")]
         public IActionResult GetInactive()
         {
             if (UsuarioAutenticado.IsAcessoGestaoTotal)

@@ -1,3 +1,5 @@
+import 'package:bolao_app/activate_user.dart';
+import 'package:bolao_app/ranking.dart';
 import 'package:flutter/material.dart';
 import 'auth.dart';
 import 'logon.dart';
@@ -5,36 +7,33 @@ import 'models/apostador.dart';
 
 class HomeRoute extends StatefulWidget {
   const HomeRoute({
-    Key? key, this.usuarioLogado,
+    Key? key, this.usuarioLogado
   }) : super(key: key);
-
   final Apostador? usuarioLogado;
 
   @override
   State<HomeRoute> createState() => _HomeRouteState(usuarioLogado: usuarioLogado);
 }
+
 class _HomeRouteState extends State<HomeRoute> {
-  String nomeApostador = "";
+
   var listOfItems = <Widget>[];
+  Widget body = const RankingRoute();
   Apostador? usuarioLogado;
 
   _HomeRouteState({this.usuarioLogado});
 
-  void _menuHeader(String nomeLogin) {
+  void _menuHeader(String nomeLogin, String email) {
     listOfItems.clear();
-    DrawerHeader dh = DrawerHeader(
-      decoration: const BoxDecoration(
-        color: Colors.indigo,
-      ),
-      child: Text(
-        nomeLogin,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 24,
+    UserAccountsDrawerHeader dh = UserAccountsDrawerHeader(
+        accountName: Text(nomeLogin),
+        accountEmail: Text(email),
+        currentAccountPicture: const CircleAvatar(
+          backgroundImage: NetworkImage(
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0GnjxegmKNU566LCxG_RlnxvHKC6jwhdZyQ&usqp=CAU"
+          ),
         ),
-      ),
     );
-
     listOfItems.add(dh);
   }
   void _menuDeslogado() {
@@ -42,9 +41,10 @@ class _HomeRouteState extends State<HomeRoute> {
       leading: const Icon(Icons.login),
       title: const Text('Iniciar sessão'),
       onTap: () {
+        Navigator.of(context).pop();
         Navigator.push(
         context,
-          MaterialPageRoute(builder: (context) => LogonPage(redirectPage: widget, usuarioLogado: usuarioLogado)),
+          MaterialPageRoute(builder: (context) => LogonPage(usuarioLogado: usuarioLogado)),
         );
       },
     );
@@ -104,18 +104,29 @@ class _HomeRouteState extends State<HomeRoute> {
     );
     listOfItems.add(item4);
     ListTile item5 = ListTile(
+        leading: const Icon(Icons.monetization_on),
+        title: const Text('Ativar apostadores'),
+        onTap: () {
+          Navigator.of(context).pop();
+          setState(() {
+            body = ActivateUserRoute(usuarioLogado: usuarioLogado);
+          });
+        }
+    );
+    listOfItems.add(item5);
+    ListTile item6 = ListTile(
       leading: const Icon(Icons.logout),
       title: const Text('Terminar sessão'),
       onTap: _terminarSessao
     );
-    listOfItems.add(item5);
+    listOfItems.add(item6);
   }
 
   void _getMenuItems() async{
     //final inheritedWidget = UserInheritedWidget.of(context);
     if (usuarioLogado != null && usuarioLogado!.login != null) {
-      nomeApostador = usuarioLogado!.login!;
-      _menuHeader(nomeApostador);
+      //nomeApostador = usuarioLogado!.login!;
+      _menuHeader(usuarioLogado!.login!, usuarioLogado!.email!);
       if (usuarioLogado!.acessoGestaoTotal == 1) {
         _menuCompleto();
       } else if (usuarioLogado!.acessoAtivacao == 1){
@@ -125,7 +136,7 @@ class _HomeRouteState extends State<HomeRoute> {
       }
     }
     else {
-      _menuHeader('Usuário não registrado');
+      _menuHeader('Usuário não registrado', '');
       _menuDeslogado();
     }
   }
@@ -138,6 +149,7 @@ class _HomeRouteState extends State<HomeRoute> {
   @override
   Widget build(BuildContext context) {
     _getMenuItems();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bolão da Copa 2022'),
@@ -147,13 +159,14 @@ class _HomeRouteState extends State<HomeRoute> {
            padding: EdgeInsets.zero,
            children: listOfItems,
          )),
-      body: const Text("Home Page"),
+      body: body,
     );
   }
 
   void _terminarSessao() {
     Auth.logoff();
     setState(() {
+      body = const RankingRoute();
       usuarioLogado = null;
     });
     Navigator.pop(context);

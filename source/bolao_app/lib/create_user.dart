@@ -1,9 +1,10 @@
-
 import 'dart:convert';
-import 'dart:io';
+import 'package:bolao_app/values/preference_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'home.dart';
 
 Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
   'Login': instance.Login,
@@ -117,6 +118,12 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
                       if (value!.isEmpty) {
                         return 'E-mail é obrigatório.';
                       }
+                      else {
+                        bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
+                        if (!emailValid) {
+                          return 'E-mail inválido.';
+                        }
+                      }
                       return null;
                     },
                   ),
@@ -197,9 +204,9 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
                         return;
                       }
                       final httpsUri = Uri(
-                          scheme: 'https',
-                          host: '10.0.2.2',
-                          port: 44357,
+                          scheme: PreferenceKeys.httpScheme,
+                          host: PreferenceKeys.httpHost,
+                          port: PreferenceKeys.httpPort,
                           path: 'user/create');
 
                       // Use a JSON encoded string to send
@@ -240,7 +247,12 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
         actions: [
           TextButton(
             child: const Text('OK'),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => {
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeRoute(usuarioLogado: null)),
+              )
+            },
           ),
         ],
       ),

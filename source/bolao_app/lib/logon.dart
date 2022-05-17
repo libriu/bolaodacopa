@@ -1,30 +1,31 @@
 import 'dart:convert';
 
+import 'package:bolao_app/values/preference_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'auth.dart';
 import 'create_user.dart';
+import 'home.dart';
 import 'models/apostador.dart';
 
 class LogonPage extends StatefulWidget {
-  final Widget redirectPage;
   final Apostador? usuarioLogado;
 
   const LogonPage({
-    required this.redirectPage,
     required this.usuarioLogado,
     Key? key,
   }) : super(key: key);
 
   @override
-  State<LogonPage> createState() => _LogonPageState();
+  State<LogonPage> createState() => _LogonPageState(usuarioLogado: usuarioLogado);
 }
 
 class _LogonPageState extends State<LogonPage> {
-  //FormData formData = FormData();
   Apostador user = Apostador();
-  // String? nome;
-  // String? senha;
+  Apostador? usuarioLogado;
+
+  _LogonPageState({this.usuarioLogado});
 
   @override
   Widget build(BuildContext context) {
@@ -103,19 +104,19 @@ class _LogonPageState extends State<LogonPage> {
   }
 
   void success(BuildContext context) async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // String? jsonUser = prefs.get(PreferenceKeys.activeUser)?.toString();
-    // if (jsonUser != null) {
-    //   Map<String, dynamic> mapUser = json.decode(jsonUser);
-    //   Apostador user = Apostador.fromJson(mapUser);
-    //   setState() {
-    //
-    //   }
-    // }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonUser = prefs.get(PreferenceKeys.activeUser)?.toString();
+    if (jsonUser != null) {
+      Map<String, dynamic> mapUser = json.decode(jsonUser);
+      Apostador user = Apostador.fromJson(mapUser);
+      //setState() {
+      usuarioLogado = user;
+      //}
+    }
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => widget.redirectPage),
+      MaterialPageRoute(builder: (context) => HomeRoute(usuarioLogado: usuarioLogado)),
     );
   }
 
