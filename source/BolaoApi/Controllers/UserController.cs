@@ -14,9 +14,6 @@ using System.Collections.Generic;
 
 namespace BolaoApi.Controllers
 {
-    [Authorize]
-    [ApiController]
-    [Route("[controller]")]
     public class UserController : BolaoController
     {
 
@@ -54,6 +51,28 @@ namespace BolaoApi.Controllers
             model.CodApostAtivador = null;
 
             bll.Insert(model);
+
+            return Ok();
+        }
+
+        [HttpPost("update")]
+        public IActionResult Update(Apostador model)
+        {
+            if (UsuarioAutenticado.CodApostador != model.CodApostador && 
+                !(UsuarioAutenticado.IsAcessoGestaoTotalOuAtivacao))
+            {
+                return BadRequest(new { message = "Operação não autorizada" });
+            }
+
+            var bll = new ApostadorBLL();
+            var apostador = bll.GetById(model.CodApostador);
+            apostador.Login = model.Login;
+            apostador.Email = model.Email;
+            apostador.Celular = model.Celular;
+            apostador.Contato = model.Contato;
+            apostador.Cidade = model.Cidade;
+
+            bll.Update(apostador);
 
             return Ok();
         }

@@ -77,7 +77,9 @@ class MyAppState extends State<MyApp> {
           primarySwatch: Colors.indigo,
         ),
         //home: HomeRoute(activeUser: usuarioLogado),
-        home: HomeRoute(usuarioLogado: usuarioLogado),
+        home: HomeRoute(
+            page: PageName.ranking,
+            usuarioLogado: usuarioLogado),
         )
     );
   }

@@ -8,7 +8,13 @@ namespace BolaoInfra.Exception
 {
     public class BolaoException: ApplicationException
     {
-        public int CodErro { get; set; }
+        public static BolaoException LoginInvalido { get { return new BolaoException("Login inválido"); } }
+        public static BolaoException UsuarioInativo { get { return new BolaoException("Usuário inativo"); } }
+        public static BolaoException SenhaIncorreta { get { return new BolaoException("Senha incorreta"); } }
+        public static BolaoException HashSenhaInvalido { get { return new BolaoException("Erro ao verificar hash de senha"); } }
+        public static BolaoException LoginUtilizado { get { return new BolaoException("Nome/Login já utilizado por outro usuário"); } }
+        public static BolaoException JogoInvalido { get { return new BolaoException("Jogo inválido"); } }
+        public static BolaoException JogoOcorrido { get { return new BolaoException("Não é possível fazer aposta em jogo já ocorrido ou iniciado"); } }
         public string Mensagem { get; set; }
 
         public ApplicationException Ex { get; set; }
@@ -18,17 +24,16 @@ namespace BolaoInfra.Exception
 
         }
 
-        public BolaoException(int codErro, string mensagem)
+        public BolaoException(string mensagem)
         {
-            CodErro = codErro;
             Mensagem = mensagem;
         }
 
-        public BolaoException(int codErro, string mensagem, ApplicationException ex)
+        public BolaoException(string mensagem, ApplicationException ex)
         {
-            CodErro = codErro;
             Mensagem = mensagem;
             Ex = ex;
         }
     }
+
 }

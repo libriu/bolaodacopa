@@ -5,10 +5,17 @@ import 'auth.dart';
 import 'logon.dart';
 import 'models/apostador.dart';
 
+enum PageName {
+  ranking,
+  activateUser
+}
+
 class HomeRoute extends StatefulWidget {
   const HomeRoute({
-    Key? key, this.usuarioLogado
+    Key? key, required this.page, this.usuarioLogado
   }) : super(key: key);
+
+  final PageName page;
   final Apostador? usuarioLogado;
 
   @override
@@ -16,10 +23,10 @@ class HomeRoute extends StatefulWidget {
 }
 
 class _HomeRouteState extends State<HomeRoute> {
-
   var listOfItems = <Widget>[];
-  Widget body = const RankingRoute();
+  Widget? body;
   Apostador? usuarioLogado;
+  String? title;
 
   _HomeRouteState({this.usuarioLogado});
 
@@ -29,9 +36,11 @@ class _HomeRouteState extends State<HomeRoute> {
         accountName: Text(nomeLogin),
         accountEmail: Text(email),
         currentAccountPicture: const CircleAvatar(
-          backgroundImage: NetworkImage(
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0GnjxegmKNU566LCxG_RlnxvHKC6jwhdZyQ&usqp=CAU"
-          ),
+
+          child: Icon(Icons.account_circle_sharp, size: 70)
+          // backgroundImage: NetworkImage(
+          //     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0GnjxegmKNU566LCxG_RlnxvHKC6jwhdZyQ&usqp=CAU"
+          // ),
         ),
     );
     listOfItems.add(dh);
@@ -83,11 +92,23 @@ class _HomeRouteState extends State<HomeRoute> {
     listOfItems.add(item3);
   }
   void _menuCompleto() {
-    ListTile item1 = const ListTile(
+    ListTile itemRanking =  ListTile(
+      leading: const Icon(Icons.home),
+      title: const Text('Ranking'),
+      onTap: () {
+        Navigator.of(context).pop();
+        setState(() {
+          title = getPageTitle(PageName.ranking);
+          body = getPageWidget(PageName.ranking);
+        });
+      }
+    );
+    listOfItems.add(itemRanking);
+    ListTile itemMessages = const ListTile(
       leading: Icon(Icons.message),
       title: Text('Mensagens'),
     );
-    listOfItems.add(item1);
+    listOfItems.add(itemMessages);
     ListTile item2 = const ListTile(
       leading: Icon(Icons.group),
       title: Text('Grupos'),
@@ -103,29 +124,28 @@ class _HomeRouteState extends State<HomeRoute> {
       title: Text('Configurações'),
     );
     listOfItems.add(item4);
-    ListTile item5 = ListTile(
+    ListTile itemActivate = ListTile(
         leading: const Icon(Icons.monetization_on),
         title: const Text('Ativar apostadores'),
         onTap: () {
           Navigator.of(context).pop();
           setState(() {
-            body = ActivateUserRoute(usuarioLogado: usuarioLogado);
+            title = getPageTitle(PageName.activateUser);
+            body = getPageWidget(PageName.activateUser);
           });
         }
     );
-    listOfItems.add(item5);
-    ListTile item6 = ListTile(
+    listOfItems.add(itemActivate);
+    ListTile itemLogoff = ListTile(
       leading: const Icon(Icons.logout),
       title: const Text('Terminar sessão'),
       onTap: _terminarSessao
     );
-    listOfItems.add(item6);
+    listOfItems.add(itemLogoff);
   }
 
   void _getMenuItems() async{
-    //final inheritedWidget = UserInheritedWidget.of(context);
     if (usuarioLogado != null && usuarioLogado!.login != null) {
-      //nomeApostador = usuarioLogado!.login!;
       _menuHeader(usuarioLogado!.login!, usuarioLogado!.email!);
       if (usuarioLogado!.acessoGestaoTotal == 1) {
         _menuCompleto();
@@ -144,6 +164,8 @@ class _HomeRouteState extends State<HomeRoute> {
   @override
   void initState() {
     super.initState();
+    body = getPageWidget(widget.page);
+    title = getPageTitle(widget.page);
   }
 
   @override
@@ -152,7 +174,7 @@ class _HomeRouteState extends State<HomeRoute> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bolão da Copa 2022'),
+        title: Text(title!),
       ),
       drawer: Drawer(
          child: ListView(
@@ -170,5 +192,21 @@ class _HomeRouteState extends State<HomeRoute> {
       usuarioLogado = null;
     });
     Navigator.pop(context);
+  }
+
+  String getPageTitle(PageName pageName) {
+    switch (pageName){
+      case PageName.ranking: return "Bolão da Copa - ranking";
+      case PageName.activateUser: return "Bolão da Copa - ativar usuários";
+      default: return "";
+    }
+  }
+
+  Widget getPageWidget(PageName pageName) {
+    switch (pageName){
+      case PageName.ranking: return RankingRoute(usuarioLogado: usuarioLogado);
+      case PageName.activateUser: return ActivateUserRoute(usuarioLogado: usuarioLogado);
+      default: return const RankingRoute();
+    }
   }
 }

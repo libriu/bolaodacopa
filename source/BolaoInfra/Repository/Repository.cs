@@ -10,8 +10,8 @@ namespace BolaoInfra.Repository
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
-        IEnumerable<T> Get(Expression<Func<T, bool>> predicate);
+        DbSet<T> GetAll();
+        IQueryable<T> Get(Expression<Func<T, bool>> predicate);
         T GetById(Expression<Func<T, bool>> predicate);
         void Add(T entity);
         void Delete(T entity);
@@ -38,13 +38,13 @@ namespace BolaoInfra.Repository
             _context.Entry(entity).State = EntityState.Modified;
             _context.Set<T>().Update(entity);
         }
-        public IEnumerable<T> GetAll()
+        public DbSet<T> GetAll()
         {
-            return _context.Set<T>().AsEnumerable<T>();
+            return _context.Set<T>();
         }
-        public IEnumerable<T> Get(Expression<Func<T, bool>> predicate)
+        public IQueryable<T> Get(Expression<Func<T, bool>> predicate)
         {
-            return _context.Set<T>().Where(predicate).AsEnumerable<T>();
+            return _context.Set<T>().Where(predicate);
         }
         public T GetById(Expression<Func<T, bool>> predicate)
         {

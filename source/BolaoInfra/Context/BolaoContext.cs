@@ -9,7 +9,7 @@ namespace BolaoInfra.Context
 {
     public partial class BolaoContext : DbContext
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration ConfigurationMngr { get; }
 
         public BolaoContext()
         {
@@ -18,7 +18,7 @@ namespace BolaoInfra.Context
         public BolaoContext(DbContextOptions<BolaoContext> options, IConfiguration configuration)
             : base(options)
         {
-            Configuration = configuration;
+            ConfigurationMngr = configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -274,6 +274,7 @@ namespace BolaoInfra.Context
                     .HasForeignKey<Ranking>(d => d.CodApostador)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Ranking_Apostador");
+
             });
 
             OnModelCreatingPartial(modelBuilder);

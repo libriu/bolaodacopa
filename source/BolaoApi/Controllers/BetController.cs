@@ -8,9 +8,7 @@ using System.Security.Claims;
 
 namespace BolaoApi.Controllers
 {
-    [Authorize]
-    [ApiController]
-    [Route("[controller]")]
+
     public class BetController : BolaoController
     {
 
@@ -54,13 +52,8 @@ namespace BolaoApi.Controllers
         public IActionResult Register(List<Aposta> apostas)
         {
             var bll = new ApostaBLL();
-            foreach (Aposta a in apostas)
-            {
-                a.CodApostador = UsuarioAutenticado.CodApostador;
-                a.Pontos = 0;
-            }
 
-            bll.Insert(apostas);
+            bll.InsertOrUpdate(apostas, UsuarioAutenticado.CodApostador);
 
             return Ok();
         }

@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:bolao_app/ranking.dart';
 import 'package:bolao_app/values/preference_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'home.dart';
 
 import 'home.dart';
 
@@ -249,8 +251,11 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
             child: const Text('OK'),
             onPressed: () => {
               Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeRoute(usuarioLogado: null)),
+                context,
+                MaterialPageRoute(builder: (context) => const HomeRoute(
+                    page: PageName.ranking,
+                    usuarioLogado: null
+                )),
               )
             },
           ),

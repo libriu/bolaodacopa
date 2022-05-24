@@ -21,21 +21,23 @@ namespace BolaoInfra.BLL
         {
             _uow = new UnitOfWork();
         }
-        public IEnumerable<Aposta> GetAll()
+        public List<Aposta> GetAll()
         {
-            return _uow.ApostaRepository.GetAll();
+            return _uow.ApostaRepository.GetAll().ToList<Aposta>();
         }
 
-        public IEnumerable<Aposta> GetAllMy (int codApostador)
+        public List<Aposta> GetAllMy (int codApostador)
         {
-            return _uow.ApostaRepository.Get(c => c.CodApostador == codApostador);
+            return _uow.ApostaRepository.Get(c => c.CodApostador == codApostador).ToList<Aposta>();
         }
 
         public IEnumerable<Aposta> GetNovasApostas()
         {
             List<Aposta> apostas = new();
-            int diasAntecedencia = 3;
-            var jogos = _uow.JogoRepository.Get(j => j.DataHora > DateTime.Now && j.DataHora <= DateTime.Now.AddDays(diasAntecedencia));
+            //int diasAntecedencia = 3;
+            //var jogos = _uow.JogoRepository.Get(j => j.DataHora > DateTime.Now && j.DataHora <= DateTime.Now.AddDays(diasAntecedencia)).AsEnumerable<Jogo>();
+            JogoBLL jogoBLL = new JogoBLL();
+            var jogos = jogoBLL.GetNext();
             foreach (Jogo j in jogos)
             {
                 Aposta a = new();
@@ -51,11 +53,32 @@ namespace BolaoInfra.BLL
             _uow.Commit();
         }
 
-        public void Insert(List<Aposta> apostas)
+        public void InsertOrUpdate(List<Aposta> apostas, int codApostador)
         {
+            JogoBLL jogoBLL = new JogoBLL();
+            var apostasFeitas = GetAllMy(codApostador);
             foreach (Aposta aposta in apostas)
             {
-                _uow.ApostaRepository.Add(aposta);
+                var jogo = jogoBLL.GetById(aposta.CodJogo);
+                if (jogo == null)
+                {
+                    throw BolaoException.JogoInvalido;
+                }
+                if (jogo.DataHora < DateTime.Now || jogo.JaOcorreu == 1)
+                {
+                    throw BolaoException.JogoOcorrido;
+                }
+                aposta.CodApostador = codApostador;
+                aposta.Pontos = 0;
+
+                if (apostasFeitas.Any(a => a.CodJogo == aposta.CodJogo))
+                {
+                    Update(aposta);
+                }
+                else
+                {
+                    Insert(aposta);
+                }
             }
             
             _uow.Commit();

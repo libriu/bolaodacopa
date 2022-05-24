@@ -1,10 +1,14 @@
 ﻿using BolaoApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Security.Claims;
 
 namespace BolaoApi.Controllers
 {
+    [Authorize]
+    [ApiController]
+    [Route("[controller]")]
     public class BolaoController : Controller
     {
         protected UsuarioAutenticado UsuarioAutenticado { 

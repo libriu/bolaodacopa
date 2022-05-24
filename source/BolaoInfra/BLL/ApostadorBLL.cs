@@ -21,9 +21,9 @@ namespace BolaoInfra.BLL
         {
             _uow = new UnitOfWork();
         }
-        public IEnumerable<Apostador> GetAll()
+        public List<Apostador> GetAll()
         {
-            return _uow.ApostadorRepository.GetAll();
+            return _uow.ApostadorRepository.GetAll().ToList<Apostador>();
         }
         public void Insert(Apostador apostador)
         {
@@ -38,6 +38,10 @@ namespace BolaoInfra.BLL
         }
         public void Update(Apostador apostador)
         {
+            if (GetWithSameLogin(apostador).ToList().Count > 0)
+            {
+                throw BolaoException.LoginUtilizado;
+            }
             _uow.ApostadorRepository.Update(apostador);
             _uow.Commit();
         }
@@ -55,22 +59,26 @@ namespace BolaoInfra.BLL
         {
             return _uow.ApostadorRepository.GetById(c => c.CodApostador == codigo);
         }
-        public IEnumerable<Apostador> GetInactive()
+        public List<Apostador> GetInactive()
         {
-            return _uow.ApostadorRepository.Get(c => c.Ativo == 0);
+            return _uow.ApostadorRepository.Get(c => c.Ativo == 0).ToList<Apostador>();
+        }
+        public List<Apostador> GetWithSameLogin(Apostador apostador)
+        {
+            return _uow.ApostadorRepository.Get(c => c.CodApostador != apostador.CodApostador && c.Login == apostador.Login).ToList<Apostador>(); ;
         }
         public Apostador Authenticate(string login, string senha)
         {
             var apostador = _uow.ApostadorRepository.Get(c => c.Login == login).FirstOrDefault();
-            if (apostador == null) throw new BolaoException(1, "Login inválido");
-            if (apostador.Ativo == 0) throw new BolaoException(2, "Usuário inativo");
+            if (apostador == null) throw BolaoException.LoginInvalido;
+            if (apostador.Ativo == 0) throw BolaoException.UsuarioInativo;
             if (VerifyPassword(apostador.Senha, senha))
             {
                 return apostador;
             }
             else
             {
-                throw new BolaoException(3, "Senha incorreta");
+                throw BolaoException.SenhaIncorreta;
             }
         }
 
@@ -92,7 +100,7 @@ namespace BolaoInfra.BLL
                     return true;
 
                 default:
-                    throw new BolaoException(4, "Erro ao verificar hash de senha");
+                    throw BolaoException.HashSenhaInvalido;
             }
         }
         public void Dispose()

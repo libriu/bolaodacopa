@@ -1,5 +1,6 @@
 ﻿using BolaoInfra.Models;
 using BolaoInfra.Repository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,18 +20,30 @@ namespace BolaoInfra.BLL
         {
             _uow = new UnitOfWork();
         }
-        public IEnumerable<Jogo> GetAll()
+        public List<Jogo> GetAll()
         {
-            return _uow.JogoRepository.GetAll();
+            return _uow.JogoRepository.GetAll().ToList<Jogo>();
         }
         public Jogo GetById(int codigo)
         {
             return _uow.JogoRepository.GetById(c => c.CodJogo == codigo);
         }
 
-        public IEnumerable<Jogo> GetNotRegistered()
+        public List<Jogo> GetNext()
         {
-            return _uow.JogoRepository.Get(j => j.DataHora <= DateTime.Now && j.JaOcorreu == 1);
+            return _uow.JogoRepository.GetAll()
+                .Include(game => game.PaisA)
+                .Include(game => game.PaisB)
+                .Where(j => j.DataHora > DateTime.Now && j.JaOcorreu == 0).ToList<Jogo>();
+        }
+
+        public List<Jogo> GetPrevious()
+        {
+            return _uow.JogoRepository.GetAll()
+                .Include(game => game.PaisA)
+                .Include(game => game.PaisB)
+                .Where(j => j.DataHora <= DateTime.Now || j.JaOcorreu == 1)
+                .ToList<Jogo>();
         }
 
         public void Insert(Jogo Jogo)

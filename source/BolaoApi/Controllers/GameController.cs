@@ -7,32 +7,37 @@ using System.Collections.Generic;
 
 namespace BolaoApi.Controllers
 {
-    [Authorize]
-    [ApiController]
-    [Route("[controller]")]
     public class GameController : BolaoController
     {
 
         [HttpPost()]
         public IActionResult Insert(List<Jogo> jogos)
         {
-            var bll = new JogoBLL();
+            if (UsuarioAutenticado.IsAcessoGestaoTotal)
+            {
+                var bll = new JogoBLL();
 
-            bll.Insert(jogos);
+                bll.Insert(jogos);
 
-            return Ok();
+                return Ok();
+            }
+            return BadRequest(new { message = "Erro ao inserir jogo" });
         }
 
         [HttpPost("register")]
         public IActionResult RegisterResult(int codJogo, int placarA, int placarB)
         {
-            var bll = new JogoBLL();
-            var jogo = bll.GetById(codJogo);
-            jogo.RPlacarA = placarA;
-            jogo.RPlacarB = placarB;
-            bll.Update(jogo);
+            if (UsuarioAutenticado.IsAcessoGestaoTotal)
+            {
+                var bll = new JogoBLL();
+                var jogo = bll.GetById(codJogo);
+                jogo.RPlacarA = placarA;
+                jogo.RPlacarB = placarB;
+                bll.Update(jogo);
 
-            return Ok();
+                return Ok();
+            }
+            return BadRequest(new { message = "Erro ao inserir resultado de jogo" });
         }
 
         [HttpGet("all")]
@@ -46,12 +51,23 @@ namespace BolaoApi.Controllers
 
         }
 
-        [HttpGet("my")]
-        public IActionResult GetNotRegistered()
+        [HttpGet("next")]
+        public IActionResult GetNext()
         {
 
             var bll = new JogoBLL();
-            var jogos = bll.GetNotRegistered();
+            var jogos = bll.GetNext();
+
+            return Ok(jogos);
+
+        }
+
+        [HttpGet("previous")]
+        public IActionResult GetPrevious()
+        {
+
+            var bll = new JogoBLL();
+            var jogos = bll.GetPrevious();
 
             return Ok(jogos);
 

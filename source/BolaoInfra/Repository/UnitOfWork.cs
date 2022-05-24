@@ -22,7 +22,7 @@ namespace BolaoInfra.Repository
 
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        public BolaoContext _context;
+        public BolaoContext Context;
         private Repository<Apostador> _apostadorRepository;
         private Repository<Aposta> _apostaRepository;
         private Repository<Grupo> _grupoRepository;
@@ -32,68 +32,68 @@ namespace BolaoInfra.Repository
         private Repository<Ranking> _rankingRepository;
         public UnitOfWork(BolaoContext context)
         {
-            _context = context;
+            Context = context;
         }
         public UnitOfWork()
         {
-            _context = new BolaoContext();
+            Context = new BolaoContext();
         }
         public IRepository<Apostador> ApostadorRepository
         {
             get
             {
-                return _apostadorRepository ??= new Repository<Apostador>(_context);
+                return _apostadorRepository ??= new Repository<Apostador>(Context);
             }
         }
         public IRepository<Aposta> ApostaRepository
         {
             get
             {
-                return _apostaRepository ??= new Repository<Aposta>(_context);
+                return _apostaRepository ??= new Repository<Aposta>(Context);
             }
         }
         public IRepository<Jogo> JogoRepository
         {
             get
             {
-                return _jogoRepository ??= new Repository<Jogo>(_context);
+                return _jogoRepository ??= new Repository<Jogo>(Context);
             }
         }
         public IRepository<Grupo> GrupoRepository
         {
             get
             {
-                return _grupoRepository ??= new Repository<Grupo>(_context);
+                return _grupoRepository ??= new Repository<Grupo>(Context);
             }
         }
         public IRepository<Mensagem> MensagemRepository
         {
             get
             {
-                return _mensagemRepository ??= new Repository<Mensagem>(_context);
+                return _mensagemRepository ??= new Repository<Mensagem>(Context);
             }
         }
         public IRepository<Pais> PaisRepository
         {
             get
             {
-                return _paisRepository ??= new Repository<Pais>(_context);
+                return _paisRepository ??= new Repository<Pais>(Context);
             }
         }
         public IRepository<Ranking> RankingRepository
         {
             get
             {
-                return _rankingRepository ??= new Repository<Ranking>(_context);
+                return _rankingRepository ??= new Repository<Ranking>(Context);
             }
         }
         public void Commit()
         {
-            _context.SaveChanges();
+            Context.SaveChanges();
         }
         public void Dispose()
         {
-            _context.Dispose();
+            Context.Dispose();
             GC.SuppressFinalize(this);
         }
     }

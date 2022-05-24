@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bolao_app/home.dart';
+import 'package:bolao_app/update_user.dart';
 import 'package:bolao_app/values/preference_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -21,6 +23,7 @@ class ActivateUserRoute extends StatefulWidget {
 class _ActivateUserRouteState extends State<ActivateUserRoute> {
   int numItems = 0;
   List<bool>? selected; //= List<bool>.generate(numItems, (int index) => false);
+  List<Apostador>? apostadores;
   List<List<DataCell>>? cellList;
   //var cellList = <DataCell>[][];
 
@@ -57,14 +60,23 @@ class _ActivateUserRouteState extends State<ActivateUserRoute> {
           tooltip: 'Editar',
           onPressed: () {
             setState(() {
-
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context)
+                    {
+                      return UpdateUserRoute(
+                          usuarioLogado: widget.usuarioLogado,
+                          user: a,
+                          redirectPage: PageName.activateUser);
+                    });
             });
           },
-        ),);
+        ));
         ls.add(c3);
         lls.add(ls);
       }
       setState(() {
+        apostadores = aps;
         numItems = aps.length;
         selected = List<bool>.generate(numItems, (int index) => false);
         cellList = lls;
@@ -132,12 +144,54 @@ class _ActivateUserRouteState extends State<ActivateUserRoute> {
               )
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              _activate();
+            },
             child: const Text('Ativar usuários'),
           ),
         ],
       )
     );
+  }
+
+  void _activate() async {
+    List<Apostador> apsToActivate = <Apostador>[];
+    for (int i = 0; i < selected!.length; i++) {
+      if (selected![i]) {
+        apsToActivate.add(apostadores![i]);
+      }
+    }
+
+    String? login = widget.usuarioLogado?.login;
+    String? senha = widget.usuarioLogado?.senha;
+    String basicAuth = 'Basic ' + base64Encode(utf8.encode('$login:$senha'));
+
+    final httpsUri = Uri(
+        scheme: PreferenceKeys.httpScheme,
+        host: PreferenceKeys.httpHost,
+        port: PreferenceKeys.httpPort,
+        path: 'user/activate');
+
+    // Use a JSON encoded string to send
+    var client = Client();
+    var result = await client.post(
+        httpsUri,
+        body: json.encode(apsToActivate),
+        headers: {'authorization': basicAuth, 'content-type': 'application/json'});//,
+
+    if (result.statusCode == 200) {
+      getApostadores();
+    }
+    else{
+      if (result.statusCode == 400) {
+        Map<String, dynamic> j = json.decode(result.body);
+        _showDialog(j['message']);
+      }
+      else {
+        _showDialog("Ocorreu um erro na ativação dos usuários, por favor, tente mais tarde");
+      }
+    }
+
   }
 
   void _showDialog(String message) {
