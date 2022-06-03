@@ -41,7 +41,7 @@ namespace BolaoApi.Controllers
 
         [AllowAnonymous]
         [HttpPost("create")]
-        public IActionResult Create([FromBody] Apostador model)
+        public IActionResult Create(Apostador model)
         {
             var bll = new ApostadorBLL();
 

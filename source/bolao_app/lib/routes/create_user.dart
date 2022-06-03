@@ -1,40 +1,37 @@
-import 'dart:convert';
-import 'package:bolao_app/ranking.dart';
-import 'package:bolao_app/values/preference_keys.dart';
+import 'package:bolao_app/models/apostador.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'home.dart';
-
-import 'home.dart';
+import '../repositories/apostador_repository.dart';
+import '../route_generator.dart';
+import '../widgets/drawer.dart';
 
 Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
-  'Login': instance.Login,
-  'Contato': instance.Contato,
-  'Email': instance.Email,
-  'Senha': instance.Senha,
-  'Celular': instance.Celular,
-  'Cidade': instance.Cidade,
+  'Login': instance.login,
+  'Contato': instance.contato,
+  'Email': instance.email,
+  'Senha': instance.senha,
+  'Celular': instance.celular,
+  'Cidade': instance.cidade,
 };
 
 @JsonSerializable()
 class UserData {
-  String? Login;
-  String? Contato;
-  String? Email;
-  String? Senha;
-  String? RepetirSenha;
-  String? Celular;
-  String? Cidade;
+  String? login;
+  String? contato;
+  String? email;
+  String? senha;
+  String? repetirSenha;
+  String? celular;
+  String? cidade;
 
   UserData({
-    this.Login,
-    this.Contato,
-    this.Email,
-    this.Senha,
-    this.RepetirSenha,
-    this.Celular,
-    this.Cidade,
+    this.login,
+    this.contato,
+    this.email,
+    this.senha,
+    this.repetirSenha,
+    this.celular,
+    this.cidade,
   });
 
   Map<String, dynamic> toJson() => _$UserDataToJson(this);
@@ -59,8 +56,8 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Criação de novo usuário'),
-
       ),
+      drawer: const BolaoDrawer(),
       body: Form(
         key: _formKey,
         child: Scrollbar(
@@ -78,7 +75,7 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
                       labelText: 'Login/Nome Único',
                     ),
                     onChanged: (value) {
-                      userData.Login = value;
+                      userData.login = value;
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -96,7 +93,7 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
                       labelText: 'Indicação',
                     ),
                     onChanged: (value) {
-                      userData.Contato = value;
+                      userData.contato = value;
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -114,7 +111,7 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
                       labelText: 'E-mail',
                     ),
                     onChanged: (value) {
-                      userData.Email = value;
+                      userData.email = value;
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -136,13 +133,13 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
                     ),
                     obscureText: true,
                     onChanged: (value) {
-                      userData.Senha = value;
+                      userData.senha = value;
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Senha é obrigatório.';
                       }
-                      if (userData.RepetirSenha == userData.Senha) {
+                      if (userData.repetirSenha == userData.senha) {
                         return null;
                       }
                       return 'Senhas não conferem.';
@@ -155,13 +152,13 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
                     ),
                     obscureText: true,
                     onChanged: (value) {
-                      userData.RepetirSenha = value;
+                      userData.repetirSenha = value;
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Repetir Senha é obrigatório.';
                       }
-                      if (userData.RepetirSenha == userData.Senha) {
+                      if (userData.repetirSenha == userData.senha) {
                         return null;
                       }
                       return 'Senhas não conferem.';
@@ -176,7 +173,7 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
                       labelText: 'Telefone Celular',
                     ),
                     onChanged: (value) {
-                      userData.Celular = value;
+                      userData.celular = value;
                     },
                   ),
                   TextFormField(
@@ -188,7 +185,7 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
                       labelText: 'Cidade',
                     ),
                     onChanged: (value) {
-                      userData.Cidade = value;
+                      userData.cidade = value;
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -205,24 +202,19 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
                       if (!valid) {
                         return;
                       }
-                      final httpsUri = Uri(
-                          scheme: PreferenceKeys.httpScheme,
-                          host: PreferenceKeys.httpHost,
-                          port: PreferenceKeys.httpPort,
-                          path: 'user/create');
 
-                      // Use a JSON encoded string to send
-                      var client = Client();
-                      var result = await client.post(
-                          httpsUri,
-                          body: json.encode(userData.toJson()),
-                          headers: {'content-type': 'application/json'});//,
-                          //encoding: Encoding.getByName("utf-8"));
-
-                      if (result.statusCode == 200) {
+                      try{
+                        Apostador apostador = Apostador();
+                        apostador.login = userData.login;
+                        apostador.contato = userData.contato;
+                        apostador.email = userData.email;
+                        apostador.senha = userData.senha;
+                        apostador.celular = userData.celular;
+                        apostador.cidade = userData.cidade;
+                        await ApostadorRepository.create(apostador);
                         _showDialog('Usuário criado. Aguarde sua ativação');
-                      } else {
-                        _showDialog('Ocorreu um erro. Por favor tente mais tarde.');
+                      } catch (e) {
+                        _showDialog('$e');
                       }
                     },
                   ),
@@ -249,15 +241,7 @@ class _CreateUserRouteState extends State<CreateUserRoute> {
         actions: [
           TextButton(
             child: const Text('OK'),
-            onPressed: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeRoute(
-                    page: PageName.ranking,
-                    usuarioLogado: null
-                )),
-              )
-            },
+            onPressed: () => Navigator.pushNamed(context, RouteGenerator.homeRoute)
           ),
         ],
       ),

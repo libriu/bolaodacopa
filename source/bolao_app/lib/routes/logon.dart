@@ -1,32 +1,24 @@
 import 'dart:convert';
-
-import 'package:bolao_app/ranking.dart';
-import 'package:bolao_app/values/preference_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'auth.dart';
+import 'package:provider/provider.dart';
+import '../route_generator.dart';
+import '../repositories/user_repository.dart';
 import 'create_user.dart';
-import 'home.dart';
-import 'models/apostador.dart';
+import '../models/usuario.dart';
 
-class LogonPage extends StatefulWidget {
-  final Apostador? usuarioLogado;
-
-  const LogonPage({
-    required this.usuarioLogado,
+class LogonRoute extends StatefulWidget {
+  const LogonRoute({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<LogonPage> createState() => _LogonPageState(usuarioLogado: usuarioLogado);
+  State<LogonRoute> createState() => _LogonRouteState();
 }
 
-class _LogonPageState extends State<LogonPage> {
-  Apostador user = Apostador();
-  Apostador? usuarioLogado;
-
-  _LogonPageState({this.usuarioLogado});
+class _LogonRouteState extends State<LogonRoute> {
+  Usuario user = Usuario();
+  Usuario? usuarioLogado;
 
   @override
   Widget build(BuildContext context) {
@@ -60,24 +52,29 @@ class _LogonPageState extends State<LogonPage> {
                     obscureText: true,
                     onChanged: (value) => setState(() => user.senha = value),
                   ),
-                  TextButton(
-                    child: const Text('Sign in'),
-                    onPressed: () {
-                        Auth.authenticate(user).then((Response resp) {
-                          if (resp.statusCode == 200) {
-                              success(context);
-                          }
-                          else {
-                            if (resp.statusCode == 400) {
-                              Map<String, dynamic> j = json.decode(resp.body);
-                              _showDialog(j['message']);
-                            }
-                            else {
-                              _showDialog("Ocorreu um erro na autenticação, por favor, tente mais tarde");
-                            }
-                          }
-                        });
-                      },
+                  Consumer<Usuario>(
+                      builder: (context, cache, _) {
+                        return TextButton(
+                          child: const Text('Entrar'),
+                          onPressed: () {
+                            UserRepository.logon(user).then((Response resp) {
+                              if (resp.statusCode == 200) {
+                                UserRepository.getFromLocal().then((value) => cache.copy(value));
+                                Navigator.pushNamed(context, RouteGenerator.homeRoute);
+                              }
+                              else {
+                                if (resp.statusCode == 400) {
+                                  Map<String, dynamic> j = json.decode(resp.body);
+                                  _showDialog(j['message']);
+                                }
+                                else {
+                                  _showDialog("Ocorreu um erro na autenticação, por favor, tente mais tarde");
+                                }
+                              }
+                            });
+                          },
+                        );
+                      }
                   ),
                   TextButton(
                     onPressed: () {
@@ -101,26 +98,6 @@ class _LogonPageState extends State<LogonPage> {
           ),
         ),
       ),
-    );
-  }
-
-  void success(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? jsonUser = prefs.get(PreferenceKeys.activeUser)?.toString();
-    if (jsonUser != null) {
-      Map<String, dynamic> mapUser = json.decode(jsonUser);
-      Apostador user = Apostador.fromJson(mapUser);
-      //setState() {
-      usuarioLogado = user;
-      //}
-    }
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomeRoute(
-        page: PageName.ranking,
-        usuarioLogado: usuarioLogado
-      )),
     );
   }
 

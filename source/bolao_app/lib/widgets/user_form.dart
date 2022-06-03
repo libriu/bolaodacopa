@@ -1,56 +1,33 @@
-import 'dart:convert';
-import 'package:bolao_app/values/preference_keys.dart';
+import 'package:bolao_app/models/usuario.dart';
+import 'package:bolao_app/repositories/apostador_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'home.dart';
-import 'models/apostador.dart';
+import 'package:provider/provider.dart';
+import '../models/apostador.dart';
+import '../route_generator.dart';
 
-class UpdateUserRoute extends StatefulWidget {
+class UserForm extends StatefulWidget {
 
-  const UpdateUserRoute({
-    Key? key, this.usuarioLogado, required this.user, required this.redirectPage
+  const UserForm({
+    Key? key
   }) : super(key: key);
 
-  final Apostador? usuarioLogado;
-  final Apostador user;
-  final PageName redirectPage;
-
   @override
-  State<UpdateUserRoute> createState() => _UpdateUserRouteState(user: user);
+  State<UserForm> createState() => _UserFormState();
 }
 
-class _UpdateUserRouteState extends State<UpdateUserRoute> {
-
+class _UserFormState extends State<UserForm> {
   final _formKey = GlobalKey<FormState>();
-  Apostador? user;
-
-  _UpdateUserRouteState({this.user});
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-        content: Stack(
-        clipBehavior: Clip.none,
-        children: <Widget>[
-          Positioned(
-            right: -40.0,
-            top: -40.0,
-            child: InkResponse(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: const CircleAvatar(
-                child: Icon(Icons.close),
-                backgroundColor: Colors.red,
-              ),
-            ),
-          ),
-          Form(
-            key: _formKey,
-            child: Scrollbar(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
+    return Form(
+      key: _formKey,
+      child: Scrollbar(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Consumer2<Usuario, Apostador>(
+              builder: (context, cache, apostador, _) {
+                return Column(
                   children: [
                     ...[
                       TextFormField(
@@ -61,9 +38,9 @@ class _UpdateUserRouteState extends State<UpdateUserRoute> {
                           hintText: 'Ex: Joao Paulo',
                           labelText: 'Login/Nome Único',
                         ),
-                        initialValue: user?.login,
+                        initialValue: apostador.login,
                         onChanged: (value) {
-                          user?.login = value;
+                          apostador.login = value;
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -80,9 +57,9 @@ class _UpdateUserRouteState extends State<UpdateUserRoute> {
                           hintText: 'Ex: Turma da Natação',
                           labelText: 'Indicação',
                         ),
-                        initialValue: user?.contato,
+                        initialValue: apostador.contato,
                         onChanged: (value) {
-                          user?.contato = value;
+                          apostador.contato = value;
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -99,9 +76,9 @@ class _UpdateUserRouteState extends State<UpdateUserRoute> {
                           hintText: 'E-mail',
                           labelText: 'E-mail',
                         ),
-                        initialValue: user?.email,
+                        initialValue: apostador.email,
                         onChanged: (value) {
-                          user?.email = value;
+                          apostador.email = value;
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -124,9 +101,9 @@ class _UpdateUserRouteState extends State<UpdateUserRoute> {
                           hintText: 'Telefone Celular',
                           labelText: 'Telefone Celular',
                         ),
-                        initialValue: user?.celular,
+                        initialValue: apostador.celular,
                         onChanged: (value) {
-                          user?.celular = value;
+                          apostador.celular = value;
                         },
                       ),
                       TextFormField(
@@ -137,9 +114,9 @@ class _UpdateUserRouteState extends State<UpdateUserRoute> {
                           hintText: 'Cidade',
                           labelText: 'Cidade',
                         ),
-                        initialValue: user?.cidade,
+                        initialValue: apostador.cidade,
                         onChanged: (value) {
-                          user?.cidade = value;
+                          apostador.cidade = value;
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -149,39 +126,24 @@ class _UpdateUserRouteState extends State<UpdateUserRoute> {
                         },
                       ),
                       TextButton(
-                        child: const Text('Atualizar'),
-                        onPressed: () async {
-
-                          var valid = _formKey.currentState!.validate();
-                          if (!valid) {
-                            return;
-                          }
-                          String? login = widget.usuarioLogado?.login;
-                          String? senha = widget.usuarioLogado?.senha;
-                          String basicAuth = 'Basic ' + base64Encode(utf8.encode('$login:$senha'));
-
-                          final httpsUri = Uri(
-                              scheme: PreferenceKeys.httpScheme,
-                              host: PreferenceKeys.httpHost,
-                              port: PreferenceKeys.httpPort,
-                              path: 'user/update');
-
-                          // Use a JSON encoded string to send
-                          var client = Client();
-                          var result = await client.post(
-                              httpsUri,
-                              body: json.encode(user!.toJson()),
-                              headers: {'authorization': basicAuth, 'content-type': 'application/json'});
-
-                          if (result.statusCode == 200) {
-                            _showDialog('Usuário alterado com sucesso');
-                            //Navigator.of(context).pop();
-                          } else {
-                            _showDialog('Ocorreu um erro. Por favor, tente mais tarde.');
-                            //Navigator.of(context).pop();
-                          }
-                        },
-                      ),
+                              child: const Text('Atualizar'),
+                              onPressed: () async {
+                                var valid = _formKey.currentState!.validate();
+                                if (!valid) {
+                                  return;
+                                }
+                                String login = cache.login!;
+                                String senha = cache.senha!;
+                                try{
+                                  await ApostadorRepository.update(login, senha, apostador);
+                                  _showDialog('Usuário atualizado com sucesso.');
+                                  //Navigator.pop(context);
+                                  //Navigator.pushNamed(context, RouteGenerator.activateUserRoute);
+                                } catch (e) {
+                                _showDialog('$e');
+                                }
+                              },
+                            )
                     ].expand(
                           (widget) => [
                         widget,
@@ -191,14 +153,14 @@ class _UpdateUserRouteState extends State<UpdateUserRoute> {
                       ],
                     )
                   ],
-                ),
-              ),
-            ),
+                );
+              }
           )
-        ],
         ),
+      ),
     );
   }
+
   void _showDialog(String message) {
     showDialog<void>(
       context: context,
@@ -206,15 +168,8 @@ class _UpdateUserRouteState extends State<UpdateUserRoute> {
         title: Text(message),
         actions: [
           TextButton(
-            child: const Text('OK'),
-            onPressed: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeRoute(
-                    page: widget.redirectPage,
-                    usuarioLogado: widget.usuarioLogado)),
-              )
-            },
+              child: const Text('OK'),
+              onPressed: () => Navigator.pushNamed(context, RouteGenerator.activateUserRoute)
           ),
         ],
       ),

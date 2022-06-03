@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'models/apostador.dart';
-
 class GameRoute extends StatefulWidget {
 
   const GameRoute({
-    Key? key, this.usuarioLogado
+    Key? key
   }) : super(key: key);
 
-  final Apostador? usuarioLogado;
   @override
   State<GameRoute> createState() => _GameRouteState();
 }
