@@ -48,12 +48,22 @@ namespace BolaoApi.Controllers
 
         }
 
-        [HttpPost()]
+        [HttpPost("registermany")]
         public IActionResult Register(List<Aposta> apostas)
         {
             var bll = new ApostaBLL();
 
             bll.InsertOrUpdate(apostas, UsuarioAutenticado.CodApostador);
+
+            return Ok();
+        }
+
+        [HttpPost("register")]
+        public IActionResult Register(Aposta aposta)
+        {
+            var bll = new ApostaBLL();
+
+            bll.InsertOrUpdate(aposta, UsuarioAutenticado.CodApostador);
 
             return Ok();
         }

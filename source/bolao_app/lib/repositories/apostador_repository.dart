@@ -90,13 +90,19 @@ class ApostadorRepository extends BolaoRepository{
         port: BolaoRepository.httpPort,
         path: 'user/create');
 
+    Response result;
     // Use a JSON encoded string to send
     var client = Client();
-    var result = await client.post(
-        httpsUri,
-        body: json.encode(apostador.toJson()),
-        headers: {'content-type': 'application/json'});//,
-    //encoding: Encoding.getByName("utf-8"));
+    try {
+      result = await client.post(
+          httpsUri,
+          body: json.encode(apostador.toJson()),
+          headers: {'content-type': 'application/json'});//,
+      //encoding: Encoding.getByName("utf-8"));
+    }
+    finally {
+      client.close();
+    }
 
     if (result.statusCode != 200) {
       return Future<void>.error("Ocorreu um erro na criação do usuário. Por favor, tente mais tarde");

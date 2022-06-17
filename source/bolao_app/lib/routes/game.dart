@@ -1,7 +1,8 @@
+import 'package:bolao_app/routes/game_next.dart';
 import 'package:flutter/material.dart';
+import 'game_previous.dart';
 
 class GameRoute extends StatefulWidget {
-
   const GameRoute({
     Key? key
   }) : super(key: key);
@@ -10,44 +11,50 @@ class GameRoute extends StatefulWidget {
   State<GameRoute> createState() => _GameRouteState();
 }
 
-class _GameRouteState extends State<GameRoute> {
+class _GameRouteState extends State<GameRoute> with SingleTickerProviderStateMixin{
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 1);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 1,
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('TabBar Widget'),
-          bottom: const TabBar(
-            tabs: <Widget>[
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          TabBar(
+            unselectedLabelColor: Colors.black,
+            labelColor: Colors.blue,
+            tabs: const [
               Tab(
-                icon: Icon(Icons.cloud_outlined),
+                text: 'ANTERIORES',
               ),
               Tab(
-                icon: Icon(Icons.beach_access_sharp),
-              ),
-              Tab(
-                icon: Icon(Icons.brightness_5_sharp),
-              ),
+                text: 'PRÓXIMOS',
+              )
             ],
+            controller: _tabController,
+            indicatorSize: TabBarIndicatorSize.tab,
           ),
-        ),
-        body: const TabBarView(
-          children: <Widget>[
-            Center(
-              child: Text("It's cloudy here"),
+          Expanded(
+            child: TabBarView(
+              children: const [
+                GamePreviousRoute(),
+                GameNextRoute()
+              ],
+              controller: _tabController,
             ),
-            Center(
-              child: Text("It's rainy here"),
-            ),
-            Center(
-              child: Text("It's sunny here"),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
+
+
+
+

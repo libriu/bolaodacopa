@@ -237,6 +237,8 @@ namespace BolaoInfra.Context
             {
                 entity.HasKey(e => e.CodPais);
 
+                entity.ToTable("Pais");
+
                 entity.HasIndex(e => e.Nome, "IX_Pais")
                     .IsUnique();
 

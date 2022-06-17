@@ -14,14 +14,20 @@ class UserRepository extends BolaoRepository {
     port: BolaoRepository.httpPort,
     path: 'user/authenticate');
 
+    Response result;
     // Use a JSON encoded string to send
     var client = Client();
-    var result = await client.post(
-    httpsUri,
-    //body: {'Login': 'elmo', 'Senha': 'elmo1233'});//,
-    body: json.encode(user.toJson()),
-    headers: {'content-type': 'application/json'});//,
-    //encoding: Encoding.getByName("utf-8"));
+    try {
+      result = await client.post(
+          httpsUri,
+          //body: {'Login': 'elmo', 'Senha': 'elmo1233'});//,
+          body: json.encode(user.toJson()),
+          headers: {'content-type': 'application/json'});//,
+      //encoding: Encoding.getByName("utf-8"));
+    }
+    finally {
+      client.close();
+    }
 
     if (result.statusCode == 200) {
       Map<String, dynamic> mapUser = json.decode(result.body);

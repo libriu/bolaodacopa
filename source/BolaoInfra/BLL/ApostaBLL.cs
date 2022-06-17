@@ -53,6 +53,35 @@ namespace BolaoInfra.BLL
             _uow.Commit();
         }
 
+        public void InsertOrUpdate(Aposta aposta, int codApostador)
+        {
+            JogoBLL jogoBLL = new JogoBLL();
+            var apostasFeitas = GetAllMy(codApostador);
+
+            var jogo = jogoBLL.GetById(aposta.CodJogo);
+            if (jogo == null)
+            {
+                throw BolaoException.JogoInvalido;
+            }
+            if (jogo.DataHora < DateTime.Now || jogo.JaOcorreu == 1)
+            {
+                throw BolaoException.JogoOcorrido;
+            }
+            aposta.CodApostador = codApostador;
+            aposta.Pontos = 0;
+
+            if (apostasFeitas.Any(a => a.CodJogo == aposta.CodJogo))
+            {
+                Update(aposta);
+            }
+            else
+            {
+                Insert(aposta);
+            }
+
+            _uow.Commit();
+        }
+
         public void InsertOrUpdate(List<Aposta> apostas, int codApostador)
         {
             JogoBLL jogoBLL = new JogoBLL();

@@ -40,6 +40,7 @@ namespace BolaoApi.Controllers
             return BadRequest(new { message = "Erro ao inserir resultado de jogo" });
         }
 
+        [AllowAnonymous]
         [HttpGet("all")]
         public IActionResult GetAll()
         {
@@ -51,6 +52,7 @@ namespace BolaoApi.Controllers
 
         }
 
+        [AllowAnonymous]
         [HttpGet("next")]
         public IActionResult GetNext()
         {
@@ -62,6 +64,7 @@ namespace BolaoApi.Controllers
 
         }
 
+        [AllowAnonymous]
         [HttpGet("previous")]
         public IActionResult GetPrevious()
         {
