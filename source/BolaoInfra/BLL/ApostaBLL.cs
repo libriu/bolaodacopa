@@ -31,6 +31,12 @@ namespace BolaoInfra.BLL
             return _uow.ApostaRepository.Get(c => c.CodApostador == codApostador).ToList<Aposta>();
         }
 
+        public Aposta GetByGame(int codApostador, int codJogo)
+        {
+            return _uow.ApostaRepository.Get(c => c.CodApostador == codApostador 
+                                             && c.CodJogo == codJogo).FirstOrDefault<Aposta>();
+        }
+
         public IEnumerable<Aposta> GetNovasApostas()
         {
             List<Aposta> apostas = new();

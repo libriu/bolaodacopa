@@ -1,7 +1,6 @@
 import 'package:bolao_app/repositories/game_repository.dart';
 import 'package:flutter/material.dart';
 import '../models/jogo.dart';
-import '../route_generator.dart';
 import '../widgets/game_box.dart';
 
 class GameNextRoute extends StatefulWidget {
@@ -54,22 +53,6 @@ class _GameNextRouteState extends State<GameNextRoute> {
           child: CircularProgressIndicator(),
         );
       },
-    );
-  }
-
-  void _showDialog(String message) {
-    showDialog<void>(
-      context: context,
-      builder: (context) =>
-          AlertDialog(
-            title: Text(message),
-            actions: [
-              TextButton(
-                  child: const Text('OK'),
-                  onPressed: () => Navigator.pushNamed(context, RouteGenerator.homeRoute)
-              ),
-            ],
-          ),
     );
   }
 }

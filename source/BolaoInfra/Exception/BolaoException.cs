@@ -15,6 +15,8 @@ namespace BolaoInfra.Exception
         public static BolaoException LoginUtilizado { get { return new BolaoException("Nome/Login já utilizado por outro usuário"); } }
         public static BolaoException JogoInvalido { get { return new BolaoException("Jogo inválido"); } }
         public static BolaoException JogoOcorrido { get { return new BolaoException("Não é possível fazer aposta em jogo já ocorrido ou iniciado"); } }
+        public static BolaoException RemocaoResponsavelGrupoNaoPermitido { get { return new BolaoException("Não é permitido remover o responsável pelo grupo"); } }
+
         public string Mensagem { get; set; }
 
         public ApplicationException Ex { get; set; }

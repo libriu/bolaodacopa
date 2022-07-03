@@ -101,6 +101,8 @@ namespace BolaoInfra.Context
             {
                 entity.HasKey(e => new { e.CodApostador, e.CodJogo });
 
+                entity.ToTable("Aposta");
+
                 entity.Property(e => e.CodApostador).HasColumnName("cod_apostador");
 
                 entity.Property(e => e.CodJogo).HasColumnName("cod_jogo");

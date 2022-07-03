@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../models/jogo.dart';
 import '../repositories/game_repository.dart';
+import 'bet_box.dart';
 
 class GameBox extends StatelessWidget {
   const GameBox({ Key? key, required this.game }) : super(key: key);
@@ -24,42 +24,37 @@ class GameBox extends StatelessWidget {
           child: Column(children: [
             const SizedBox(height: 30),
             SizedBox(height: 30, child: Text(game.dataHora)),
-            // Row(children: [
-            //   Expanded(child: Column(children: [
-            //     Image.network("https://10.0.2.2:44357/country/flag?codPais=1"),
-            //     const Text("Pais 1")
-            //   ])),
-            //   Expanded(child: Column(children: const [
-            //     Text("OITAVAS"),
-            //     Text("X")
-            //   ])),
-            //   Expanded(child: Column(children: [
-            //     Image.network("https://10.0.2.2:44357/country/flag?codPais=2"),
-            //     const Text("Pais 2")
-            //   ])),
-            // ],),
             Row(children: [
               Expanded(child:
-              Image.network(GameRepository.getUrlFlag(game.codPaisA)),
+              SizedBox(height: 60, child: Image.network(GameRepository.getUrlFlag(game.codPaisA))),
+              // SvgPicture.asset(
+              //   "assets/images/flags/" + game.paisA.arquivo,
+              //   height: 60,
+              //   //width: 120,
+              //   //placeholderBuilder: (_) =>
+              //   //const CircularProgressIndicator(),
+              // )
+
               ),
               Expanded(child:
               Center(child: Text(game.grupo)),
               ),
               Expanded(child:
-              Image.network(GameRepository.getUrlFlag(game.codPaisB)),
+              SizedBox(height: 60, child: Image.network(GameRepository.getUrlFlag(game.codPaisB))),
               ),
             ],),
             Row(children: [
               Expanded(child:
               Center(child: Text(game.paisA.nome))
               ),
-              const Expanded(child:
-              Center(child: Text("X"))
+              Expanded(child:
+              game.jaOcorreu == 0 ? const Center(child: Text("X")) : Center(child: Text(game.rPlacarA.toString() + ' X ' + game.rPlacarB.toString())),
               ),
               Expanded(child:
               Center(child: Text(game.paisB.nome))
               ),
-            ],)
+            ],),
+            Expanded(child: SizedBox(height: 60, child: BetBox(codJogo: game.codJogo)))
           ],)
       ),
     );

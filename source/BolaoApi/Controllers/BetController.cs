@@ -48,6 +48,17 @@ namespace BolaoApi.Controllers
 
         }
 
+        [HttpGet("bygame")]
+        public IActionResult GetByGame(int codJogo)
+        {
+
+            var bll = new ApostaBLL();
+            var aposta = bll.GetByGame(UsuarioAutenticado.CodApostador, codJogo);
+
+            return Ok(aposta);
+
+        }
+
         [HttpPost("registermany")]
         public IActionResult Register(List<Aposta> apostas)
         {
