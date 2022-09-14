@@ -7,6 +7,6 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword />
-    <History>True|2022-06-30T13:22:03.8069050Z;False|2022-06-29T18:23:26.6016720-03:00;True|2022-06-29T18:21:11.7946407-03:00;True|2022-06-29T18:20:58.4056654-03:00;False|2022-05-12T07:35:32.7439673-03:00;</History>
+    <History>False|2022-07-05T22:56:17.8002708Z;True|2022-06-30T10:22:03.8069050-03:00;False|2022-06-29T18:23:26.6016720-03:00;True|2022-06-29T18:21:11.7946407-03:00;True|2022-06-29T18:20:58.4056654-03:00;False|2022-05-12T07:35:32.7439673-03:00;</History>
   </PropertyGroup>
 </Project>

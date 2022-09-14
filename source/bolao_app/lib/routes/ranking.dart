@@ -1,8 +1,12 @@
+import 'package:bolao_app/models/ranking_list.dart';
 import 'package:bolao_app/models/usuario.dart';
 import 'package:bolao_app/repositories/ranking_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+//import '../models/apostador.dart';
 import '../models/ranking.dart';
+import '../widgets/ranking_filtered_list.dart';
+
 
 class RankingRoute extends StatefulWidget {
 
@@ -16,31 +20,21 @@ class RankingRoute extends StatefulWidget {
 
 class _RankingRouteState extends State<RankingRoute> {
   late final Future<Ranking?> myRanking;
-  late final Future<List<List<DataCell>>> cellList;
+  late Future<List<Ranking>> list;
+  late RankingList rankingList;
+  final controller = TextEditingController();
+  //Apostador? apostador;
 
-  Future<List<List<DataCell>>> getRanking() async {
-      var rnk = await RankingRepository().getRanking();
-      var lls = <List<DataCell>>[];
-      for (Ranking r in rnk) {
-        List<DataCell> ls = <DataCell>[];
-        DataCell c1 = DataCell(Text(r.posicao.toString()));
-        ls.add(c1);
-        DataCell c2 = DataCell(Text(r.apostador.login!));
-        ls.add(c2);
-        DataCell c3 = DataCell(Text(r.totalPontos.toString()));
-        ls.add(c3);
-        DataCell c4 = DataCell(Text(r.totalAcertos.toString()));
-        ls.add(c4);
-        lls.add(ls);
-      }
-      return lls;
+  Future<List<Ranking>> getRanking() async {
+    return await RankingRepository().getRanking();
   }
 
   @override
   void initState() {
     super.initState();
-    cellList = getRanking();
+    list = getRanking();
     var user = context.read<Usuario>();
+    //Apostador apostador = context.watch<Apostador>();
     if (user.isLoggedOn) {
       myRanking = RankingRepository().getMyRanking(user.login!, user.senha!);
     }
@@ -56,62 +50,87 @@ class _RankingRouteState extends State<RankingRoute> {
       //   title: const Text("Ranking"),
       // ),
       // drawer: const BolaoDrawer(),
-      body: SizedBox(
-          width: double.infinity,
-          child: Column(children: [
-            FutureBuilder<Ranking?>(
-              future: myRanking,
+        body: SizedBox(
+            width: double.infinity,
+            child: FutureBuilder<List<Ranking>>(
+              future: list,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   // Remember that 'snapshot.data' returns a nullable
-                  final data = snapshot.data?.posicao.toString() ?? "";
-                  return Center(child: Text("Sua posição é: $data"),);
-                }
-                // if (snapshot.hasError) {
-                //   return const ErrorWidget();
-                // }
-                return const Text("");
-              },
-            ),
-            FutureBuilder<List<List<DataCell>>>(
-              future: cellList,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  // Remember that 'snapshot.data' returns a nullable
-                  return DataTable(
-                      columns: const <DataColumn>[
-                        DataColumn(
-                          label: Text('Posição'),
-                        ),
-                        DataColumn(
-                          label: Text('Login'),
-                        ),
-                        DataColumn(
-                          label: Text('Pontos'),
-                        ),
-                        DataColumn(
-                          label: Text('Acertos'),
-                        ),
-                      ],
-                      rows: List<DataRow>.generate(
-                        snapshot.data!.length,
-                            (int index) => DataRow(
-                          color: MaterialStateProperty.resolveWith<Color?>(
-                                  (Set<MaterialState> states) {
-                                // All rows will have the same selected color.
-                                if (states.contains(MaterialState.selected)) {
-                                  return Theme.of(context).colorScheme.primary.withOpacity(0.08);
-                                }
-                                // Even rows will have a grey color.
-                                if (index.isEven) {
-                                  return Colors.grey.withOpacity(0.3);
-                                }
-                                return null; // Use default value for other states and odd rows.
-                              }),
-                          cells: snapshot.data![index], //<DataCell>[DataCell(Text('Row $index'))],
-                        ),
-                      )
-                  );
+                  final data = snapshot.data ?? [];
+                  rankingList = RankingList(data);
+                  return Column(children: [
+                    const Padding(padding: EdgeInsets.all(10), child: Text("Ranking", textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
+                    Padding(padding: const EdgeInsets.all(10),
+                        child: SizedBox(
+                            height: 45,
+                            width: 370,
+                            child: TextField(
+                              style: const TextStyle(color: Colors.grey),
+                              controller: controller,
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.grey[200],
+                                  prefixIcon: const Icon(Icons.search),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      borderSide: const BorderSide(color: Colors.grey)
+                                  )
+                              ),
+                              onChanged: rankingList.filter,
+                            )
+                        )
+                    ),
+                    FutureBuilder<Ranking?>(
+                      future: myRanking,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          // Remember that 'snapshot.data' returns a nullable
+                          final data = snapshot.data?.posicao.toString() ?? "";
+                          final pts = snapshot.data?.totalPontos.toString() ?? "";
+                          return Padding(padding: const EdgeInsets.all(10), child: Container(
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(31, 78, 121, 1),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child:
+                              Row(
+                                children: [
+                                  SizedBox(width: 70, child: Text(data, textAlign: TextAlign.center,
+                                      style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold))),
+                                  const SizedBox(width: 220, child: Text("Você", textAlign: TextAlign.left,
+                                      style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold))),
+                                  SizedBox(width: 70, child: Text(pts, textAlign: TextAlign.right,
+                                      style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold))),
+                                ],)
+                          ));
+
+                        }
+                        // if (snapshot.hasError) {
+                        //   return const ErrorWidget();
+                        // }
+                        return const Text("");
+                      },
+                    ),
+                    //const Divider(height: 30, thickness: 4),
+                    Row(
+                      children: const [
+                        SizedBox(width: 70, child: Icon(
+                            Icons.flag,
+                            color: Colors.black,
+                            size: 22.0
+                        )),
+                        SizedBox(width: 220, child: Text("Participante", textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+                        SizedBox(width: 70, child: Text("Pontos", textAlign: TextAlign.right,
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
+                      ],),
+                    ChangeNotifierProvider(
+                        create: (context) => rankingList,
+                        child: const RankingFilteredList())
+                  ]);
                 }
                 // if (snapshot.hasError) {
                 //   return const ErrorWidget();
@@ -121,8 +140,7 @@ class _RankingRouteState extends State<RankingRoute> {
                 );
               },
             )
-          ])
-      )
+        )
     );
   }
 }

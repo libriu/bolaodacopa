@@ -12,6 +12,8 @@ class RouteGenerator {
 
   static const String splashRoute = '/';
   static const String homeRoute = '/home';
+  static const String homeGamePrevRoute = '/homegameprev';
+  static const String homeGameNextRoute = '/homegamenext';
   static const String rankingRoute = '/ranking';
   static const String createUserRoute = '/user/create';
   static const String activateUserRoute = '/user/activate';
@@ -29,7 +31,15 @@ class RouteGenerator {
         );
       case homeRoute:
         return MaterialPageRoute(
-          builder: (_) => const HomeRoute(),
+          builder: (_) => const HomeRoute(initialTab: 0, initialGameTab: 1,),
+        );
+      case homeGamePrevRoute:
+        return MaterialPageRoute(
+          builder: (_) => const HomeRoute(initialTab: 1, initialGameTab: 0),
+        );
+      case homeGameNextRoute:
+        return MaterialPageRoute(
+          builder: (_) => const HomeRoute(initialTab: 1, initialGameTab: 1),
         );
       case rankingRoute:
         return MaterialPageRoute(
@@ -49,7 +59,7 @@ class RouteGenerator {
         );
       case gameRoute:
         return MaterialPageRoute(
-            builder: (_) => const GameRoute()
+            builder: (_) => const GameRoute(initialTab: 1)
         );
       case logonRoute:
         return MaterialPageRoute(
