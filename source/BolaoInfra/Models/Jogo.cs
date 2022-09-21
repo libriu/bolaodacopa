@@ -14,6 +14,12 @@ namespace BolaoInfra.Models
         public int CodPaisA { get; set; }
         public int CodPaisB { get; set; }
 
+        public bool IsBetVisibleToOthers { get
+            {
+                return DataHora.Date <= DateTime.Today;
+            } 
+        }
+
         public virtual Pais PaisA { get; set; }
         public virtual Pais PaisB { get; set; }
         public virtual ICollection<Aposta> Apostas { get; set; }

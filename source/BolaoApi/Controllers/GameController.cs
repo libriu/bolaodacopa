@@ -52,25 +52,39 @@ namespace BolaoApi.Controllers
 
         }
 
-        [AllowAnonymous]
-        [HttpGet("next")]
-        public IActionResult GetNext()
+        //Método para usuário logado
+        [HttpGet("nextwithbets")]
+        public IActionResult GetNextWithBets(int codApostador)
         {
 
             var bll = new JogoBLL();
-            var jogos = bll.GetNext();
+            var jogos = bll.GetNext(codApostador, UsuarioAutenticado.CodApostador != codApostador);
 
             return Ok(jogos);
 
         }
 
+        //Método para usuário não logado
         [AllowAnonymous]
-        [HttpGet("previous")]
-        public IActionResult GetPrevious()
+        [HttpGet("next")]
+        public IActionResult GetNext(int codApostador)
         {
 
             var bll = new JogoBLL();
-            var jogos = bll.GetPrevious();
+            var jogos = bll.GetNext(codApostador, true);
+
+            return Ok(jogos);
+
+        }
+
+        //Método para usuário logado ou não
+        [AllowAnonymous]
+        [HttpGet("previous")]
+        public IActionResult GetPrevious(int codApostador)
+        {
+
+            var bll = new JogoBLL();
+            var jogos = bll.GetPrevious(codApostador);
 
             return Ok(jogos);
 

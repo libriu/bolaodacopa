@@ -1,5 +1,7 @@
 import 'package:bolao_app/models/pais.dart';
 
+import 'aposta.dart';
+
 class Jogo {
   int codJogo;
   String grupo;
@@ -11,6 +13,8 @@ class Jogo {
   int codPaisB;
   Pais paisA;
   Pais paisB;
+  List<Aposta>? apostas;
+  bool isBetVisibleToOthers;
 
   Jogo({required this.codJogo,
     required this.grupo,
@@ -21,7 +25,9 @@ class Jogo {
     required this.codPaisA,
     required this.codPaisB,
     required this.paisA,
-    required this.paisB
+    required this.paisB,
+    required this.isBetVisibleToOthers,
+    this.apostas
   });
 
   factory Jogo.fromJson(dynamic json) {
@@ -34,6 +40,9 @@ class Jogo {
         codPaisA: json['codPaisA'] as int,
         codPaisB: json['codPaisB'] as int,
         paisA: Pais.fromJson(json['paisA']),
-        paisB: Pais.fromJson(json['paisB']),);
+        paisB: Pais.fromJson(json['paisB']),
+        isBetVisibleToOthers: json['isBetVisibleToOthers'] as bool,
+        apostas: json['apostas'] == null ? null : List<Aposta>.from(json['apostas'].map((model)=> Aposta.fromJson(model)))
+    );
   }
 }

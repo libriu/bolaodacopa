@@ -1,6 +1,9 @@
 import 'package:bolao_app/repositories/game_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/jogo.dart';
+import '../models/ranking.dart';
+import '../models/usuario.dart';
 import '../widgets/game_box.dart';
 
 class GameNextRoute extends StatefulWidget {
@@ -20,7 +23,15 @@ class _GameNextRouteState extends State<GameNextRoute> {
   @override
   void initState() {
     super.initState();
-    games = GameRepository().getNextGames();
+    var usuarioLogado = context.read<Usuario>();
+    var ranking = context.read<Ranking>();
+    if (usuarioLogado.isLoggedOn) {
+      games = GameRepository().getNextGames(
+          usuarioLogado.login!, usuarioLogado.senha!, ranking.codApostador);
+    }
+    else {
+      games = GameRepository().getNextGamesAnnonymous(ranking.codApostador);
+    }
   }
 
 

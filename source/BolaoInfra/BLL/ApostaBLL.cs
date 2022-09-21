@@ -2,6 +2,7 @@
 using BolaoInfra.Models;
 using BolaoInfra.Repository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,19 +32,27 @@ namespace BolaoInfra.BLL
             return _uow.ApostaRepository.Get(c => c.CodApostador == codApostador).ToList<Aposta>();
         }
 
+        //public List<Aposta> GetWithGames(int codApostador)
+        //{
+        //    return _uow.ApostaRepository.Get(c => c.CodApostador == codApostador)
+        //        .Include(aposta => aposta.Jogo)
+        //        .ThenInclude<Aposta, Jogo>()
+        //        .Where(j => j.DataHora > DateTime.Now && j.JaOcorreu == 0).ToList<Jogo>();
+        //}
+
         public Aposta GetByGame(int codApostador, int codJogo)
         {
             return _uow.ApostaRepository.Get(c => c.CodApostador == codApostador 
                                              && c.CodJogo == codJogo).FirstOrDefault<Aposta>();
         }
 
-        public IEnumerable<Aposta> GetNovasApostas()
+        public static IEnumerable<Aposta> GetNovasApostas(int codApostador)
         {
             List<Aposta> apostas = new();
             //int diasAntecedencia = 3;
             //var jogos = _uow.JogoRepository.Get(j => j.DataHora > DateTime.Now && j.DataHora <= DateTime.Now.AddDays(diasAntecedencia)).AsEnumerable<Jogo>();
-            JogoBLL jogoBLL = new JogoBLL();
-            var jogos = jogoBLL.GetNext();
+            JogoBLL jogoBLL = new();
+            var jogos = jogoBLL.GetNext(codApostador, false);
             foreach (Jogo j in jogos)
             {
                 Aposta a = new();
@@ -61,7 +70,7 @@ namespace BolaoInfra.BLL
 
         public void InsertOrUpdate(Aposta aposta, int codApostador)
         {
-            JogoBLL jogoBLL = new JogoBLL();
+            JogoBLL jogoBLL = new();
             var apostasFeitas = GetAllMy(codApostador);
 
             var jogo = jogoBLL.GetById(aposta.CodJogo);
@@ -90,7 +99,7 @@ namespace BolaoInfra.BLL
 
         public void InsertOrUpdate(List<Aposta> apostas, int codApostador)
         {
-            JogoBLL jogoBLL = new JogoBLL();
+            JogoBLL jogoBLL = new();
             var apostasFeitas = GetAllMy(codApostador);
             foreach (Aposta aposta in apostas)
             {

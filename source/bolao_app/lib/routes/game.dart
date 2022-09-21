@@ -30,7 +30,6 @@ class _GameRouteState extends State<GameRoute> with SingleTickerProviderStateMix
     return Scaffold(
       body: Consumer2<Usuario,Ranking>(
         builder: (context, usuarioLogado, ranking, _) {
-
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -44,7 +43,10 @@ class _GameRouteState extends State<GameRoute> with SingleTickerProviderStateMix
                     color: usuarioLogado.codApostador == ranking.codApostador? Colors.black : Colors.grey,
                     onPressed: saveBets)
               ]),
-              Padding(padding: const EdgeInsets.all(10), child: Container(
+
+              Padding(padding: const EdgeInsets.all(10), child:
+                (ranking.codApostador != null) ?
+                Container(
                   height: 80,
                   decoration: BoxDecoration(
                     color: const Color.fromRGBO(138, 179, 207, 0.5),
@@ -67,7 +69,11 @@ class _GameRouteState extends State<GameRoute> with SingleTickerProviderStateMix
                           style: const TextStyle(fontSize: 18))),
                     ],)
                   ],)
-              )),
+              )
+              :
+              const Text("")
+              ),
+
               SizedBox(height: 40, child: TabBar(
                 unselectedLabelColor: Colors.black,
                 labelColor: const Color.fromRGBO(31, 78, 121, 1),

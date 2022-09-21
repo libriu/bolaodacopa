@@ -1,5 +1,6 @@
 ﻿using BolaoInfra.Models;
 using BolaoInfra.Repository;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,21 +30,65 @@ namespace BolaoInfra.BLL
             return _uow.JogoRepository.GetById(c => c.CodJogo == codigo);
         }
 
-        public List<Jogo> GetNext()
+        public List<Jogo> GetNext(int codApostador, bool onlyAllowed)
         {
-            return _uow.JogoRepository.GetAll()
+           
+            if (!onlyAllowed)
+            {
+                // Caso esteja vendo os jogos do próprio usuário logado, traz as apostas dele
+                return _uow.JogoRepository.GetAll()
+                    .Include(game => game.PaisA)
+                    .Include(game => game.PaisB)
+                    .Where(j => j.JaOcorreu == 0)
+                    .Select(g => new
+                    {
+                        g,
+                        Apostas = g.Apostas.Where(a => a.CodApostador == codApostador)
+                    })
+                    .AsEnumerable()
+                    .Select(x => x.g)
+                    .ToList<Jogo>();
+            }
+
+            // Caso esteja vendo os jogos de outro usuário, só traz as apostas até o dia de hoje (dia fechado), não traz as futuras
+            var lista1 = _uow.JogoRepository.GetAll()
                 .Include(game => game.PaisA)
                 .Include(game => game.PaisB)
-                .Where(j => j.DataHora > DateTime.Now && j.JaOcorreu == 0).ToList<Jogo>();
+                .Where(j => j.DataHora.Date <= DateTime.Today.AddDays(1) && j.JaOcorreu == 0)
+                .Select(g => new
+                {
+                    g,
+                    Apostas = g.Apostas.Where(a => a.CodApostador == codApostador)
+                })
+                .AsEnumerable()
+                .Select(x => x.g)
+                .ToList<Jogo>();
+            var lista2 = _uow.JogoRepository.GetAll()
+                .Include(game => game.PaisA)
+                .Include(game => game.PaisB)
+                .Where(j => j.DataHora.Date > DateTime.Today && j.JaOcorreu == 0)
+                .ToList<Jogo>();
+
+            return lista1.Concat(lista2).ToList<Jogo>(); ;
+
         }
 
-        public List<Jogo> GetPrevious()
+        public List<Jogo> GetPrevious(int codApostador)
         {
+            // Traz as apostas, mesmo que seja de outro usuário, pois são jogos passados
             return _uow.JogoRepository.GetAll()
                 .Include(game => game.PaisA)
                 .Include(game => game.PaisB)
-                .Where(j => j.DataHora <= DateTime.Now || j.JaOcorreu == 1)
+                .Where(j => j.JaOcorreu == 1)
+                .Select(g => new
+                {
+                    g,
+                    Apostas = g.Apostas.Where(a => a.CodApostador == codApostador)
+                })
+                .AsEnumerable()
+                .Select(x => x.g)
                 .ToList<Jogo>();
+
         }
 
         public void Insert(Jogo Jogo)

@@ -11,28 +11,41 @@ class GameRepository extends BolaoRepository{
       + "/country/flag?codPais=" + codPais.toString();
   }
 
-  Future<List<Jogo>> getNextGames() async {
-    return _getGames("game/next");
+  Future<List<Jogo>> getNextGames(String login, String senha, int? codApostador) async {
+    return _getGames(login, senha, codApostador, "game/nextwithbets");
+  }
+  Future<List<Jogo>> getNextGamesAnnonymous(int? codApostador) async {
+    return _getGames("", "", codApostador, "game/next");
   }
 
-  Future<List<Jogo>> getPreviousGames() async {
-    return _getGames("game/previous");
+  Future<List<Jogo>> getPreviousGames(int? codApostador) async {
+    return _getGames("", "", codApostador, "game/previous");
   }
 
-  Future<List<Jogo>> _getGames(String url) async {
+  Future<List<Jogo>> _getGames(String login, String senha, int? codApostador, String url) async {
+    var codApost = codApostador ?? 0;
     final httpsUri = Uri(
         scheme: BolaoRepository.httpScheme,
         host: BolaoRepository.httpHost,
         port: BolaoRepository.httpPort,
-        path: url);
+        path: url,
+        queryParameters: {'codApostador': '$codApost'},
+    );
 
+    Map<String, String> header;
+    if (login == "") {
+      header = {'content-type': 'application/json'};
+    } else {
+      String basicAuth = 'Basic ' + base64Encode(utf8.encode('$login:$senha'));
+      header = {'authorization': basicAuth, 'content-type': 'application/json'};
+    }
     Response result;
     // Use a JSON encoded string to send
     var client = Client();
     try {
       result = await client.get(
           httpsUri,
-          headers: {'content-type': 'application/json'});
+          headers: header);
     }
     finally{
       client.close();

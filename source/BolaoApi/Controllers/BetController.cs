@@ -15,8 +15,8 @@ namespace BolaoApi.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var bll = new ApostaBLL();
-            var apostas = bll.GetNovasApostas();
+            //var bll = new ApostaBLL();
+            var apostas = ApostaBLL.GetNovasApostas(UsuarioAutenticado.CodApostador);
 
             return Ok(apostas);
         }
@@ -78,5 +78,16 @@ namespace BolaoApi.Controllers
 
             return Ok();
         }
+
+        //[HttpGet("withgame")]
+        //public IActionResult GetWithGames(int codApostador)
+        //{
+
+        //    var bll = new ApostaBLL();
+        //    var aposta = bll.GetWithGames(codApostador);
+
+        //    return Ok(aposta);
+
+        //}
     }
 }

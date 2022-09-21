@@ -33,10 +33,10 @@ class RankingFilteredList extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold))
                           ),
-                          SizedBox(width: 220, child: InkWell(child:
-                          Text(lista.filteredRanking[index].apostador!.login.toString(),
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                          SizedBox(width: 220, child: InkWell(
+                              child: Text(lista.filteredRanking[index].apostador!.login.toString(),
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                               onTap: () {
                                 ranking.copy(lista.filteredRanking[index]);
                                 Navigator.push(context, RouteGenerator.generateRoute(const RouteSettings(

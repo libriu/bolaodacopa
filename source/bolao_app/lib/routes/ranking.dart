@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import '../models/apostador.dart';
 import '../models/ranking.dart';
+import '../route_generator.dart';
 import '../widgets/ranking_filtered_list.dart';
 
 
@@ -37,9 +38,14 @@ class _RankingRouteState extends State<RankingRoute> {
     //Apostador apostador = context.watch<Apostador>();
     if (user.isLoggedOn) {
       myRanking = RankingRepository().getMyRanking(user.login!, user.senha!);
+      myRanking.then((value) {
+        var ranking = context.read<Ranking>();
+        ranking.copy(value!);
+      });
     }
     else {
       myRanking = Future.value(null);
+      var ranking = context.read<Ranking>();
     }
   }
 
@@ -87,7 +93,7 @@ class _RankingRouteState extends State<RankingRoute> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           // Remember that 'snapshot.data' returns a nullable
-                          final data = snapshot.data?.posicao.toString() ?? "";
+                          final pos = snapshot.data?.posicao.toString() ?? "";
                           final pts = snapshot.data?.totalPontos.toString() ?? "";
                           return Padding(padding: const EdgeInsets.all(10), child: Container(
                               height: 40,
@@ -96,17 +102,22 @@ class _RankingRouteState extends State<RankingRoute> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child:
-                              Row(
+                              InkWell(child: Row(
                                 children: [
-                                  SizedBox(width: 70, child: Text(data, textAlign: TextAlign.center,
+                                  SizedBox(width: 70, child: Text(pos, textAlign: TextAlign.center,
                                       style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold))),
                                   const SizedBox(width: 220, child: Text("Você", textAlign: TextAlign.left,
                                       style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold))),
                                   SizedBox(width: 70, child: Text(pts, textAlign: TextAlign.right,
                                       style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold))),
-                                ],)
+                                ],),
+                                onTap: () {
+                                  Navigator.push(context, RouteGenerator.generateRoute(const RouteSettings(
+                                      name: RouteGenerator.homeGamePrevRoute
+                                  )));
+                                },
+                              )
                           ));
-
                         }
                         // if (snapshot.hasError) {
                         //   return const ErrorWidget();
