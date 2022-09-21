@@ -108,19 +108,25 @@ namespace BolaoInfra.BLL
                 {
                     throw BolaoException.JogoInvalido;
                 }
-                if (jogo.DataHora < DateTime.Now || jogo.JaOcorreu == 1)
+                if (jogo.DataHora.Date <= DateTime.Today)
+                {
+                    throw BolaoException.JogoDoDia;
+                }
+                if (jogo.JaOcorreu == 1)
                 {
                     throw BolaoException.JogoOcorrido;
                 }
-                aposta.CodApostador = codApostador;
-                aposta.Pontos = 0;
-
-                if (apostasFeitas.Any(a => a.CodJogo == aposta.CodJogo))
+                Aposta? a = apostasFeitas.Find(a => a.CodJogo == aposta.CodJogo);
+                if (a != null)
                 {
-                    Update(aposta);
+                    a.PlacarA = aposta.PlacarA;
+                    a.PlacarB = aposta.PlacarB;
+                    Update(a);
                 }
                 else
                 {
+                    aposta.CodApostador = codApostador;
+                    aposta.Pontos = 0;
                     Insert(aposta);
                 }
             }

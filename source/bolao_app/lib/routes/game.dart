@@ -17,7 +17,7 @@ class GameRoute extends StatefulWidget {
 
 class _GameRouteState extends State<GameRoute> with SingleTickerProviderStateMixin{
   late final TabController _tabController;
-  //late Usuario usuarioLogado;
+  final GlobalKey<GameNextRouteState> _myKey = GlobalKey();
 
   @override
   void initState() {
@@ -41,7 +41,11 @@ class _GameRouteState extends State<GameRoute> with SingleTickerProviderStateMix
                 ),
                 IconButton(icon: const Icon(Icons.save),
                     color: usuarioLogado.codApostador == ranking.codApostador? Colors.black : Colors.grey,
-                    onPressed: saveBets)
+                    onPressed: () {
+                      if (usuarioLogado.codApostador == ranking.codApostador) {
+                        _myKey.currentState?.saveBets();
+                      }
+                    } )
               ]),
 
               Padding(padding: const EdgeInsets.all(10), child:
@@ -90,9 +94,9 @@ class _GameRouteState extends State<GameRoute> with SingleTickerProviderStateMix
               )),
               Expanded(
                 child: TabBarView(
-                  children: const [
-                    GamePreviousRoute(),
-                    GameNextRoute()
+                  children: [
+                    const GamePreviousRoute(),
+                    GameNextRoute(key : _myKey)
                   ],
                   controller: _tabController,
                 ),
@@ -101,9 +105,6 @@ class _GameRouteState extends State<GameRoute> with SingleTickerProviderStateMix
           );
         })
     );
-  }
-
-  void saveBets() {
   }
 }
 

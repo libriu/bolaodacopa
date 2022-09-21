@@ -1,6 +1,7 @@
 import 'package:bolao_app/repositories/game_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../models/aposta.dart';
 import '../models/jogo.dart';
 import '../models/ranking.dart';
 import '../models/usuario.dart';
@@ -43,7 +44,8 @@ class _GamePreviousRouteState extends State<GamePreviousRoute> {
             //shrinkWrap:true,
             itemCount: data.length,
             itemBuilder: (BuildContext context, int index) {
-              return GameBox(game: data[index]);
+              final itemKey = ValueKey<String>("jogo" + data[index].codJogo.toString());
+              return GameBox(key: itemKey, jogo: data[index], changeBetCallback: doNothing);
               // return Container(
               //   height: 50,
               //   child: Center(child: Text('Entry ${entries[index]}')),
@@ -61,6 +63,8 @@ class _GamePreviousRouteState extends State<GamePreviousRoute> {
       },
     );
   }
+
+  void doNothing(Aposta a) {}
 
   void _showDialog(String message) {
     showDialog<void>(

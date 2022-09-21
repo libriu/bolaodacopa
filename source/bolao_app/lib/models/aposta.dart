@@ -20,4 +20,14 @@ class Aposta {
         placarB: json['placarB'] as int,
         pontos: json['pontos'] as int);
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['CodApostador'] = codApostador;
+    data['CodJogo'] = codJogo;
+    data['placarA'] = placarA;
+    data['placarB'] = placarB;
+    data['Pontos'] = pontos;
+    return data;
+  }
 }

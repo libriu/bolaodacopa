@@ -88,15 +88,15 @@ namespace BolaoInfra.BLL
             switch (passwordVerificationResult)
             {
                 case PasswordVerificationResult.Failed:
-                    Console.WriteLine("Password incorrect.");
+                    //Console.WriteLine("Password incorrect.");
                     return false;
 
                 case PasswordVerificationResult.Success:
-                    Console.WriteLine("Password ok.");
+                    //Console.WriteLine("Password ok.");
                     return true;
 
                 case PasswordVerificationResult.SuccessRehashNeeded:
-                    Console.WriteLine("Password ok but should be rehashed and updated.");
+                    //Console.WriteLine("Password ok but should be rehashed and updated.");
                     return true;
 
                 default:

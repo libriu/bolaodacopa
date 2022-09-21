@@ -45,4 +45,18 @@ class Jogo {
         apostas: json['apostas'] == null ? null : List<Aposta>.from(json['apostas'].map((model)=> Aposta.fromJson(model)))
     );
   }
+
+  void copy(Jogo j) {
+    codJogo = j.codJogo;
+    grupo = j.grupo;
+    dataHora = j.dataHora;
+    jaOcorreu = j.jaOcorreu;
+    rPlacarA = j.rPlacarA;
+    codPaisA = j.codPaisA;
+    codPaisB = j.codPaisB;
+    paisA = j.paisA;
+    paisB = j.paisB;
+    isBetVisibleToOthers = j.isBetVisibleToOthers;
+    apostas = j.apostas;
+  }
 }

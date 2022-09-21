@@ -1,20 +1,67 @@
+import 'package:bolao_app/models/aposta.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../models/jogo.dart';
 import '../models/ranking.dart';
 import '../models/usuario.dart';
 import '../repositories/game_repository.dart';
 
-class GameBox extends StatelessWidget {
-  const GameBox({ Key? key, required this.game }) : super(key: key);
+class GameBox extends StatefulWidget {
+  const GameBox({ Key? key, required this.jogo, required this.changeBetCallback }) : super(key: key);
+  final Function(Aposta) changeBetCallback;
+  final Jogo jogo;
 
-  final Jogo game;
+  @override
+  State<GameBox> createState() => GameBoxState();
+}
+
+class GameBoxState extends State<GameBox> {
+
+  late Jogo game;
+  late final DateTime gameDate;
+  late final Usuario usuarioLogado;
+  late final Ranking ranking;
+  late Aposta aposta;
+  final TextEditingController _controller1 = TextEditingController();
+  final TextEditingController _controller2 = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    usuarioLogado = context.read<Usuario>();
+    ranking = context.read<Ranking>();
+    game = Jogo(codJogo: widget.jogo.codJogo,
+        grupo: widget.jogo.grupo,
+        dataHora: widget.jogo.dataHora,
+        jaOcorreu: widget.jogo.jaOcorreu,
+        rPlacarA: widget.jogo.rPlacarA,
+        rPlacarB: widget.jogo.rPlacarB,
+        codPaisA: widget.jogo.codPaisA,
+        codPaisB: widget.jogo.codPaisB,
+        paisA: widget.jogo.paisA,
+        paisB: widget.jogo.paisB,
+        isBetVisibleToOthers: widget.jogo.isBetVisibleToOthers,
+        apostas: widget.jogo.apostas);
+    gameDate = DateTime.parse(game.dataHora);
+    if (usuarioLogado.isLoggedOn && usuarioLogado.codApostador == ranking.codApostador && !game.isBetVisibleToOthers) {
+      if (game.apostas != null && game.apostas!.isNotEmpty) {
+        aposta = game.apostas![0];
+        _controller1.text = aposta.placarA.toString();
+        _controller2.text = aposta.placarB.toString();
+      }
+      else {
+        aposta = Aposta(codApostador: usuarioLogado.codApostador!,
+            codJogo: game.codJogo,
+            placarA: 0,
+            placarB: 0,
+            pontos: 0);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final gameDate = DateTime.parse(game.dataHora);
-    final usuarioLogado = context.read<Usuario>();
-    final ranking = context.read<Ranking>();
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -48,14 +95,7 @@ class GameBox extends StatelessWidget {
                 style: const TextStyle(fontSize: 14))),
             Row(children: [
               Expanded(child:
-              SizedBox(height: 60, child: Image.network(GameRepository.getUrlFlag(game.codPaisA))),
-              // SvgPicture.asset(
-              //   "assets/images/flags/" + game.paisA.arquivo,
-              //   height: 60,
-              //   //width: 120,
-              //   //placeholderBuilder: (_) =>
-              //   //const CircularProgressIndicator(),
-              // )
+                SizedBox(height: 60, child: Image.network(GameRepository.getUrlFlag(game.codPaisA)))
               ),
               Expanded(child:
               (game.isBetVisibleToOthers ?
@@ -82,68 +122,94 @@ class GameBox extends StatelessWidget {
                 Text("")
               ],)
               :
-
-              // Column(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center , children: [
-              // Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              //   IconButton(alignment: Alignment.bottomCenter,icon: const Icon(Icons.arrow_drop_up), iconSize: 40, onPressed: addNumber),
-              //   //const SizedBox(width: 10),
-              //   //const Expanded(child: Text("")),
-              //   //const Expanded(child: SizedBox()),
-              //   IconButton(alignment: Alignment.bottomCenter,icon: const Icon(Icons.arrow_drop_up), iconSize: 40, onPressed: addNumber)
-              //   ]),
-              // Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children:const [
-              //     Expanded(child: SizedBox(height: 30, width: 30, child: Center(child: TextField(decoration: InputDecoration(
-              //       enabledBorder: OutlineInputBorder(
-              //         borderSide: BorderSide(
-              //             width: 1), //<-- SEE HERE
-              //       ),
-              //     ),)))),
-              //     Expanded(child: SizedBox(height: 30, width: 30, child: Text("X",
-              //         textAlign: TextAlign.center,
-              //         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)))),
-              //     Expanded(child: SizedBox(height: 30, width: 30, child: Center(child: TextField(decoration: InputDecoration(
-              //       enabledBorder: OutlineInputBorder(
-              //         borderSide: BorderSide(
-              //             width: 1), //<-- SEE HERE
-              //       ),
-              //     ),)))),
-              //   ]),
-              // SizedBox(height: 10, child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              //   Center(child: IconButton(alignment: Alignment.center,icon: const Icon(Icons.arrow_drop_down), iconSize: 40, onPressed: addNumber)),
-              //     const SizedBox(width: 10),
-              //   //const Expanded(child: SizedBox()),
-              //     Center(child: IconButton(alignment: Alignment.center,icon: const Icon(Icons.arrow_drop_down), iconSize: 40, onPressed: addNumber)),
-              //   ])),
-              // ],)
-
-              // Row(children: const [
-              //   NumberInputWithIncrementDecrement(),
-              //   Text("X"),
-              //   NumberInputWithIncrementDecrement()
-              // ])
-
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, mainAxisSize: MainAxisSize.max, children: [
                 Column(mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.max, children: [
                   //IconButton(icon: const Icon(Icons.arrow_drop_up), iconSize: 30, onPressed: addNumber),
-                  InkWell(child: const Icon(Icons.arrow_drop_up, size: 36.0), onTap: addNumber),
-                  const SizedBox(height: 30, width: 30, child: Center(child:TextField(decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 1), //<-- SEE HERE
-                    ))))),
-                  InkWell(child: const Icon(Icons.arrow_drop_down, size: 36.0), onTap: addNumber)
+                  InkWell(child: const Icon(Icons.arrow_drop_up, size: 36.0),
+                      onTap: () {
+                        addNumberA(_controller1);
+                      } ),
+                  SizedBox(height: 30, width: 45, child:
+                    // TextField(
+                    //   onChanged: (value) {
+                    //     aposta.placarA = int.parse(value);
+                    //   },
+                    //   decoration: const InputDecoration(
+                    //     enabledBorder: OutlineInputBorder(
+                    //       borderSide: BorderSide(
+                    //           width: 1), //<-- SEE HERE
+                    //     )))
+                    TextFormField(
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                        decoration: InputDecoration(
+                          //contentPadding: const EdgeInsets.all(8.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(1.0),
+                          ),
+                        ),
+                        controller: _controller1,
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: false,
+                          signed: false,
+                        ),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        onTap: () => _controller1.selection = TextSelection(baseOffset: 0, extentOffset: _controller1.value.text.length),
+                        onChanged: (value) {
+                          aposta.placarA = int.parse(value);
+                          widget.changeBetCallback(aposta);
+                        },
+                      )
+                  ),
+                  InkWell(child: const Icon(Icons.arrow_drop_down, size: 36.0),
+                      onTap: () {
+                        decNumberA(_controller1);
+                      } )
                   //IconButton(icon: const Icon(Icons.arrow_drop_down), iconSize: 30, onPressed: addNumber),
                 ]),
                 const Text("X"),
                 Column(mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.max, children: [
                   //IconButton(icon: const Icon(Icons.arrow_drop_up), iconSize: 30, onPressed: addNumber),
-                  InkWell(child: const Icon(Icons.arrow_drop_up, size: 36.0), onTap: addNumber),
-                  const SizedBox(height: 30, width: 30, child: Center(child:TextField(decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1), //<-- SEE HERE
-                      ))))),
-                  InkWell(child: const Icon(Icons.arrow_drop_down, size: 36.0), onTap: addNumber)
+                  InkWell(child: const Icon(Icons.arrow_drop_up, size: 36.0),
+                      onTap: () {
+                        addNumberB(_controller2);
+                        } ),
+                  SizedBox(height: 30, width: 45, child:
+                    // TextField(decoration: InputDecoration(
+                    //   enabledBorder: OutlineInputBorder(
+                    //     borderSide: BorderSide(
+                    //         width: 1), //<-- SEE HERE
+                    //   )))
+                    TextFormField(
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      decoration: InputDecoration(
+                        //contentPadding: const EdgeInsets.all(8.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(1.0),
+                        ),
+                      ),
+                      controller: _controller2,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: false,
+                        signed: false,
+                      ),
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      onTap: () => _controller2.selection = TextSelection(baseOffset: 0, extentOffset: _controller2.value.text.length),
+                      onChanged: (value) {
+                        aposta.placarB = int.parse(value);
+                        widget.changeBetCallback(aposta);
+                      },
+                    )
+                  ),
+                  InkWell(child: const Icon(Icons.arrow_drop_down, size: 36.0),
+                      onTap: () {
+                        decNumberB(_controller2);
+                      } )
                   //IconButton(icon: const Icon(Icons.arrow_drop_down), iconSize: 30, onPressed: addNumber),
                 ]),
               ],)
@@ -192,6 +258,32 @@ class GameBox extends StatelessWidget {
     );
   }
 
-  void addNumber() {
+  void addNumberA(TextEditingController c) {
+    int x = int.tryParse(c.text) ?? 0;
+    x++;
+    aposta.placarA = x;
+    c.text = x.toString();
+    widget.changeBetCallback(aposta);
+  }
+  void addNumberB(TextEditingController c) {
+    int x = int.tryParse(c.text) ?? 0;
+    x++;
+    aposta.placarB = x;
+    c.text = x.toString();
+    widget.changeBetCallback(aposta);
+  }
+  void decNumberA(TextEditingController c) {
+    int x = int.tryParse(c.text) ?? 0;
+    if (x > 0 ) x--;
+    aposta.placarA = x;
+    c.text = x.toString();
+    widget.changeBetCallback(aposta);
+  }
+  void decNumberB(TextEditingController c) {
+    int x = int.tryParse(c.text) ?? 0;
+    if (x > 0 ) x--;
+    aposta.placarB = x;
+    c.text = x.toString();
+    widget.changeBetCallback(aposta);
   }
 }
