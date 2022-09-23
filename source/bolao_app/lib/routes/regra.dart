@@ -145,6 +145,23 @@ class _RegraRouteState extends State<RegraRoute> {
                     ),
                     const SizedBox(
                         width: 400,
+                        height: 50,
+                        child: Center(child: Text('Pontuação Ponderada',textAlign: TextAlign.center, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),))
+                    ),
+                    const ListTile(
+                      leading: Icon(Icons.sports_soccer),
+                      title: Text('Multiplicada por 2 | Jogos 49 a 60 (OITAVAS E QUARTAS DE FINAIS)'),
+                    ),
+                    const ListTile(
+                      leading: Icon(Icons.sports_soccer),
+                      title: Text('Multiplicada por 3 | Jogos 61 a 63 (SEMI-FINAIS e DISPUTA DE 3º LUGAR'),
+                    ),
+                    const ListTile(
+                      leading: Icon(Icons.sports_soccer),
+                      title: Text( 'Multiplicada por 4 | GRANDE FINAL DA COPA DO MUNDO 2022'),
+                    ),
+                    const SizedBox(
+                        width: 400,
                         height: 70,
                         child: Padding(
                           padding: EdgeInsets.only(top: 30.0),
