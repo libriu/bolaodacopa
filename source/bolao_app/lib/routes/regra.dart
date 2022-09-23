@@ -101,7 +101,6 @@ class _RegraRouteState extends State<RegraRoute> {
                         height: 70,
                         child: Center(child: Text('Pontuação',textAlign: TextAlign.center, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),))
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(12),
                       child: ExpansionPanelList.radio(
@@ -145,7 +144,7 @@ class _RegraRouteState extends State<RegraRoute> {
                     ),
                     const SizedBox(
                         width: 400,
-                        height: 50,
+                        height: 80,
                         child: Center(child: Text('Pontuação Ponderada',textAlign: TextAlign.center, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),))
                     ),
                     const ListTile(
