@@ -1,4 +1,5 @@
 import 'package:bolao_app/routes/ranking.dart';
+import 'package:bolao_app/routes/regra.dart';
 import 'package:bolao_app/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,7 @@ class HomeRoute extends StatelessWidget {
                   icon: Icon(Icons.sports_soccer),
                 ),
                 Tab(
-                  text: "Mensagens",
+                  text: "Regras",
                   icon: Icon(Icons.message_outlined),
                 )
               ],
@@ -65,9 +66,7 @@ class HomeRoute extends StatelessWidget {
           children: <Widget>[
             const RankingRoute(),
             GameRoute(initialTab: initialGameTab),
-            const Center(
-              child: Text("It's sunny here"),
-            ),
+            const RegraRoute(),
           ],
         ),
       ),
