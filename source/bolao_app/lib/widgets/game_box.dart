@@ -1,4 +1,5 @@
 import 'package:bolao_app/models/aposta.dart';
+import 'package:bolao_app/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -43,8 +44,8 @@ class GameBoxState extends State<GameBox> {
         paisB: widget.jogo.paisB,
         isBetVisibleToOthers: widget.jogo.isBetVisibleToOthers,
         apostas: widget.jogo.apostas);
-    gameDate = DateTime.parse(game.dataHora);
-    if (usuarioLogado.isLoggedOn && usuarioLogado.codApostador == ranking.codApostador && !game.isBetVisibleToOthers) {
+    gameDate = DateTime.parse(game.dataHora!);
+    if (usuarioLogado.isLoggedOn && usuarioLogado.codApostador == ranking.codApostador && !game.isBetVisibleToOthers!) {
       if (game.apostas != null && game.apostas!.isNotEmpty) {
         aposta = game.apostas![0];
         _controller1.text = aposta.placarA.toString();
@@ -52,7 +53,7 @@ class GameBoxState extends State<GameBox> {
       }
       else {
         aposta = Aposta(codApostador: usuarioLogado.codApostador!,
-            codJogo: game.codJogo,
+            codJogo: game.codJogo!,
             placarA: 0,
             placarB: 0,
             pontos: 0);
@@ -85,20 +86,19 @@ class GameBoxState extends State<GameBox> {
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 onTap: () {
-                  //ranking.copy(lista.filteredRanking[index]);
-                  //Navigator.push(context, RouteGenerator.generateRoute(const RouteSettings(
-                      //name: RouteGenerator.homeGamePrevRoute
-                  //)));
+                  var jogo = context.read<Jogo>();
+                  jogo.copy(game);
+                  Navigator.pushNamed(context, RouteGenerator.gameBetsRoute);
                 }
             )),
-            SizedBox(height: 20, child: Text(game.grupo, textAlign: TextAlign.center,
+            SizedBox(height: 20, child: Text(game.grupo!, textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 14))),
             Row(children: [
               Expanded(child:
-                SizedBox(height: 60, child: Image.network(GameRepository.getUrlFlag(game.codPaisA)))
+                SizedBox(height: 60, child: Image.network(GameRepository.getUrlFlag(game.codPaisA!)))
               ),
               Expanded(child:
-              (game.isBetVisibleToOthers ?
+              (game.isBetVisibleToOthers! ?
               ((game.apostas != null && game.apostas!.isNotEmpty) ?
                   Column(children: [
                     Text(game.apostas![0].placarA.toString() + "   X   " + game.apostas![0].placarB.toString(),
@@ -218,19 +218,19 @@ class GameBoxState extends State<GameBox> {
               ))
               ),
               Expanded(child:
-              SizedBox(height: 60, child: Image.network(GameRepository.getUrlFlag(game.codPaisB))),
+              SizedBox(height: 60, child: Image.network(GameRepository.getUrlFlag(game.codPaisB!))),
               ),
             ],),
 
             Row(children: [
               Expanded(child:
-              Center(child: Text(game.paisA.nome))
+              Center(child: Text(game.paisA!.nome))
               ),
               const Expanded(child: Text("")
                 //game.jaOcorreu == 0 ? const Center(child: Text("X")) : Center(child: Text(game.rPlacarA.toString() + ' X ' + game.rPlacarB.toString())),
               ),
               Expanded(child:
-              Center(child: Text(game.paisB.nome))
+              Center(child: Text(game.paisB!.nome))
               ),
             ],),
             //Expanded(child: SizedBox(height: 60, child: BetBox(codJogo: game.codJogo))),
@@ -245,7 +245,7 @@ class GameBoxState extends State<GameBox> {
                   SizedBox(width: 180, child: Text(game.rPlacarA.toString() + ' X ' + game.rPlacarB.toString(),
                       textAlign: TextAlign.left,
                       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
-                  (game.isBetVisibleToOthers && game.apostas != null && game.apostas!.isNotEmpty) ?
+                  (game.isBetVisibleToOthers! && game.apostas != null && game.apostas!.isNotEmpty) ?
                     Text(game.apostas![0].pontos.toString() +  " pts.", textAlign: TextAlign.right,
                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.indigo))
                     :

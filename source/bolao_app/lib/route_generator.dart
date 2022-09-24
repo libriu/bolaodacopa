@@ -1,6 +1,7 @@
 import 'package:bolao_app/routes/activate_user.dart';
 import 'package:bolao_app/routes/create_user.dart';
 import 'package:bolao_app/routes/game.dart';
+import 'package:bolao_app/routes/game_bets.dart';
 import 'package:bolao_app/routes/home.dart';
 import 'package:bolao_app/routes/logon.dart';
 import 'package:bolao_app/routes/ranking.dart';
@@ -18,6 +19,7 @@ class RouteGenerator {
   static const String createUserRoute = '/user/create';
   static const String activateUserRoute = '/user/activate';
   static const String gameRoute = '/game';
+  static const String gameBetsRoute = '/gamebets';
   static const String logonRoute = '/logon';
   static const String updateUserRoute = '/user/update';
   RouteGenerator._();
@@ -60,6 +62,10 @@ class RouteGenerator {
       case gameRoute:
         return MaterialPageRoute(
             builder: (_) => const GameRoute(initialTab: 1)
+        );
+      case gameBetsRoute:
+        return MaterialPageRoute(
+            builder: (_) => const GameBetsRoute()
         );
       case logonRoute:
         return MaterialPageRoute(

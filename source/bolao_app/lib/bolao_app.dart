@@ -3,6 +3,7 @@ import 'package:bolao_app/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'models/apostador.dart';
+import 'models/jogo.dart';
 import 'models/ranking.dart';
 
 class BolaoApp extends StatelessWidget {
@@ -29,7 +30,8 @@ class BolaoApp extends StatelessWidget {
         providers: [
           Provider(create: (context) => Usuario()),
           Provider(create: (context) => Apostador()),
-          Provider(create: (context) => Ranking())
+          Provider(create: (context) => Ranking()),
+          Provider(create: (context) => Jogo())
         ],
         child: MaterialApp(
           onGenerateTitle: (context) => "Bolão da Copa 2022",

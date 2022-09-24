@@ -1,8 +1,10 @@
 ﻿using BolaoApi.Controllers;
 using BolaoInfra.BLL;
+using BolaoInfra.Exception;
 using BolaoInfra.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
@@ -57,6 +59,27 @@ namespace BolaoApi.Controllers
 
             return Ok(aposta);
 
+        }
+
+        [AllowAnonymous]
+        [HttpGet("allbygame")]
+        public IActionResult GetAllByGame(int codJogo)
+        {
+            try
+            {
+                var bll = new ApostaBLL();
+                var apostas = bll.GetAllByGame(codJogo);
+
+                return Ok(apostas);
+            }
+            catch (BolaoException ex)
+            {
+                return BadRequest(new { message = ex.Mensagem });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPost("registermany")]

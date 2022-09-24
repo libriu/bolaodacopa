@@ -98,6 +98,38 @@ namespace BolaoApi.Controllers
             return BadRequest(new { message = "Erro ao realizar ativação" });
         }
 
+        [HttpPost("forgotpwd")]
+        public IActionResult Forgot(Apostador model)
+        {
+            //TODO IMPLEMENTAR - uma opção é gerar usa senha temporária, salvar no banco e enviar por e-mail essa senha
+            //Requer implementar tela de alteração de senha
+            return Ok();
+        }
+
+        [HttpPost("updatepwd")]
+        public IActionResult UpdatePassword(Apostador model, string oldPassword)
+        {
+            if (UsuarioAutenticado.CodApostador != model.CodApostador)
+            {
+                return BadRequest(new { message = "Operação não autorizada" });
+            }
+
+            var bll = new ApostadorBLL();
+            var apostador = bll.GetById(model.CodApostador);
+            if (apostador.Senha == oldPassword)
+            {
+                apostador.Senha = model.Senha;
+
+                bll.Update(apostador);
+
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(new { message = "Senha não confere" });
+            }
+        }
+
         [HttpGet]
         public IActionResult GetAll()
         {

@@ -13,7 +13,7 @@ class HomeRoute extends StatelessWidget {
   final int initialGameTab;
   @override
   Widget build(BuildContext context) {
-    var ranking = context.read<Ranking>();
+    //var ranking = context.read<Ranking>();
     return DefaultTabController(
         initialIndex: initialTab,
         length: 3,

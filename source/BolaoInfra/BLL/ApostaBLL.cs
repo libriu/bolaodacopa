@@ -46,6 +46,22 @@ namespace BolaoInfra.BLL
                                              && c.CodJogo == codJogo).FirstOrDefault<Aposta>();
         }
 
+        public List<Aposta> GetAllByGame(int codJogo)
+        {
+            JogoBLL jogoBLL = new();
+            var jogo = jogoBLL.GetById(codJogo);
+            if (jogo == null)
+            {
+                throw BolaoException.JogoInvalido;
+            }
+            if (!jogo.IsBetVisibleToOthers)
+            {
+                throw BolaoException.ApostasEmSigilo;
+            }
+
+            return _uow.ApostaRepository.Get(a => a.CodJogo == codJogo).ToList<Aposta>();
+        }
+
         public static IEnumerable<Aposta> GetNovasApostas(int codApostador)
         {
             List<Aposta> apostas = new();

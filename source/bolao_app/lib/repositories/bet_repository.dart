@@ -69,4 +69,42 @@ class BetRepository extends BolaoRepository{
     return null;
   }
 
+  static Future<List<Aposta>> getAllByGame(int codJogo) async {
+    final httpsUri = Uri(
+        scheme: BolaoRepository.httpScheme,
+        host: BolaoRepository.httpHost,
+        port: BolaoRepository.httpPort,
+        path: 'bet/allbygame',
+        queryParameters: {'codJogo': '$codJogo'}
+    );
+
+    Response result;
+
+    // Use a JSON encoded string to send
+    var client = Client();
+
+    try {
+      result = await client.get(
+          httpsUri,
+          headers: {'content-type': 'application/json'});
+    }
+    finally {
+      client.close();
+    }
+    if (result.statusCode == 200) {
+      Iterable l = json.decode(result.body);
+      List<Aposta> rnk = List<Aposta>.from(l.map((model)=> Aposta.fromJson(model)));
+      return rnk;
+    }
+    if (result.statusCode == 400) {
+      Map<String, dynamic> j = json.decode(result.body);
+      return Future<List<Aposta>>.error(j['message']);
+    }
+    if (result.statusCode != 200) {
+      return Future<List<Aposta>>.error("Ocorreu um erro, por favor, tente mais tarde");
+    }
+
+    return <Aposta>[];
+  }
+
 }

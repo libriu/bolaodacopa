@@ -61,4 +61,38 @@ class GameRepository extends BolaoRepository{
     }
     return <Jogo>[];
   }
+
+  static Future<Jogo?> getWithBetAllowed() async {
+    final httpsUri = Uri(
+      scheme: BolaoRepository.httpScheme,
+      host: BolaoRepository.httpHost,
+      port: BolaoRepository.httpPort,
+      path: 'game/getwithbetallowed',
+    );
+
+    Response result;
+
+    // Use a JSON encoded string to send
+    var client = Client();
+
+    try {
+      result = await client.get(
+          httpsUri,
+          headers: {'content-type': 'application/json'});
+    }
+    finally {
+      client.close();
+    }
+    if (result.statusCode == 200) {
+      var mapJogo = json.decode(result.body);
+      var j = Jogo.fromJson(mapJogo);
+      return j;
+    }
+    else {
+      if (result.statusCode != 204) {
+        Future<Jogo?>.error("Ocorreu um erro, por favor, tente mais tarde");
+      }
+    }
+    return null;
+  }
 }

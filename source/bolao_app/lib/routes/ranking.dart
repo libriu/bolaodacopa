@@ -45,7 +45,7 @@ class _RankingRouteState extends State<RankingRoute> {
     }
     else {
       myRanking = Future.value(null);
-      var ranking = context.read<Ranking>();
+      //var ranking = context.read<Ranking>();
     }
   }
 

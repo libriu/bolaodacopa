@@ -52,6 +52,30 @@ namespace BolaoApi.Controllers
 
         }
 
+        [AllowAnonymous]
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int codJogo)
+        {
+
+            var bll = new JogoBLL();
+            var jogo = bll.GetById(codJogo);
+
+            return Ok(jogo);
+
+        }
+
+        [AllowAnonymous]
+        [HttpGet("getwithbetallowed")]
+        public IActionResult GetLastWithBetAllowed()
+        {
+
+            var bll = new JogoBLL();
+            var jogo = bll.GetLastWithBetAllowed();
+
+            return Ok(jogo);
+
+        }
+
         //Método para usuário logado
         [HttpGet("nextwithbets")]
         public IActionResult GetNextWithBets(int codApostador)

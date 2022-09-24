@@ -4,8 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/aposta.dart';
 import '../models/jogo.dart';
 import '../models/ranking.dart';
-import '../models/usuario.dart';
-import '../route_generator.dart';
+//import '../route_generator.dart';
 import '../widgets/game_box.dart';
 
 class GamePreviousRoute extends StatefulWidget {
@@ -25,7 +24,7 @@ class _GamePreviousRouteState extends State<GamePreviousRoute> {
   @override
   void initState() {
     super.initState();
-    var usuarioLogado = context.read<Usuario>();
+    //var usuarioLogado = context.read<Usuario>();
     var ranking = context.read<Ranking>();
     games = GameRepository().getPreviousGames(ranking.codApostador);
   }
@@ -66,19 +65,19 @@ class _GamePreviousRouteState extends State<GamePreviousRoute> {
 
   void doNothing(Aposta a) {}
 
-  void _showDialog(String message) {
-    showDialog<void>(
-      context: context,
-      builder: (context) =>
-          AlertDialog(
-            title: Text(message),
-            actions: [
-              TextButton(
-                  child: const Text('OK'),
-                  onPressed: () => Navigator.pushNamed(context, RouteGenerator.homeRoute)
-              ),
-            ],
-          ),
-    );
-  }
+  // void _showDialog(String message) {
+  //   showDialog<void>(
+  //     context: context,
+  //     builder: (context) =>
+  //         AlertDialog(
+  //           title: Text(message),
+  //           actions: [
+  //             TextButton(
+  //                 child: const Text('OK'),
+  //                 onPressed: () => Navigator.pushNamed(context, RouteGenerator.homeRoute)
+  //             ),
+  //           ],
+  //         ),
+  //   );
+  // }
 }

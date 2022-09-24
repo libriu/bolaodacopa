@@ -16,7 +16,7 @@ namespace BolaoInfra.Exception
         public static BolaoException JogoInvalido { get { return new BolaoException("Jogo inválido"); } }
         public static BolaoException JogoOcorrido { get { return new BolaoException("Não é possível fazer aposta em jogo já ocorrido"); } }
         public static BolaoException JogoDoDia { get { return new BolaoException("Não é possível fazer aposta em jogo do dia"); } }
-
+        public static BolaoException ApostasEmSigilo { get { return new BolaoException("Não é possível ver as apostas de todos antes do dia do jogo"); } }
         public static BolaoException RemocaoResponsavelGrupoNaoPermitido { get { return new BolaoException("Não é permitido remover o responsável pelo grupo"); } }
 
         public string Mensagem { get; set; }

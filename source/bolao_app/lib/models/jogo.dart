@@ -3,30 +3,30 @@ import 'package:bolao_app/models/pais.dart';
 import 'aposta.dart';
 
 class Jogo {
-  int codJogo;
-  String grupo;
-  String dataHora;
-  int jaOcorreu;
-  int rPlacarA;
-  int rPlacarB;
-  int codPaisA;
-  int codPaisB;
-  Pais paisA;
-  Pais paisB;
+  int? codJogo;
+  String? grupo;
+  String? dataHora;
+  int? jaOcorreu;
+  int? rPlacarA;
+  int? rPlacarB;
+  int? codPaisA;
+  int? codPaisB;
+  Pais? paisA;
+  Pais? paisB;
   List<Aposta>? apostas;
-  bool isBetVisibleToOthers;
+  bool? isBetVisibleToOthers;
 
-  Jogo({required this.codJogo,
-    required this.grupo,
-    required this.dataHora,
-    required this.jaOcorreu,
-    required this.rPlacarA,
-    required this.rPlacarB,
-    required this.codPaisA,
-    required this.codPaisB,
-    required this.paisA,
-    required this.paisB,
-    required this.isBetVisibleToOthers,
+  Jogo({this.codJogo,
+    this.grupo,
+    this.dataHora,
+    this.jaOcorreu,
+    this.rPlacarA,
+    this.rPlacarB,
+    this.codPaisA,
+    this.codPaisB,
+    this.paisA,
+    this.paisB,
+    this.isBetVisibleToOthers,
     this.apostas
   });
 
