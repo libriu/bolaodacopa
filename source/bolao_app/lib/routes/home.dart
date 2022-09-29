@@ -1,5 +1,5 @@
+import 'package:bolao_app/routes/game_bets.dart';
 import 'package:bolao_app/routes/ranking.dart';
-import 'package:bolao_app/routes/regra.dart';
 import 'package:bolao_app/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,8 +40,9 @@ class HomeRoute extends StatelessWidget {
                   icon: Icon(Icons.sports_soccer),
                 ),
                 Tab(
-                  text: "Regras",
-                  icon: Icon(Icons.message_outlined),
+                  text: "Apostas",
+                  //icon: Icon(Icons.message_outlined),
+                  icon: Icon(Icons.scoreboard_outlined),
                 )
               ],
               onTap: (index) {
@@ -66,7 +67,7 @@ class HomeRoute extends StatelessWidget {
           children: <Widget>[
             const RankingRoute(),
             GameRoute(initialTab: initialGameTab),
-            const RegraRoute(),
+            const GameBetsRoute(),
           ],
         ),
       ),

@@ -28,9 +28,27 @@ namespace BolaoInfra.BLL
         public void Insert(Apostador apostador)
         {
             apostador.Senha = new PasswordHasher<object?>().HashPassword(null, apostador.Senha);
-            _uow.ApostadorRepository.Add(apostador);
-            _uow.Commit();
+            Ranking ranking = new Ranking();
+            ranking.CodApostador = apostador.CodApostador;
+            ranking.TotalPontos = 0;
+            ranking.TotalAcertos = 0;
+            ranking.Apostador = apostador;
+
+            _uow.BeginTransaction();
+            try
+            {
+                _uow.ApostadorRepository.Add(apostador);
+                _uow.RankingRepository.Add(ranking);
+
+                _uow.CommitTransaction();
+            }
+            catch (System.Exception)
+            {
+                _uow.RollbackTransaction();
+                throw;
+            }
         }
+
         public void Delete(Apostador apostador)
         {
             _uow.ApostadorRepository.Delete(apostador);
@@ -48,12 +66,21 @@ namespace BolaoInfra.BLL
 
         public void Update(List<Apostador> apostadores)
         {
-            foreach (var apostador in apostadores)
+            _uow.BeginTransaction();
+            try
             {
-                _uow.ApostadorRepository.Update(apostador);
+                foreach (var apostador in apostadores)
+                {
+                    _uow.ApostadorRepository.Update(apostador);
+                }
+
+                _uow.CommitTransaction();
             }
-            
-            _uow.Commit();
+            catch (System.Exception)
+            {
+                _uow.RollbackTransaction();
+                throw;
+            }
         }
         public Apostador GetById(int codigo)
         {
@@ -103,6 +130,12 @@ namespace BolaoInfra.BLL
                     throw BolaoException.HashSenhaInvalido;
             }
         }
+
+        public static string GetHash(string password)
+        {
+            return new PasswordHasher<object?>().HashPassword(null, password);
+        }
+
         public void Dispose()
         {
             _uow.Dispose();

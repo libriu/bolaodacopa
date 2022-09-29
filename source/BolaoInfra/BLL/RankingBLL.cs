@@ -65,13 +65,23 @@ namespace BolaoInfra.BLL
 
         public void Insert(List<Ranking> Rankings)
         {
-            foreach (Ranking Ranking in Rankings)
+            _uow.BeginTransaction();
+            try
             {
-                _uow.RankingRepository.Add(Ranking);
-            }
+                foreach (Ranking Ranking in Rankings)
+                {
+                    _uow.RankingRepository.Add(Ranking);
+                }
 
-            _uow.Commit();
+                _uow.CommitTransaction();
+            }
+            catch (System.Exception)
+            {
+                _uow.RollbackTransaction();
+                throw;
+            }
         }
+
         public void Delete(Ranking Ranking)
         {
             _uow.RankingRepository.Delete(Ranking);

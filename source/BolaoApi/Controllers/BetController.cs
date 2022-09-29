@@ -1,4 +1,5 @@
 ﻿using BolaoApi.Controllers;
+using BolaoApi.Helpers;
 using BolaoInfra.BLL;
 using BolaoInfra.Exception;
 using BolaoInfra.Models;
@@ -69,6 +70,11 @@ namespace BolaoApi.Controllers
             {
                 var bll = new ApostaBLL();
                 var apostas = bll.GetAllByGame(codJogo);
+
+                foreach (Aposta aposta in apostas)
+                {
+                    aposta.Apostador = aposta.Apostador.WithoutPassword();
+                }
 
                 return Ok(apostas);
             }

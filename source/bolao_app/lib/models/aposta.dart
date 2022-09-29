@@ -1,9 +1,12 @@
+import 'apostador.dart';
+
 class Aposta {
   int codApostador;
   int codJogo;
   int placarA;
   int placarB;
   int pontos;
+  Apostador? apostador;
 
 
   Aposta({required this.codApostador,
@@ -11,6 +14,7 @@ class Aposta {
     required this.placarA,
     required this.placarB,
     required this.pontos,
+    this.apostador
   });
 
   factory Aposta.fromJson(dynamic json) {
@@ -18,7 +22,8 @@ class Aposta {
         codJogo: json['codJogo'] as int,
         placarA: json['placarA'] as int,
         placarB: json['placarB'] as int,
-        pontos: json['pontos'] as int);
+        pontos: json['pontos'] as int,
+        apostador: json['apostador'] == null ? null : Apostador.fromJson(json['apostador']),);
   }
 
   Map<String, dynamic> toJson() {

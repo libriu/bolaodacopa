@@ -1,10 +1,10 @@
 import 'package:bolao_app/routes/activate_user.dart';
 import 'package:bolao_app/routes/create_user.dart';
 import 'package:bolao_app/routes/game.dart';
-import 'package:bolao_app/routes/game_bets.dart';
 import 'package:bolao_app/routes/home.dart';
 import 'package:bolao_app/routes/logon.dart';
 import 'package:bolao_app/routes/ranking.dart';
+import 'package:bolao_app/routes/regra.dart';
 import 'package:bolao_app/routes/splash.dart';
 import 'package:bolao_app/routes/update_user.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,7 @@ class RouteGenerator {
   static const String gameBetsRoute = '/gamebets';
   static const String logonRoute = '/logon';
   static const String updateUserRoute = '/user/update';
+  static const String regraRoute = '/rule';
   RouteGenerator._();
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -34,6 +35,10 @@ class RouteGenerator {
       case homeRoute:
         return MaterialPageRoute(
           builder: (_) => const HomeRoute(initialTab: 0, initialGameTab: 1,),
+        );
+      case regraRoute:
+        return MaterialPageRoute(
+          builder: (_) => const RegraRoute(),
         );
       case homeGamePrevRoute:
         return MaterialPageRoute(
@@ -65,7 +70,7 @@ class RouteGenerator {
         );
       case gameBetsRoute:
         return MaterialPageRoute(
-            builder: (_) => const GameBetsRoute()
+            builder: (_) => const HomeRoute(initialTab: 2, initialGameTab: 0),
         );
       case logonRoute:
         return MaterialPageRoute(

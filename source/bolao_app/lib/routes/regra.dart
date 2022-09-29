@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../widgets/drawer.dart';
+
 class Pontuacao {
   Pontuacao({
     required this.id,
@@ -57,7 +59,10 @@ class _RegraRouteState extends State<RegraRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //   appBar: AppBar(title: const Text('Pontuação')),
+      appBar: AppBar(
+        title: const Text("Bolão da Copa 2022"),
+      ),
+      drawer: const BolaoDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(

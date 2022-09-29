@@ -52,6 +52,7 @@ namespace BolaoInfra.BLL
                     })
                     .AsEnumerable()
                     .Select(x => x.g)
+                    .OrderBy(x => x.DataHora).ThenBy(x => x.Grupo)
                     .ToList<Jogo>();
             }
 
@@ -74,7 +75,7 @@ namespace BolaoInfra.BLL
                 .Where(j => j.DataHora.Date > DateTime.Today && j.JaOcorreu == 0)
                 .ToList<Jogo>();
 
-            return lista1.Concat(lista2).ToList<Jogo>(); ;
+            return lista1.Concat(lista2).OrderBy(x => x.DataHora).ThenBy(x => x.Grupo).ToList<Jogo>(); ;
 
         }
 
@@ -92,6 +93,7 @@ namespace BolaoInfra.BLL
                 })
                 .AsEnumerable()
                 .Select(x => x.g)
+                .OrderByDescending(x => x.DataHora).ThenBy(x => x.Grupo)
                 .ToList<Jogo>();
 
         }
@@ -104,13 +106,23 @@ namespace BolaoInfra.BLL
 
         public void Insert(List<Jogo> Jogos)
         {
-            foreach (Jogo Jogo in Jogos)
+            _uow.BeginTransaction();
+            try
             {
-                _uow.JogoRepository.Add(Jogo);
-            }
+                foreach (Jogo Jogo in Jogos)
+                {
+                    _uow.JogoRepository.Add(Jogo);
+                }
 
-            _uow.Commit();
+                _uow.CommitTransaction();
+            }
+            catch (System.Exception)
+            {
+                _uow.RollbackTransaction();
+                throw;
+            }
         }
+
         public void Delete(Jogo Jogo)
         {
             _uow.JogoRepository.Delete(Jogo);

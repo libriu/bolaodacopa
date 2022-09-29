@@ -56,10 +56,11 @@ namespace BolaoInfra.BLL
             }
             if (!jogo.IsBetVisibleToOthers)
             {
-                throw BolaoException.ApostasEmSigilo;
+                //throw BolaoException.ApostasEmSigilo;
+                return new List<Aposta>();
             }
 
-            return _uow.ApostaRepository.Get(a => a.CodJogo == codJogo).ToList<Aposta>();
+            return _uow.ApostaRepository.Get(a => a.CodJogo == codJogo).Include(aposta => aposta.Apostador).OrderByDescending(x => x.Pontos).ToList<Aposta>();
         }
 
         public static IEnumerable<Aposta> GetNovasApostas(int codApostador)
@@ -86,68 +87,87 @@ namespace BolaoInfra.BLL
 
         public void InsertOrUpdate(Aposta aposta, int codApostador)
         {
-            JogoBLL jogoBLL = new();
-            var apostasFeitas = GetAllMy(codApostador);
+            _uow.BeginTransaction();
+            try
+            {
+                JogoBLL jogoBLL = new();
+                var apostasFeitas = GetAllMy(codApostador);
 
-            var jogo = jogoBLL.GetById(aposta.CodJogo);
-            if (jogo == null)
-            {
-                throw BolaoException.JogoInvalido;
-            }
-            if (jogo.DataHora < DateTime.Now || jogo.JaOcorreu == 1)
-            {
-                throw BolaoException.JogoOcorrido;
-            }
-            aposta.CodApostador = codApostador;
-            aposta.Pontos = 0;
-
-            if (apostasFeitas.Any(a => a.CodJogo == aposta.CodJogo))
-            {
-                Update(aposta);
-            }
-            else
-            {
-                Insert(aposta);
-            }
-
-            _uow.Commit();
-        }
-
-        public void InsertOrUpdate(List<Aposta> apostas, int codApostador)
-        {
-            JogoBLL jogoBLL = new();
-            var apostasFeitas = GetAllMy(codApostador);
-            foreach (Aposta aposta in apostas)
-            {
                 var jogo = jogoBLL.GetById(aposta.CodJogo);
                 if (jogo == null)
                 {
                     throw BolaoException.JogoInvalido;
                 }
-                if (jogo.DataHora.Date <= DateTime.Today)
-                {
-                    throw BolaoException.JogoDoDia;
-                }
-                if (jogo.JaOcorreu == 1)
+                if (jogo.DataHora < DateTime.Now || jogo.JaOcorreu == 1)
                 {
                     throw BolaoException.JogoOcorrido;
                 }
-                Aposta? a = apostasFeitas.Find(a => a.CodJogo == aposta.CodJogo);
-                if (a != null)
+                aposta.CodApostador = codApostador;
+                aposta.Pontos = 0;
+
+                if (apostasFeitas.Any(a => a.CodJogo == aposta.CodJogo))
                 {
-                    a.PlacarA = aposta.PlacarA;
-                    a.PlacarB = aposta.PlacarB;
-                    Update(a);
+                    Update(aposta);
                 }
                 else
                 {
-                    aposta.CodApostador = codApostador;
-                    aposta.Pontos = 0;
                     Insert(aposta);
                 }
+
+                _uow.CommitTransaction();
             }
-            
-            _uow.Commit();
+            catch (System.Exception)
+            {
+                _uow.RollbackTransaction();
+                throw;
+            }
+
+        }
+
+        public void InsertOrUpdate(List<Aposta> apostas, int codApostador)
+        {
+            _uow.BeginTransaction();
+            try
+            {
+                JogoBLL jogoBLL = new();
+                var apostasFeitas = GetAllMy(codApostador);
+                foreach (Aposta aposta in apostas)
+                {
+                    var jogo = jogoBLL.GetById(aposta.CodJogo);
+                    if (jogo == null)
+                    {
+                        throw BolaoException.JogoInvalido;
+                    }
+                    if (jogo.DataHora.Date <= DateTime.Today)
+                    {
+                        throw BolaoException.JogoDoDia;
+                    }
+                    if (jogo.JaOcorreu == 1)
+                    {
+                        throw BolaoException.JogoOcorrido;
+                    }
+                    Aposta? a = apostasFeitas.Find(a => a.CodJogo == aposta.CodJogo);
+                    if (a != null)
+                    {
+                        a.PlacarA = aposta.PlacarA;
+                        a.PlacarB = aposta.PlacarB;
+                        Update(a);
+                    }
+                    else
+                    {
+                        aposta.CodApostador = codApostador;
+                        aposta.Pontos = 0;
+                        Insert(aposta);
+                    }
+                }
+
+                _uow.CommitTransaction();
+            }
+            catch (System.Exception)
+            {
+                _uow.RollbackTransaction();
+                throw;
+            }
         }
         public void Delete(Aposta aposta)
         {

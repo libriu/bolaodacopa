@@ -91,6 +91,23 @@ namespace BolaoInfra.Repository
         {
             Context.SaveChanges();
         }
+
+        public void BeginTransaction()
+        {
+            Context.Database.BeginTransaction();
+        }
+
+        public void RollbackTransaction()
+        {
+            Context.Database.RollbackTransaction();
+        }
+        public void CommitTransaction()
+        {
+            Context.Database.CommitTransaction();
+            Commit();
+        }
+
+
         public void Dispose()
         {
             Context.Dispose();

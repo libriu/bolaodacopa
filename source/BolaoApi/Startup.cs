@@ -23,6 +23,24 @@ namespace BolaoApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("Policy1",
+            //        policy =>
+            //        {
+            //            policy.WithOrigins("http://lacbaptista-001-site1.ftemppurl.com");
+            //        });
+
+            //    options.AddPolicy("AnotherPolicy",
+            //        policy =>
+            //        {
+            //            policy.WithOrigins("http://lacbaptista-001-site1.ftemppurl.com")
+            //                                .AllowAnyHeader()
+            //                                .AllowAnyMethod();
+            //        });
+            //});
+
             services.AddControllers();
 
             // configure basic authentication 
@@ -49,6 +67,12 @@ namespace BolaoApi
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
+
+            //app.UseCors(x => x
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader()
+            //    .SetIsOriginAllowed(origin => true)
+            //    .AllowCredentials());
 
             app.UseAuthentication();
             app.UseAuthorization();

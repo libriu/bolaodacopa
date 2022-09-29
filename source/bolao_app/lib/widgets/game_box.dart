@@ -63,6 +63,8 @@ class GameBoxState extends State<GameBox> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -72,11 +74,11 @@ class GameBoxState extends State<GameBox> {
         borderRadius: const BorderRadius.all(Radius.circular(12)),
       ),
       child: SizedBox(
-          width: 400,
-          height: 170,
+          width: width * 0.90,
+          height: height * 0.25,
           child: Column(children: [
-            const SizedBox(height: 10),
-            SizedBox(height: 20, child: InkWell(
+            SizedBox(height: height * 0.0125),
+            SizedBox(height: height * 0.0250, child: InkWell(
                 child: Text("Jogo " + game.codJogo.toString() + " | " +
                     gameDate.day.toString().padLeft(2, "0") + "/" +
                     gameDate.month.toString().padLeft(2, "0") + "/" +
@@ -91,11 +93,11 @@ class GameBoxState extends State<GameBox> {
                   Navigator.pushNamed(context, RouteGenerator.gameBetsRoute);
                 }
             )),
-            SizedBox(height: 20, child: Text(game.grupo!, textAlign: TextAlign.center,
+            SizedBox(height: height * 0.025, child: Text(game.grupo!, textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 14))),
             Row(children: [
               Expanded(child:
-                SizedBox(height: 60, child: Image.network(GameRepository.getUrlFlag(game.codPaisA!)))
+                SizedBox(height: height * 0.075, child: Image.network(GameRepository.getUrlFlag(game.codPaisA!)))
               ),
               Expanded(child:
               (game.isBetVisibleToOthers! ?
@@ -129,7 +131,7 @@ class GameBoxState extends State<GameBox> {
                       onTap: () {
                         addNumberA(_controller1);
                       } ),
-                  SizedBox(height: 30, width: 45, child:
+                  SizedBox(height: height * 0.0375, width: 45, child:
                     // TextField(
                     //   onChanged: (value) {
                     //     aposta.placarA = int.parse(value);
@@ -176,7 +178,7 @@ class GameBoxState extends State<GameBox> {
                       onTap: () {
                         addNumberB(_controller2);
                         } ),
-                  SizedBox(height: 30, width: 45, child:
+                  SizedBox(height: height * 0.0375, width: 45, child:
                     // TextField(decoration: InputDecoration(
                     //   enabledBorder: OutlineInputBorder(
                     //     borderSide: BorderSide(
@@ -218,7 +220,7 @@ class GameBoxState extends State<GameBox> {
               ))
               ),
               Expanded(child:
-              SizedBox(height: 60, child: Image.network(GameRepository.getUrlFlag(game.codPaisB!))),
+              SizedBox(height: height * 0.075, child: Image.network(GameRepository.getUrlFlag(game.codPaisB!))),
               ),
             ],),
 

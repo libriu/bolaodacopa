@@ -106,6 +106,13 @@ namespace BolaoApi.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
+        [HttpGet("gethash")]
+        public IActionResult GetHash(string password)
+        {
+            return Ok(ApostadorBLL.GetHash(password));
+        }
+
         [HttpPost("updatepwd")]
         public IActionResult UpdatePassword(Apostador model, string oldPassword)
         {

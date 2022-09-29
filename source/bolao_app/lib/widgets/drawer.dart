@@ -44,12 +44,21 @@ class BolaoDrawer extends StatelessWidget {
         onTap: () => Navigator.pushNamed(context, RouteGenerator.homeRoute)
     );
     listOfItems.add(itemHome);
+
+    ListTile itemRegras = ListTile(
+        leading: const Icon(Icons.rule),
+        title: const Text('Regras'),
+        onTap: () => Navigator.pushNamed(context, RouteGenerator.regraRoute)
+    );
+    listOfItems.add(itemRegras);
+
     // ListTile itemRanking =  ListTile(
     //     leading: const Icon(Icons.article_outlined),
     //     title: const Text('Ranking'),
     //     onTap: () => Navigator.pushNamed(context, RouteGenerator.rankingRoute)
     // );
     // listOfItems.add(itemRanking);
+
     if (tipoMenu != TipoMenu.deslogado) {
       // ListTile itemMessages = const ListTile(
       //   leading: Icon(Icons.message),

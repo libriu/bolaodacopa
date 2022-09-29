@@ -28,19 +28,20 @@ class Apostador {
         this.cidade,
         this.ranking});
 
-  Apostador.fromJson(Map<String, dynamic> json) {
-    codApostador = json['codApostador'];
-    login = json['login'];
-    contato = json['contato'];
-    email = json['email'];
-    senha = json['senha'];
-    codApostAtivador = json['codApostAtivador'];
-    ativo = json['ativo'];
-    celular = json['celular'];
-    acessoGestaoTotal = json['acessoGestaoTotal'];
-    acessoAtivacao = json['acessoAtivacao'];
-    cidade = json['cidade'];
-    ranking = json['ranking'];
+  factory Apostador.fromJson(Map<String, dynamic> json) {
+    return Apostador(
+    codApostador: json['codApostador'] as int?,
+    login: json['login']as String?,
+    contato: json['contato'] as String?,
+    email: json['email'] as String?,
+    senha: json['senha'] as String?,
+    codApostAtivador: json['codApostAtivador'] as int?,
+    ativo: json['ativo'] as int?,
+    celular: json['celular'] as String?,
+    acessoGestaoTotal: json['acessoGestaoTotal'] as int?,
+    acessoAtivacao: json['acessoAtivacao'] as int?,
+    cidade: json['cidade']  as String?,
+    ranking: json['ranking'] as int?);
   }
 
   void copy(Apostador a) {

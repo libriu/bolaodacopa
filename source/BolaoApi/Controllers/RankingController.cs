@@ -19,10 +19,18 @@ namespace BolaoApi.Controllers
         [HttpGet("my")]
         public IActionResult GetMyInfo()
         {
-
             var bll = new RankingBLL();
             var myRanking = bll.GetByApostador(UsuarioAutenticado.CodApostador);
             return Ok(myRanking);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("bybetter")]
+        public IActionResult GetByBetter(int codApostador)
+        {
+            var bll = new RankingBLL();
+            var ranking = bll.GetByApostador(codApostador);
+            return Ok(ranking);
         }
     }
 }

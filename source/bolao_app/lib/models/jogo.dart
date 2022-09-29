@@ -52,6 +52,7 @@ class Jogo {
     dataHora = j.dataHora;
     jaOcorreu = j.jaOcorreu;
     rPlacarA = j.rPlacarA;
+    rPlacarB = j.rPlacarB;
     codPaisA = j.codPaisA;
     codPaisB = j.codPaisB;
     paisA = j.paisA;

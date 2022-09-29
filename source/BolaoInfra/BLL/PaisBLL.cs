@@ -34,13 +34,23 @@ namespace BolaoInfra.BLL
 
         public void Insert(List<Pais> Paises)
         {
-            foreach (Pais Pais in Paises)
+            _uow.BeginTransaction();
+            try
             {
-                _uow.PaisRepository.Add(Pais);
-            }
+                foreach (Pais Pais in Paises)
+                {
+                    _uow.PaisRepository.Add(Pais);
+                }
 
-            _uow.Commit();
+                _uow.CommitTransaction();
+            }
+            catch (System.Exception)
+            {
+                _uow.RollbackTransaction();
+                throw;
+            }
         }
+
         public void Delete(Pais Pais)
         {
             _uow.PaisRepository.Delete(Pais);
