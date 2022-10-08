@@ -39,8 +39,8 @@ class Jogo {
         rPlacarB: json['rPlacarB'] as int,
         codPaisA: json['codPaisA'] as int,
         codPaisB: json['codPaisB'] as int,
-        paisA: Pais.fromJson(json['paisA']),
-        paisB: Pais.fromJson(json['paisB']),
+        paisA: json['paisA'] == null ? null : Pais.fromJson(json['paisA']),
+        paisB: json['paisB'] == null ? null : Pais.fromJson(json['paisB']),
         isBetVisibleToOthers: json['isBetVisibleToOthers'] as bool,
         apostas: json['apostas'] == null ? null : List<Aposta>.from(json['apostas'].map((model)=> Aposta.fromJson(model)))
     );

@@ -32,7 +32,11 @@ namespace BolaoInfra.BLL
 
         public Jogo GetLastWithBetAllowed()
         {
-            return _uow.JogoRepository.Get(j => j.DataHora.Date <= DateTime.Today).OrderByDescending(j => j.DataHora).FirstOrDefault<Jogo>();
+            return _uow.JogoRepository.Get(j => j.DataHora.Date <= DateTime.Today)
+                .Include(game => game.PaisA)
+                .Include(game => game.PaisB)
+                .OrderByDescending(j => j.DataHora)
+                .FirstOrDefault<Jogo>();
         }
 
         public List<Jogo> GetNext(int codApostador, bool onlyAllowed)

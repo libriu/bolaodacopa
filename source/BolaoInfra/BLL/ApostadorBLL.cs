@@ -28,7 +28,7 @@ namespace BolaoInfra.BLL
         public void Insert(Apostador apostador)
         {
             apostador.Senha = new PasswordHasher<object?>().HashPassword(null, apostador.Senha);
-            Ranking ranking = new Ranking();
+            Ranking ranking = new();
             ranking.CodApostador = apostador.CodApostador;
             ranking.TotalPontos = 0;
             ranking.TotalAcertos = 0;
@@ -109,32 +109,34 @@ namespace BolaoInfra.BLL
             }
         }
 
-        private static bool VerifyPassword(string hashedPassword, string password)
+        public string GetHash(string login, string senha)
         {
-            var passwordVerificationResult = new PasswordHasher<object?>().VerifyHashedPassword(null, hashedPassword, password);
-            switch (passwordVerificationResult)
+            var apostador = _uow.ApostadorRepository.Get(c => c.Login == login).FirstOrDefault();
+            if (apostador == null) return new PasswordHasher<object?>().HashPassword(null, senha);
+            if (apostador.Ativo == 0) return new PasswordHasher<object?>().HashPassword(null, senha);
+            if (VerifyPassword(apostador.Senha, senha))
             {
-                case PasswordVerificationResult.Failed:
-                    //Console.WriteLine("Password incorrect.");
-                    return false;
-
-                case PasswordVerificationResult.Success:
-                    //Console.WriteLine("Password ok.");
-                    return true;
-
-                case PasswordVerificationResult.SuccessRehashNeeded:
-                    //Console.WriteLine("Password ok but should be rehashed and updated.");
-                    return true;
-
-                default:
-                    throw BolaoException.HashSenhaInvalido;
+                return apostador.Senha;
+            }
+            else
+            {
+                return new PasswordHasher<object?>().HashPassword(null, senha);
             }
         }
 
-        public static string GetHash(string password)
+        private static bool VerifyPassword(string hashedPassword, string password)
         {
-            return new PasswordHasher<object?>().HashPassword(null, password);
+            var passwordVerificationResult = new PasswordHasher<object?>().VerifyHashedPassword(null, hashedPassword, password);
+            return passwordVerificationResult switch
+            {
+                PasswordVerificationResult.Failed => false,//Console.WriteLine("Password incorrect.");
+                PasswordVerificationResult.Success => true,//Console.WriteLine("Password ok.");
+                PasswordVerificationResult.SuccessRehashNeeded => true,//Console.WriteLine("Password ok but should be rehashed and updated.");
+                _ => throw BolaoException.HashSenhaInvalido,
+            };
         }
+
+        public static string VerifyPassword(string password) => new PasswordHasher<object?>().HashPassword(null, password);
 
         public void Dispose()
         {

@@ -146,7 +146,7 @@ namespace BolaoInfra.BLL
                     {
                         throw BolaoException.JogoOcorrido;
                     }
-                    Aposta? a = apostasFeitas.Find(a => a.CodJogo == aposta.CodJogo);
+                    Aposta a = apostasFeitas.Find(a => a.CodJogo == aposta.CodJogo);
                     if (a != null)
                     {
                         a.PlacarA = aposta.PlacarA;

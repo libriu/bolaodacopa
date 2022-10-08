@@ -1,7 +1,9 @@
 import 'package:bolao_app/repositories/ranking_repository.dart';
+import 'package:bolao_app/widgets/game_bets_filtered_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/aposta.dart';
+import '../models/game_bets_list.dart';
 import '../models/jogo.dart';
 import '../models/ranking.dart';
 import '../repositories/bet_repository.dart';
@@ -18,13 +20,14 @@ class GameBetsRoute extends StatefulWidget {
 }
 
 class _GameBetsRouteState extends State<GameBetsRoute> with SingleTickerProviderStateMixin{
-  late Jogo jogo;
+  Jogo? jogo;
   Future<Jogo?>? game;
   late final DateTime gameDate;
   int counter = 0;
+  final controller = TextEditingController();
 
   Future<void> getAllByGame(int codJogo) async {
-    jogo.apostas = await BetRepository.getAllByGame(codJogo);
+    jogo!.apostas = await BetRepository.getAllByGame(codJogo);
     setState(() {
       game = Future.value(jogo);
     });
@@ -32,24 +35,24 @@ class _GameBetsRouteState extends State<GameBetsRoute> with SingleTickerProvider
   }
 
   Future<void> getWithBetAllowed() async {
-    var jogo = await GameRepository.getWithBetAllowed();
-    if (jogo == null || jogo.codJogo == null) {
+    jogo = await GameRepository.getWithBetAllowed();
+    if (jogo == null || jogo!.codJogo == null) {
       setState(() {
-        game = Future.value(null);
+        game = Future.value(Jogo());
       });
       return;
     }
-    gameDate = DateTime.parse(jogo.dataHora!);
-    await getAllByGame(jogo.codJogo!);
+    gameDate = DateTime.parse(jogo!.dataHora!);
+    await getAllByGame(jogo!.codJogo!);
   }
 
   @override
   void initState() {
     super.initState();
     jogo = context.read<Jogo>();
-    if (jogo.codJogo != null) {
-      gameDate = DateTime.parse(jogo.dataHora!);
-      getAllByGame(jogo.codJogo!);
+    if (jogo!.codJogo != null) {
+      gameDate = DateTime.parse(jogo!.dataHora!);
+      getAllByGame(jogo!.codJogo!);
     } else {
       getWithBetAllowed();
     }
@@ -69,7 +72,8 @@ class _GameBetsRouteState extends State<GameBetsRoute> with SingleTickerProvider
               return const Center(child:Text("Não existem jogos com apostas visíveis a todos"));
             }
             final data = snapshot.data!;
-            return Column(
+            final listaApostas = GameBetsList(data.apostas ?? []);
+            return SingleChildScrollView(child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 2),
@@ -87,7 +91,7 @@ class _GameBetsRouteState extends State<GameBetsRoute> with SingleTickerProvider
                     ),
                     child: SizedBox(
                       width: width,
-                      height: height * 0.20,
+                      height: height * 0.18,
                       child: Column(children: [
                                 SizedBox(height: height * 0.0125),
                                 SizedBox(height: height * 0.0250, child: Text("Jogo " + data.codJogo.toString() + " | " +
@@ -129,6 +133,26 @@ class _GameBetsRouteState extends State<GameBetsRoute> with SingleTickerProvider
                               ],)
                     )
                 ),
+                Padding(padding: const EdgeInsets.all(5),
+                    child: SizedBox(
+                        height: height * 0.05,
+                        width: width * 0.9,
+                        child: TextField(
+                          style: const TextStyle(color: Colors.grey),
+                          controller: controller,
+                          decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              prefixIcon: const Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  borderSide: const BorderSide(color: Colors.grey)
+                              )
+                          ),
+                          onChanged: listaApostas.filter,
+                        )
+                    )
+                ),
                 Row(
                   children: [
                     SizedBox(width: width * 0.13, child: const Icon(
@@ -143,66 +167,11 @@ class _GameBetsRouteState extends State<GameBetsRoute> with SingleTickerProvider
                     SizedBox(width: width * 0.11, child: const Text("Pts", textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
                   ],),
-                SizedBox(height: height * 0.5, child: ListView.separated(
-                    padding: const EdgeInsets.all(8),
-                    //shrinkWrap:true,
-                    itemCount: data.apostas!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index == 0) {
-                        counter = 1;
-                      }
-                      else {
-                        if (data.apostas![index].pontos != data.apostas![index-1].pontos) {
-                          counter = index + 1;
-                        }
-                      }
-                      return Container(
-                          height: height * 0.05,
-                          decoration: BoxDecoration(
-                            color: index % 2 == 0 ? const Color.fromRGBO(242, 242, 242, 1): Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: width * 0.13, child:
-                              Text(counter.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold))
-                              ),
-                              SizedBox(width: width * 0.52, child: InkWell(
-                                  child: Text(data.apostas![index].apostador!.login.toString(),
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                                  onTap: () {
-                                    var ranking = context.read<Ranking>();
-                                    var rnk = RankingRepository().getRankingByBetter(data.apostas![index].codApostador);
-                                    rnk.then((value) {
-                                      ranking.copy(value!);
-                                      Navigator.push(context, RouteGenerator.generateRoute(const RouteSettings(
-                                          name: RouteGenerator.homeGamePrevRoute
-                                      )));
-                                    });
-                                  }
-                              )),
-                              SizedBox(width: width * 0.15, child:
-                              Text(data.apostas![index].placarA.toString() + " X " + data.apostas![index].placarB.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold))
-                              ),
-                              SizedBox(width: width * 0.11, child:
-                              Text(data.apostas![index].pontos.toString(),
-                                  textAlign: TextAlign.right,
-                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold))
-                              ),
-                            ],)
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) => const Text("",
-                        style: TextStyle(fontSize: 1))
-                  //separatorBuilder: (BuildContext context, int index) => const Divider(),
-                ))
+                SizedBox(height: height * 0.45, child: ChangeNotifierProvider(
+                  create: (context) => listaApostas,
+                  child: const GameBetsFilteredList()))
               ],
-            );
+            ));
           }
           return const Center(
             child: CircularProgressIndicator(),

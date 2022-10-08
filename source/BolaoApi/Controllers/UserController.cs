@@ -108,9 +108,10 @@ namespace BolaoApi.Controllers
 
         [AllowAnonymous]
         [HttpGet("gethash")]
-        public IActionResult GetHash(string password)
+        public IActionResult GetHash(string login, string password)
         {
-            return Ok(ApostadorBLL.GetHash(password));
+            var bll = new ApostadorBLL();
+            return Ok(bll.GetHash(login, password));
         }
 
         [HttpPost("updatepwd")]
