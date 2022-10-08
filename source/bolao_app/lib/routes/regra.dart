@@ -98,7 +98,7 @@ class _RegraRouteState extends State<RegraRoute> {
                     ),
                     const SizedBox(
                         width: 400,
-                        height: 150,
+                        height: 170,
                         child: Text('A cada ano, o número de participantes foi subindo até que, em 2018, o Bolão da Copa ganhou sua versão para Smartphones e ganhou o mundo, com aparição na TV e com participantes da Inglaterra, EUA, Austrália, Londres, Portugal, etc. O foco sempre será na diversão de familiares, amigos e amigos dos amigos. Jogos aparentemente menos badalados como Marrocos x Irã (2018) se tornam um clássico na nossa brincadeira. Essa será a sétima edição do Bolão da Copa. Esperamos que você se divirta com a gente!',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),)
                     ),
                     const SizedBox(
@@ -123,22 +123,22 @@ class _RegraRouteState extends State<RegraRoute> {
                               );
                             },
                             body: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 12.0),
+                                  padding: const EdgeInsets.only(left: 15.0, bottom: 15),
                                   child: Text(pontuacao.descricao),
                                 ),
                                 const Padding(
-                                  padding: EdgeInsets.only(bottom: 12.0),
+                                  padding: EdgeInsets.only(left: 15.0, bottom: 15),
                                   child: Text("Exemplo:",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(bottom: 12.0),
+                                  padding: EdgeInsets.only(left: 15.0, bottom: 5),
                                   child:  Text(pontuacao.aposta, style: const TextStyle(fontSize: 15),),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(bottom: 12.0),
+                                  padding: EdgeInsets.only(left: 15.0),
                                   child:  Text(pontuacao.resultado, style: const TextStyle(fontSize: 15),),
                                 ),
                               ],
@@ -166,7 +166,7 @@ class _RegraRouteState extends State<RegraRoute> {
                     ),
                     const SizedBox(
                         width: 400,
-                        height: 70,
+                        height: 80,
                         child: Padding(
                           padding: EdgeInsets.only(top: 30.0),
                           child: Text('OBS: Resultados dos jogos para efeito de pontuação, só nos 90min de bola rolando. Prorrogação e disputas de pênaltis estão fora.',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
@@ -213,17 +213,17 @@ class _RegraRouteState extends State<RegraRoute> {
                     ),
                     const SizedBox(
                         width: 400,
-                        height: 50,
-                        child: Text('O Bolão da Copa oferece total reflexibilidade para que os participantes realizem suas apostas. É possível preencher as apostas de uma só vez, como também é possível preenchê-las pouco a pouco, à medida que as rodadas vão se aproximando.',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),)
+                        height: 90,
+                        child: Text('O Bolão da Copa oferece total flexibilidade para que os participantes realizem suas apostas. É possível preencher as apostas de uma só vez, como também é possível preenchê-las pouco a pouco, à medida que as rodadas vão se aproximando.',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),)
                     ),
                     const SizedBox(
                         width: 400,
                         height: 50,
-                        child: Text('Atenção: O prazo para incluir ou alterar apostas é 23h59 do dia anterior a cada partida.',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),)
+                        child: Text('Atenção: O prazo para incluir ou alterar apostas é 23h59 do dia anterior a cada partida.',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15, color: Colors.red, fontWeight: FontWeight.bold),)
                     ),
                     const SizedBox(
                         width: 400,
-                        height: 50,
+                        height: 110,
                         child: Text('Essa regra tem por objetivo dar transparência à nossa brincadeira. Assim, no dia de cada jogo, a inclusão ou a alteração de apostas estarão bloqueadas, e as apostas de todos os participantes estarão disponíveis para consulta. Todo mundo acompanha as apostas de todo mundo, podendo torcer a favor (ou contra) um placar, a depender da situação.',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),)
                     ),
 
