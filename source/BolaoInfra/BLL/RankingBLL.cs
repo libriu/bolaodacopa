@@ -26,6 +26,7 @@ namespace BolaoInfra.BLL
         {
             int empate = 0;
             var r = _uow.RankingRepository.GetAll().Include(ranking => ranking.Apostador)
+                .Where(ranking => ranking.Apostador.Ativo == 1)
                 .OrderByDescending(c => c.TotalPontos)
                 .ThenBy(c => c.TotalAcertos)
                 .ThenBy(c => c.Apostador.Login).ToList<Ranking>();

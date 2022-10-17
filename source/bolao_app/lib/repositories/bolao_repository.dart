@@ -1,7 +1,7 @@
 class BolaoRepository {
   //Production
   static const httpScheme = "http";
-  static const httpHost = "ec2-44-192-117-212.compute-1.amazonaws.com";
+  static const httpHost = "api.bolaodacopa2022.net.br:5002";
   static const httpPort = 5002;
 
   //Development
