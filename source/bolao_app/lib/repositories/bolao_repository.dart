@@ -1,7 +1,7 @@
 class BolaoRepository {
   //Production
   static const httpScheme = "http";
-  static const httpHost = "api.bolaodacopa2022.net.br:5002";
+  static const httpHost = "api.bolaodacopa2022.net.br";
   static const httpPort = 5002;
 
   //Development
