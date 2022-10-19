@@ -98,7 +98,7 @@ class _RegraRouteState extends State<RegraRoute> {
                     ),
                     const SizedBox(
                         width: 400,
-                        height: 170,
+                        height: 215,
                         child: Text('A cada ano, o número de participantes foi subindo até que, em 2018, o Bolão da Copa ganhou sua versão para Smartphones e ganhou o mundo, com aparição na TV e com participantes da Inglaterra, EUA, Austrália, Londres, Portugal, etc. O foco sempre será na diversão de familiares, amigos e amigos dos amigos. Jogos aparentemente menos badalados como Marrocos x Irã (2018) se tornam um clássico na nossa brincadeira. Essa será a sétima edição do Bolão da Copa. Esperamos que você se divirta com a gente!',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),)
                     ),
                     const SizedBox(
@@ -166,21 +166,21 @@ class _RegraRouteState extends State<RegraRoute> {
                     ),
                     const SizedBox(
                         width: 400,
-                        height: 80,
+                        height: 200,
                         child: Padding(
                           padding: EdgeInsets.only(top: 30.0),
-                          child: Text('OBS: Resultados dos jogos para efeito de pontuação, só nos 90min de bola rolando. Prorrogação e disputas de pênaltis estão fora.',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                          child: Text('OBS: Para efeito de pontuação, só será considerado o tempo regulamentar (tempo normal de jogo com os acréscimos), não incluindo prorrogação e disputas de pênaltis.',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                         )
                     ),
                     const SizedBox(
                         width: 400,
-                        height: 70,
+                        height: 80,
                         child: Center(child: Text('Premiação',textAlign: TextAlign.center, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),))
                     ),
                     const SizedBox(
                         width: 400,
                         height: 50,
-                        child: Center(child: Text('Em suma, assim será a divisão da premiação deste bolão:',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),))
+                        child: Center(child: Text('Rateio da premiação:',textAlign: TextAlign.justify, style: TextStyle(fontSize: 18),))
                     ),
                     const ListTile(
                       leading: Icon(Icons.emoji_events, color: Colors.amber, size: 35),
@@ -208,22 +208,31 @@ class _RegraRouteState extends State<RegraRoute> {
                     ),
                     const SizedBox(
                         width: 400,
-                        height: 100,
-                        child: Center(child: Text('Prazo limite de apostas',textAlign: TextAlign.center, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),))
+                        height: 30
                     ),
                     const SizedBox(
                         width: 400,
                         height: 90,
-                        child: Text('O Bolão da Copa oferece total flexibilidade para que os participantes realizem suas apostas. É possível preencher as apostas de uma só vez, como também é possível preenchê-las pouco a pouco, à medida que as rodadas vão se aproximando.',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),)
+                        child: Text("OBS: Será descontado o valor de R\$ 100,00 da arrecadação total do bolão a fim de custear as despesas operacionais de hospedagem.",textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),)
                     ),
                     const SizedBox(
                         width: 400,
                         height: 50,
+                        child: Center(child: Text('Prazo limite de apostas',textAlign: TextAlign.center, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),))
+                    ),
+                    const SizedBox(
+                        width: 400,
+                        height: 100,
+                        child: Text('O Bolão da Copa oferece total flexibilidade para que os participantes realizem suas apostas. É possível preencher as apostas de uma só vez, como também é possível preenchê-las pouco a pouco, à medida que as rodadas vão se aproximando.',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),)
+                    ),
+                    const SizedBox(
+                        width: 400,
+                        height: 75,
                         child: Text('Atenção: O prazo para incluir ou alterar apostas é 23h59 do dia anterior a cada partida.',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15, color: Colors.red, fontWeight: FontWeight.bold),)
                     ),
                     const SizedBox(
                         width: 400,
-                        height: 110,
+                        height: 155,
                         child: Text('Essa regra tem por objetivo dar transparência à nossa brincadeira. Assim, no dia de cada jogo, a inclusão ou a alteração de apostas estarão bloqueadas, e as apostas de todos os participantes estarão disponíveis para consulta. Todo mundo acompanha as apostas de todo mundo, podendo torcer a favor (ou contra) um placar, a depender da situação.',textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),)
                     ),
 
