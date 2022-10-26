@@ -26,7 +26,7 @@ class _GameBetsRouteState extends State<GameBetsRoute> with SingleTickerProvider
   late final DateTime gameDate;
   int counter = 0;
   final controller = TextEditingController();
-  late final Future<Ranking?> myRanking;
+  //late final Future<Ranking?> myRanking;
 
   Future<void> getAllByGame(int codJogo) async {
     jogo!.apostas = await BetRepository.getAllByGame(codJogo);
@@ -58,14 +58,14 @@ class _GameBetsRouteState extends State<GameBetsRoute> with SingleTickerProvider
     } else {
       getWithBetAllowed();
     }
-    var user = context.read<Usuario>();
-    if (user.isLoggedOn) {
-      myRanking = RankingRepository().getMyRanking(user.login!, user.senha!);
-      myRanking.then((value) {
-        var ranking = context.read<Ranking>();
-        ranking.copy(value!);
-      });
-    }
+    // var user = context.read<Usuario>();
+    // if (user.isLoggedOn) {
+    //   myRanking = RankingRepository().getMyRanking(user.login!, user.senha!);
+    //   myRanking.then((value) {
+    //     var ranking = context.read<Ranking>();
+    //     ranking.copy(value!);
+    //   });
+    // }
   }
 
   @override

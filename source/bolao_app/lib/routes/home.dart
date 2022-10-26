@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/ranking.dart';
 import '../models/usuario.dart';
+import '../repositories/ranking_repository.dart';
 import '../route_generator.dart';
 import 'game.dart';
 
@@ -48,16 +49,26 @@ class HomeRoute extends StatelessWidget {
               onTap: (index) {
                 var usuarioLogado = context.read<Usuario>();
                 var ranking = context.read<Ranking>();
-                if (index == 1)  {
-                  if (usuarioLogado.isLoggedOn) {
-                    ranking.codApostador = usuarioLogado.codApostador;
-                  }
-                  else {
-                    ranking.codApostador = null;
-                  }
-                  Navigator.push(context, RouteGenerator.generateRoute(const RouteSettings(
-                    name: RouteGenerator.homeGameNextRoute
+                var user = context.read<Usuario>();
+                if (user.isLoggedOn) {
+                  var myRanking = RankingRepository().getMyRanking(user.login!, user.senha!);
+                  myRanking.then((value) {
+                    var ranking = context.read<Ranking>();
+                    ranking.copy(value!);
+                    if (index == 1)  {
+                      Navigator.push(context, RouteGenerator.generateRoute(const RouteSettings(
+                          name: RouteGenerator.homeGameNextRoute
+                      )));
+                    }
+                  });
+                }
+                else {
+                  ranking.codApostador = null;
+                  if (index == 1)  {
+                    Navigator.push(context, RouteGenerator.generateRoute(const RouteSettings(
+                        name: RouteGenerator.homeGameNextRoute
                     )));
+                  }
                 }
               } ,
             ),
