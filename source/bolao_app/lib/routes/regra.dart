@@ -213,7 +213,7 @@ class _RegraRouteState extends State<RegraRoute> {
                     const SizedBox(
                         width: 400,
                         height: 90,
-                        child: Text("OBS: Será descontado o valor de R\$ 100,00 da arrecadação total do bolão a fim de custear as despesas operacionais de hospedagem.",textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),)
+                        child: Text("OBS: Será descontado o valor de R\$ 300,00 da arrecadação total do bolão a fim de custear as despesas operacionais de hospedagem.",textAlign: TextAlign.justify, style: TextStyle(fontSize: 15),)
                     ),
                     const SizedBox(
                         width: 400,
