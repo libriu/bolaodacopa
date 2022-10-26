@@ -76,15 +76,15 @@ class _LogonRouteState extends State<LogonRoute> {
                         );
                       }
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const CreateUserRoute()),
-                      );
-                    },
-                    child: const Text('Criar novo usuário'),
-                  ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(builder: (context) => const CreateUserRoute()),
+                  //     );
+                  //   },
+                  //   child: const Text('Criar novo usuário'),
+                  // ),
                 ].expand(
                       (widget) => [
                     widget,

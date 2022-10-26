@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+</head>
+<body>
+	<script src="https://sdk.mercadopago.com/js/v2"></script>
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  <form id="form-checkout">
+    <div>
+      <div>
+        <label for="payerFirstName">Nome</label>
+        <input id="form-checkout__payerFirstName" name="payerFirstName" type="text">
+      </div>
+      <div>
+        <label for="payerLastName">Sobrenome</label>
+        <input id="form-checkout__payerLastName" name="payerLastName" type="text">
+      </div>
+      <div>
+        <label for="email">E-mail</label>
+        <input id="form-checkout__email" name="email" type="text">
+      </div>
+    </div>
+    <div>
+      <div>
+        <br>
+        <input type="button" onclick="javascript:return submeter();" value="Pagar" />
+      </div>
+    </div>
+  </form>
+
+  <script>
+	const mp = new MercadoPago("TEST-595b0771-8c49-4a77-929c-3926d7da2d15");
+	
+	function submeter() {
+		
+			$.ajax({
+				url: 'https://localhost:44357/MercadoPago/create',
+				dataType: 'json',
+				type: 'post',
+				contentType: 'application/json',
+				data: JSON.stringify( {
+					FirstName: $("#form-checkout__payerFirstName").val(),
+					LastName: $("#form-checkout__payerLastName").val(),
+					Email: $("#form-checkout__email").val()
+				} ),
+				success: function( data, textStatus, jQxhr ){
+					alert( data.QrCodeBase64 );
+					alert( data.QrCode );
+					alert( data.TicketUrl );
+				}
+			});
+
+			return false;
+	}
+			
+  </script>
+ 
+</body>
+</html>

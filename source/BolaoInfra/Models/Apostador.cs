@@ -26,6 +26,8 @@ namespace BolaoInfra.Models
         public byte AcessoAtivacao { get; set; }
         public string Cidade { get; set; }
 
+        public string IdPagamento { get; set; }
+
         public virtual Apostador ApostadorAtivador { get; set; }
         public virtual Ranking Ranking { get; set; }
         public virtual ICollection<Aposta> Apostas { get; set; }

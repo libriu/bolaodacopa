@@ -59,28 +59,28 @@ class BolaoDrawer extends StatelessWidget {
     // );
     // listOfItems.add(itemRanking);
 
-    if (tipoMenu != TipoMenu.deslogado) {
-      // ListTile itemMessages = const ListTile(
-      //   leading: Icon(Icons.message),
-      //   title: Text('Mensagens'),
-      // );
-      // listOfItems.add(itemMessages);
-      ListTile itemGrupos = const ListTile(
-        leading: Icon(Icons.group),
-        title: Text('Grupos'),
-      );
-      listOfItems.add(itemGrupos);
-      ListTile itemPerfil = const ListTile(
-        leading: Icon(Icons.account_circle),
-        title: Text('Perfil'),
-      );
-      listOfItems.add(itemPerfil);
-      ListTile itemConfig = const ListTile(
-        leading: Icon(Icons.settings),
-        title: Text('Configurações'),
-      );
-      listOfItems.add(itemConfig);
-    }
+    // if (tipoMenu != TipoMenu.deslogado) {
+    //   ListTile itemMessages = const ListTile(
+    //     leading: Icon(Icons.message),
+    //     title: Text('Mensagens'),
+    //   );
+    //   listOfItems.add(itemMessages);
+    //   ListTile itemGrupos = const ListTile(
+    //     leading: Icon(Icons.group),
+    //     title: Text('Grupos'),
+    //   );
+    //   listOfItems.add(itemGrupos);
+    //   ListTile itemPerfil = const ListTile(
+    //     leading: Icon(Icons.account_circle),
+    //     title: Text('Perfil'),
+    //   );
+    //   listOfItems.add(itemPerfil);
+    //   ListTile itemConfig = const ListTile(
+    //     leading: Icon(Icons.settings),
+    //     title: Text('Configurações'),
+    //   );
+    //   listOfItems.add(itemConfig);
+    // }
     if (tipoMenu == TipoMenu.intermediario || tipoMenu == TipoMenu.completo) {
       ListTile itemActivate = ListTile(
           leading: const Icon(Icons.monetization_on),

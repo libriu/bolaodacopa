@@ -6,6 +6,7 @@ import '../models/aposta.dart';
 import '../models/game_bets_list.dart';
 import '../models/jogo.dart';
 import '../models/ranking.dart';
+import '../models/usuario.dart';
 import '../repositories/bet_repository.dart';
 import '../repositories/game_repository.dart';
 import '../route_generator.dart';
@@ -25,6 +26,7 @@ class _GameBetsRouteState extends State<GameBetsRoute> with SingleTickerProvider
   late final DateTime gameDate;
   int counter = 0;
   final controller = TextEditingController();
+  late final Future<Ranking?> myRanking;
 
   Future<void> getAllByGame(int codJogo) async {
     jogo!.apostas = await BetRepository.getAllByGame(codJogo);
@@ -55,6 +57,14 @@ class _GameBetsRouteState extends State<GameBetsRoute> with SingleTickerProvider
       getAllByGame(jogo!.codJogo!);
     } else {
       getWithBetAllowed();
+    }
+    var user = context.read<Usuario>();
+    if (user.isLoggedOn) {
+      myRanking = RankingRepository().getMyRanking(user.login!, user.senha!);
+      myRanking.then((value) {
+        var ranking = context.read<Ranking>();
+        ranking.copy(value!);
+      });
     }
   }
 

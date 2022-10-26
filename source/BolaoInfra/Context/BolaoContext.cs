@@ -65,6 +65,11 @@ namespace BolaoInfra.Context
                     .IsUnicode(false)
                     .HasColumnName("cidade");
 
+                entity.Property(e => e.IdPagamento)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("id_pagamento");
+
                 entity.Property(e => e.CodApostAtivador).HasColumnName("cod_apost_ativador");
 
                 entity.Property(e => e.Contato)

@@ -23,6 +23,12 @@ class _GameBetsFilteredListState extends State<GameBetsFilteredList> {
     final listaApostas = Provider.of<GameBetsList>(context);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
+    if (listaApostas.filteredBets.isEmpty)
+    {
+      return const Center(child:Text("Apostas só são visíveis do dia do jogo em diante"));
+    }
+
     return ListView.separated(
         padding: const EdgeInsets.all(8),
         //shrinkWrap:true,
