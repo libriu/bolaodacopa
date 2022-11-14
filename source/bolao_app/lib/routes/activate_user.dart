@@ -89,7 +89,7 @@ class _ActivateUserRouteState extends State<ActivateUserRoute> {
                 return
                   Column(
                     children: <Widget>[
-                      DataTable(
+                      Expanded (child: DataTable(
                       columns: const <DataColumn>[
                         DataColumn(
                           label: Text('Apostador'),
@@ -126,7 +126,7 @@ class _ActivateUserRouteState extends State<ActivateUserRoute> {
                               },
                             ),
                           )
-                      ),
+                      )),
                       ElevatedButton(
                       onPressed: () {
                         _activate(cache, apostador);

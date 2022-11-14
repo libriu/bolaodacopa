@@ -395,7 +395,7 @@
 
                <%
 
-                    sql = "SELECT cod_Jogo FROM Jogo WHERE ja_Ocorreu = 0 ORDER BY Jogo.cod_Jogo"
+                    sql = "SELECT j.cod_Jogo, p1.nome paisA, p2.nome paisB FROM Jogo j INNER JOIN Pais p1 ON j.cod_paisA = p1.cod_pais INNER JOIN Pais p2 ON j.cod_paisB = p2.cod_pais WHERE ja_Ocorreu = 0 ORDER BY j.cod_Jogo"
 
 		            rs6.Open sql, conx 
 
@@ -405,7 +405,7 @@
 
                         
 
-                    <option value="<%= rs6("cod_jogo")%>">Jogo <%= rs6("cod_jogo")%></option>
+                    <option value="<%= rs6("cod_jogo")%>">Jogo <%= rs6("cod_jogo")%> - <%= rs6("paisA")%> x <%= rs6("paisB")%></option>
 
 	     	    <% rs6.MoveNext
 

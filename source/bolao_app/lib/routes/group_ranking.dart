@@ -94,9 +94,10 @@ class _GroupRankingRouteState extends State<GroupRankingRoute> {
                   SizedBox(width: 70, child: Text("Pontos", textAlign: TextAlign.right,
                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold))),
                 ],),
+              Expanded(child:
               ListView.separated(
                   padding: const EdgeInsets.all(8),
-                  shrinkWrap:true,
+                  //shrinkWrap:true,
                   itemCount: lista.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
@@ -127,7 +128,7 @@ class _GroupRankingRouteState extends State<GroupRankingRoute> {
                   },
                   separatorBuilder: (BuildContext context, int index) => const Text("",
                       style: TextStyle(fontSize: 1))
-              )
+              ))
             ])
     );
   }
