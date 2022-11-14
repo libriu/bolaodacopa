@@ -25,6 +25,7 @@ namespace BolaoInfra.BLL
         {
             return _uow.ApostadorRepository.GetAll().ToList<Apostador>();
         }
+
         public void Insert(Apostador apostador)
         {
             apostador.Senha = new PasswordHasher<object?>().HashPassword(null, apostador.Senha);

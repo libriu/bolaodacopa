@@ -134,11 +134,11 @@ class _RegraRouteState extends State<RegraRoute> {
                                   child: Text("Exemplo:",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 15.0, bottom: 5),
+                                  padding: const EdgeInsets.only(left: 15.0, bottom: 5),
                                   child:  Text(pontuacao.aposta, style: const TextStyle(fontSize: 15),),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 15.0),
+                                  padding: const EdgeInsets.only(left: 15.0),
                                   child:  Text(pontuacao.resultado, style: const TextStyle(fontSize: 15),),
                                 ),
                               ],

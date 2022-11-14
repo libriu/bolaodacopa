@@ -32,5 +32,15 @@ namespace BolaoApi.Controllers
             var ranking = bll.GetByApostador(codApostador);
             return Ok(ranking);
         }
+
+        [AllowAnonymous]
+        [HttpGet("bygroup")]
+        public IActionResult GetByGroup(int codGrupo)
+        {
+            var bll = new RankingBLL();
+            var ranking = bll.GetByGroup(codGrupo);
+
+            return Ok(ranking);
+        }
     }
 }

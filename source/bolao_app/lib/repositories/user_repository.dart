@@ -20,10 +20,8 @@ class UserRepository extends BolaoRepository {
     try {
       result = await client.post(
           httpsUri,
-          //body: {'Login': 'elmo', 'Senha': 'elmo1233'});//,
           body: json.encode(user.toJson()),
           headers: {'content-type': 'application/json'});//,
-      //encoding: Encoding.getByName("utf-8"));
     }
     finally {
       client.close();

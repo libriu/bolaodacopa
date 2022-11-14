@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../models/ranking.dart';
 import '../repositories/ranking_repository.dart';
 import '../route_generator.dart';
-import '../models/ranking_list.dart';
 
 class GameBetsFilteredList extends StatefulWidget {
   const GameBetsFilteredList({

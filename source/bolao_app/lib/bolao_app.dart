@@ -34,6 +34,7 @@ class BolaoApp extends StatelessWidget {
           Provider(create: (context) => Jogo())
         ],
         child: MaterialApp(
+          title: "Bolão da copa 2022",
           onGenerateTitle: (context) => "Bolão da Copa 2022",
           debugShowCheckedModeBanner: false,
           onGenerateRoute: RouteGenerator.generateRoute,

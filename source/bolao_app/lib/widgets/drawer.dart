@@ -90,6 +90,12 @@ class BolaoDrawer extends StatelessWidget {
       listOfItems.add(itemActivate);
     }
     if (tipoMenu != TipoMenu.deslogado) {
+      ListTile itemGroupRnk = ListTile(
+          leading: const Icon(Icons.group),
+          title: const Text('Ranking de Grupos'),
+          onTap: () => Navigator.pushNamed(context, RouteGenerator.groupRanking)
+      );
+      listOfItems.add(itemGroupRnk);
       ListTile itemLogoff = ListTile(
           leading: const Icon(Icons.logout),
           title: const Text('Terminar sessão'),

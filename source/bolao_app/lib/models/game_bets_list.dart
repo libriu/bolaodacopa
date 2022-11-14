@@ -1,4 +1,4 @@
-import 'package:bolao_app/models/ranking.dart';import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import 'aposta.dart';
 

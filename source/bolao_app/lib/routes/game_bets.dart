@@ -1,12 +1,8 @@
-import 'package:bolao_app/repositories/ranking_repository.dart';
 import 'package:bolao_app/widgets/game_bets_filtered_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/aposta.dart';
 import '../models/game_bets_list.dart';
 import '../models/jogo.dart';
-import '../models/ranking.dart';
-import '../models/usuario.dart';
 import '../repositories/bet_repository.dart';
 import '../repositories/game_repository.dart';
 import '../route_generator.dart';

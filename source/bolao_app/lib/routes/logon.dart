@@ -4,7 +4,6 @@ import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import '../route_generator.dart';
 import '../repositories/user_repository.dart';
-import 'create_user.dart';
 import '../models/usuario.dart';
 
 class LogonRoute extends StatefulWidget {

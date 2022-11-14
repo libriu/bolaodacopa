@@ -1,6 +1,7 @@
 import 'package:bolao_app/routes/activate_user.dart';
 import 'package:bolao_app/routes/create_user.dart';
 import 'package:bolao_app/routes/game.dart';
+import 'package:bolao_app/routes/group_ranking.dart';
 import 'package:bolao_app/routes/home.dart';
 import 'package:bolao_app/routes/logon.dart';
 import 'package:bolao_app/routes/ranking.dart';
@@ -23,6 +24,7 @@ class RouteGenerator {
   static const String logonRoute = '/logon';
   static const String updateUserRoute = '/user/update';
   static const String regraRoute = '/rule';
+  static const String groupRanking = '/groupRanking';
   RouteGenerator._();
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -75,6 +77,10 @@ class RouteGenerator {
       case logonRoute:
         return MaterialPageRoute(
             builder: (_) => const LogonRoute()
+        );
+      case groupRanking:
+        return MaterialPageRoute(
+            builder: (_) => const GroupRankingRoute()
         );
       default:
         throw const FormatException("Route not found");

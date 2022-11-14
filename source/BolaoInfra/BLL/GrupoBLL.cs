@@ -21,9 +21,25 @@ namespace BolaoInfra.BLL
         {
             _uow = new UnitOfWork();
         }
+
+        public List<Grupo> GetAll()
+        {
+            return _uow.GrupoRepository.GetAll().ToList<Grupo>();
+        }
+
         public List<Grupo> GetAllMy(int codApostResponsavel)
         {
             return _uow.GrupoRepository.Get(g => g.CodApostResponsavel == codApostResponsavel).ToList<Grupo>();
+        }
+
+        public List<Grupo> GetByMember(int codApostador)
+        {
+            var apostadorBLL = new ApostadorBLL();
+            Apostador apostador = apostadorBLL.GetById(codApostador);
+
+            return _uow.GrupoRepository.Get(g => g.Apostadores.Contains(apostador))
+                //.Include(g => g.Apostadores)
+                .ToList<Grupo>();
         }
 
         public Grupo GetById(int codigo)
@@ -50,7 +66,7 @@ namespace BolaoInfra.BLL
 
         public List<Apostador> GetMembers(int codGrupo)
         {
-            Grupo grupo = _uow.GrupoRepository.GetById(c => c.CodGrupo == codGrupo);
+            Grupo grupo = _uow.GrupoRepository.Get(c => c.CodGrupo == codGrupo).Include(c => c.Apostadores).First<Grupo>();
             return grupo.Apostadores.ToList<Apostador>();
         }
 
